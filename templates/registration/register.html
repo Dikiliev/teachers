@@ -1,0 +1,59 @@
+{% extends  "base.html" %}
+
+{% block content  %}
+
+<br>
+<br>
+
+<div class="container">
+
+    <form class="reg" action="" method="post">
+        <h1>Регистрация</h1>
+        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+        <div class="input-group">
+            <label for="username">Имя пользователя:</label>
+            <input type="text" id="username" name="username" value="{{ username }}" required>
+        </div>
+
+        <div class="input-group">
+            <label for="first_name">Имя:</label>
+            <input type="text" id="first_name" name="first_name" value="{{ first_name }}" required>
+        </div>
+
+        <div class="input-group">
+            <label for="last_name">Фамилия:</label>
+            <input type="text" id="last_name" name="last_name" value="{{ last_name }}" required>
+        </div>
+
+        <div class="input-group">
+            <label for="phone">Номер телефона:</label>
+            <input type="tel" id="phone" name="phone" value="{{ phone }}" required>
+        </div>
+
+<!--        <div class="input-group">-->
+<!--            <label for="category">Роль:</label>-->
+<!--            <select name="category" id="category" required>-->
+<!--                <option value="1">Пользователь</option>-->
+<!--                <option value="2">Доктор</option>-->
+<!--            </select>-->
+<!--        </div>-->
+
+        <div class="input-group">
+            <label for="password">Пароль:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+
+        {% if error %}
+        <p class="error">{{ error }}</p>
+        {% endif %}
+
+        <button class="button" type="submit">Зарегистрироваться</button>
+        <a href="/login">Уже зарегестрированы? Войти</a>
+
+    </form>
+</div>
+
+
+{% endblock %}
+

@@ -22,3 +22,6 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.username
+
+    def exists(self):
+        return User.objects.filter(username=self.username).exists()

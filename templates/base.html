@@ -1,0 +1,109 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+
+    <link rel="shortcut icon" href="{{ static('images/favicon.ico') }}" type="image/x-icon">
+    <link rel="icon" href="{{ static('images/favicon.ico') }}" type="image/x-icon">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ static('images/favicon.ico') }}">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <meta property="og:title" content="ЛДент стоматологическая клиника">
+    <meta name="description" content="ЛДент стоматологическая клиника. Грозный. ул. Абузара Айдамирова, 131  Рабочий номер: 8 (938) 018-33-33">
+
+    <link type="text/css" rel="stylesheet" href="{{ static('css/root.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ static('css/footer.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ static('css/generic.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ static('css/head.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ static('css/icons.css') }}">
+    <script type="text/javascript" src="{{ static('js/base_script.js') }}"></script>
+    <script type="text/javascript" src="{{ static('js/head.js') }}" defer></script>
+
+    <script>
+        let role = 1;
+        let is_authenticated = '{{user.is_authenticated}}' == 'True';
+
+        if (is_authenticated){
+            role = '{{user.role}}';
+        }
+    </script>
+
+
+    {% block head  %}
+
+    {% endblock %}
+</head>
+<body>
+
+<div class="head">
+    <div class="head-content horizontal-container">
+        <div class="logo">
+            <a href="/"><span class="text-logo-part-2">Л</span><span class="text-logo-part-1">Дент</span></a>
+        </div>
+        <nav class="nav-menu horizontal-container">
+<!--            <a href="/" class="nav-item">Главное</a>-->
+
+            {% if user.is_authenticated %}
+
+                {% if user.role == 1 %}
+                    <a href="/" class="nav-item">Записаться</a>
+                {% endif %}
+
+                {% if user.role == 3 %}
+                    <a href="/manager/main" class="nav-item">Управление</a>
+                    <a href="/orders" class="nav-item">Все записи</a>
+
+
+                {% else %}
+                    <a href="/orders" class="nav-item">Мои записи</a>
+                {% endif %}
+
+                <div id="profile-nav" class="dropdown">
+                    <a id="" class="nav-item profile-text"><img class="profile-avatar" src="{{user.get_avatar_url()}}"></a>
+                    <div id="side-menu" class="side-menu">
+                    <ul>
+                        <li class="first"><a class="profile-text" href="#">{{ user.username }}</a></li>
+
+                        {% if user.role == 2 %}
+                            <li><a class="" href="/profile/">Редактировать</a></li>
+                        {% endif %}
+
+                        <li><a class="" href="/logout/">Выйти</a></li>
+                    </ul>
+                    </div>
+                </div>
+            {% else %}
+                <a href="/login" class="nav-item">Войти</a>
+<!--                <a href="/register" class="nav-item">Зарегистрироваться</a>-->
+            {% endif %}
+        </nav>
+    </div>
+</div>
+
+<main>
+    {% block content  %}
+
+    {% endblock %}
+</main>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <h3>Стоматологическая клиника <span class="text-logo-part-2">L</span>-Dent</h3>
+            <p>ул. Абузара Айдамирова, 131, Грозный</p>
+            <p>8 (938) 018-33-33</p>
+        </div>
+    </div>
+</footer>
+
+</body>
+
+</html>
