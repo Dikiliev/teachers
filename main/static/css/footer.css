@@ -1,0 +1,28 @@
+.footer {
+    background-color: var(--color-1);
+    color: var(--background-color-1);
+    text-align: center;
+    padding: 20px 0;
+
+}
+
+.footer h3, .footer p{
+    color: var(--background-color-1);
+}
+
+.footer .text-logo-part-2{
+    font-size: 1.6rem;
+}
+
+
+.footer-content h3 {
+    margin: 0 0 10px;
+    font-size: 1.4rem;
+
+    font-weight: 500;
+}
+
+.footer-content p {
+    margin: 5px 0;
+    font-size: 16px;
+}

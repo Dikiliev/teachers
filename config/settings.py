@@ -12,7 +12,34 @@ if DEBUG:
 
 AUTH_USER_MODEL = 'main.User'
 
+JAZZMIN_SETTINGS = {
+    # Заголовок окна
+    'site_title': 'Админка сайта',
+
+    # Заголовок на брендированной панели и экране входа (макс. 19 символов)
+    'site_header': 'Админка сайта',
+
+    # Логотип для вашего сайта, должен быть в статических файлах, используется для бренда в левом верхнем углу
+    # 'site_logo': 'your_app/logo.png',
+
+    # Приветственный текст на экране входа
+    'welcome_sign': 'Добро пожаловать в админку',
+
+    # Авторское право в нижнем колонтитуле
+    'copyright': 'Ваша Компания',
+
+    # Модель для поиска из строки поиска, строка поиска не будет видна, если исключена
+    'search_model': 'auth.User',
+
+    # Имя поля в модели пользователя, содержащее аватар
+    # 'user_avatar': 'avatar',
+}
+
+
+
 INSTALLED_APPS = [
+    'jazzmin',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -53,6 +80,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'environment': 'my_jinja2.environment',
         },
     },
 

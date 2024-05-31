@@ -1,0 +1,152 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Golos+Text:wght@400..900&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+
+:root{
+    /*--base-font: Montserrat;*/
+    /*--base-font: Nunito;*/
+    --base-font: "Nunito";
+    --logo-font: "Montserrat";
+
+    --background-color-1: #ffffff;
+    --background-color-2: #EEEEEE;
+    --background-header: var(--background-color-1);
+
+    --color-1: #2D3250;
+    --color-2: #424769;
+    --color-3: #7077A1;
+
+    --color-hover-1: #7077A1;
+    --color-hover-2: #F6B17A;
+
+    --color-transparent: rgba(0, 0, 0, 0.5);
+
+    --error-color: #D80032;
+
+    --light-color: rgba(46, 49, 47, 0.25);
+
+    --shadow: rgba(0, 0, 0, 0.05);
+    --shadow-blur: 15px;
+
+    --base-border-radius: 10px;
+    --small-border-radius: calc(var(--base-border-radius) / 2);
+
+    --base-transition: all 0.2s ease-in;
+
+    --max-width: 1024px;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+
+    box-sizing: border-box;
+
+    font-family: var(--base-font);
+    color: var(--color-2);
+
+    transition: var(--base-transition);
+
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+    text-decoration: none;
+}
+
+html{
+    font-size: 16px;
+}
+
+::-webkit-scrollbar {
+    width: 0;
+}
+
+*, *:hover {
+    transition: var(--base-transition);
+}
+
+*:disabled{
+    opacity: 0.5;
+}
+
+button{
+    outline: none;
+    border: none;
+
+    border-radius: var(--base-border-radius);
+}
+
+button:hover{
+    cursor: pointer;
+}
+
+button:disabled:hover{
+    cursor: default;
+}
+
+img{
+    object-fit: cover;
+    border-radius: var(--small-border-radius);
+}
+
+footer{
+    margin-top: 100px;
+    min-height: 200px;
+    width: 100%;
+    background-color: var(--background-color-1);
+}
+
+.success{
+    color: var(--color-hover-1);
+}
+
+/* CHECKBOX */
+.custom-checkbox {
+  position: relative;
+  padding-left: 30px;
+  cursor: pointer;
+  display: inline-block;
+  line-height: 24px;
+  user-select: none;
+}
+
+.custom-checkbox input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: var(--background-color-1);
+  border-radius: var(--small-border-radius);
+}
+
+.custom-checkbox input:checked ~ .checkmark {
+  background-color: var(--color-hover-1);
+}
+
+.custom-checkbox input:checked ~ .checkmark:after {
+  content: '';
+  position: absolute;
+  display: block;
+}
+
+.checkmark:after {
+  left: 6px;
+  top: 2px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
