@@ -81,7 +81,7 @@ class Teacher(models.Model):
         User,
         on_delete=models.CASCADE,
         primary_key=True,
-        related_name='teacher_profile'
+        related_name='profile'
     )
     bio = models.TextField(verbose_name='Биография', blank=True)
     subjects = models.ManyToManyField(Subject, related_name='teachers', verbose_name='Предметы')

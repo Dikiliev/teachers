@@ -2,19 +2,69 @@ import datetime
 import json
 
 from django.contrib.auth import login, logout, authenticate
+from django.db.models import Count
 from django.http import HttpRequest, JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
 
-from main.models import User
+from main.models import User, Subject
 
 DEFAULT_TITLE = 'Хехархо'
 
-def home(request: HttpRequest):
-    # if not request.user.is_authenticated:
-    #     return redirect('login')
 
+def home(request: HttpRequest):
     context = create_base_data(request)
     return render(request, 'index.html', context)
+
+
+def select_teacher(request: HttpRequest, teacher_id: int, subject_id: int, group_id: int):
+    context = create_base_data(request)
+    context['teacher_id'] = teacher_id
+    context['subject_id'] = subject_id
+    context['group_id'] = group_id
+
+    teachers_query = User.objects.filter(role=2)
+
+    if subject_id != 0:
+        teachers_query = teachers_query.filter(
+            profile__subjects__id__in=teacher_id
+        ).annotate(
+            subjects_count=Count('profile__subjects', distinct=True)
+        ).all()
+    else:
+        teachers_query = teachers_query.annotate(
+            subjects_count=Count('profile__subjects')
+        ).filter(
+            subjects_count__gt=0
+        )
+
+    context['workers'] = teachers_query
+
+    return render(request, 'lesson_registration/teachers.html', context)
+
+
+def select_subject(request: HttpRequest, teacher_id: int, subject_id: int, group_id: int):
+    context = create_base_data(request)
+    context['teacher_id'] = teacher_id
+    context['subject_id'] = subject_id
+    context['group_id'] = group_id
+
+    worker = User.objects.filter(id=teacher_id).first()
+
+    if worker and worker.profile:
+        context['subjects'] = worker.profile.subjects.all()
+    else:
+        context['subjects'] = Subject.objects.all()
+
+    return render(request, 'lesson_registration/subject.html', context)
+
+
+def select_group(request: HttpRequest, teacher_id: int, subject_id: int, group_id: int):
+    context = create_base_data(request)
+    context['teacher_id'] = teacher_id
+    context['subject_id'] = subject_id
+    context['group_id'] = group_id
+
+    return render(request, 'lesson_registration/group.html', context)
 
 
 def register(request: HttpRequest):
@@ -65,11 +115,6 @@ def register(request: HttpRequest):
         user.save()
         login(request, user)
 
-        if user.role == 2:
-            profile = Profile(user=user)
-            profile.save()
-            return redirect('profile')
-
         return redirect('home')
 
     if request.method == 'POST':
@@ -78,20 +123,20 @@ def register(request: HttpRequest):
 
 
 def user_login(request: HttpRequest):
-    data = create_base_data(request)
+    context = create_base_data(request)
 
     def get():
 
         # jinja2_engine = engines['jinja2']
         # template = jinja2_engine.get_template('registration/login.html')
-        # rendered_template = template.render(data)
+        # rendered_template = template.render(context)
         # return HttpResponse(rendered_template)
 
-        return render(request, 'registration/login.html', data)
+        return render(request, 'registration/login.html', context)
 
     def post():
         user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
-        data['username'] = request.POST['username']
+        context['username'] = request.POST['username']
 
         if user is not None:
             login(request, user)
@@ -101,9 +146,9 @@ def user_login(request: HttpRequest):
 
             return redirect('orders')
 
-        data['error'] = '* Неверное имя пользователя или пароль'
+        context['error'] = '* Неверное имя пользователя или пароль'
 
-        return render(request, 'registration/login.html', data)
+        return render(request, 'registration/login.html', context)
 
     if request.method == 'POST':
         return post()
