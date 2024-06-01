@@ -13,29 +13,55 @@ if DEBUG:
 AUTH_USER_MODEL = 'main.User'
 
 JAZZMIN_SETTINGS = {
-    # Заголовок окна
-    'site_title': 'Админка сайта',
+    "site_title": "Админ Панель Estech",
+    "site_header": "Estech",
+    "site_brand": "Админка",
+    "welcome_sign": "Добро пожаловать в Админ Панель Estech",
+    "search_model": "auth.User",
+    "user_avatar": None,
 
-    # Заголовок на брендированной панели и экране входа (макс. 19 символов)
-    'site_header': 'Админка сайта',
+    # 'show_ui_builder': True,
 
-    # Логотип для вашего сайта, должен быть в статических файлах, используется для бренда в левом верхнем углу
+    "theme": "cerulean",
+
     # 'site_logo': 'your_app/logo.png',
 
-    # Приветственный текст на экране входа
-    'welcome_sign': 'Добро пожаловать в админку',
-
-    # Авторское право в нижнем колонтитуле
     'copyright': 'Ваша Компания',
-
-    # Модель для поиска из строки поиска, строка поиска не будет видна, если исключена
-    'search_model': 'auth.User',
 
     # Имя поля в модели пользователя, содержащее аватар
     # 'user_avatar': 'avatar',
 }
-
-
+JAZZMIN_UI_TWEAKS = {
+    "navbar_small_text": False,
+    "footer_small_text": False,
+    "body_small_text": False,
+    "brand_small_text": False,
+    "brand_colour": False,
+    "accent": "accent-navy",
+    "navbar": "navbar-white navbar-light",
+    "no_navbar_border": False,
+    "navbar_fixed": False,
+    "layout_boxed": False,
+    "footer_fixed": False,
+    "sidebar_fixed": False,
+    "sidebar": "sidebar-light-navy",
+    "sidebar_nav_small_text": False,
+    "sidebar_disable_expand": False,
+    "sidebar_nav_child_indent": False,
+    "sidebar_nav_compact_style": False,
+    "sidebar_nav_legacy_style": False,
+    "sidebar_nav_flat_style": False,
+    "theme": "default",
+    "dark_mode_theme": None,
+    "button_classes": {
+        "primary": "btn-outline-primary",
+        "secondary": "btn-outline-secondary",
+        "info": "btn-info",
+        "warning": "btn-warning",
+        "danger": "btn-danger",
+        "success": "btn-success"
+    }
+}
 
 INSTALLED_APPS = [
     'jazzmin',
@@ -123,11 +149,13 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
+
+USE_L10N = True
 
 USE_TZ = True
 

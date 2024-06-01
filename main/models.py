@@ -2,6 +2,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.core.validators import RegexValidator
 
+
 class User(AbstractUser):
 
     ROLE_ENUM = (
@@ -20,7 +21,6 @@ class User(AbstractUser):
 
     avatar = models.ImageField(
         blank=True,
-        default=DEFAULT_AVATAR_URL,
         verbose_name='Аватарка'
     )
 
@@ -42,6 +42,12 @@ class User(AbstractUser):
     @classmethod
     def user_exists(cls, username):
         return cls.objects.filter(username=username).exists()
+
+    def get_avatar_url(self):
+        if self.avatar:
+            return self.avatar.url
+
+        return self.DEFAULT_AVATAR_URL
 
 
 class Subject(models.Model):
