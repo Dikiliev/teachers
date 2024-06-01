@@ -2,10 +2,11 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
-from .models import User, Teacher, Subject
+from .models import User, Teacher, Subject, StudentGroup, Schedule
 
 
 class UserCreationForm(forms.ModelForm):
+    """Форма для создания нового пользователя. Включает все необходимые поля, плюс повторение пароля."""
     password1 = forms.CharField(label='Пароль', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Подтверждение пароля', widget=forms.PasswordInput)
 
@@ -29,7 +30,8 @@ class UserCreationForm(forms.ModelForm):
 
 
 class UserChangeForm(forms.ModelForm):
-    """Форма для обновления пользователя. Включает все поля пользователя, но заменяет поле пароля на админское поле отображения пароля."""
+    """Форма для обновления пользователя. Включает все поля пользователя, но заменяет поле пароля на админское поле
+    отображения пароля."""
     password = ReadOnlyPasswordHashField()
 
     class Meta:
@@ -64,8 +66,8 @@ class UserAdmin(BaseUserAdmin):
 class TeacherAdmin(admin.ModelAdmin):
     list_display = ('user', 'bio')
     search_fields = ('user__username', 'user__first_name', 'user__last_name')
-    list_filter = ('subjects',)
-    filter_horizontal = ('subjects',)
+    list_filter = ('subjects', 'groups')
+    filter_horizontal = ('subjects', 'groups')
 
 
 class SubjectAdmin(admin.ModelAdmin):
@@ -73,6 +75,19 @@ class SubjectAdmin(admin.ModelAdmin):
     search_fields = ('name',)
 
 
+class StudentGroupAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+    search_fields = ('name',)
+
+
+class ScheduleAdmin(admin.ModelAdmin):
+    list_display = ('teacher', 'student_group', 'subject', 'day_of_week', 'start_time', 'end_time')
+    list_filter = ('day_of_week', 'teacher', 'student_group', 'subject')
+    search_fields = ('teacher__user__username', 'student_group__name', 'subject__name')
+
+
 admin.site.register(User, UserAdmin)
 admin.site.register(Teacher, TeacherAdmin)
 admin.site.register(Subject, SubjectAdmin)
+admin.site.register(StudentGroup, StudentGroupAdmin)
+admin.site.register(Schedule, ScheduleAdmin)
