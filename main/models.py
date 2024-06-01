@@ -49,6 +49,10 @@ class User(AbstractUser):
 
         return self.DEFAULT_AVATAR_URL
 
+    class Meta:
+        verbose_name = 'Пользователь'
+        verbose_name_plural = 'Пользователи'
+
 
 class Subject(models.Model):
     name = models.CharField(max_length=100, verbose_name='Название предмета')
@@ -56,12 +60,20 @@ class Subject(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name = 'Предмет'
+        verbose_name_plural = 'Предметы'
+
 
 class StudentGroup(models.Model):
     name = models.CharField(max_length=100, verbose_name='Название группы')
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = 'Группа студентов'
+        verbose_name_plural = 'Группы студентов'
 
 
 class Teacher(models.Model):
@@ -77,6 +89,10 @@ class Teacher(models.Model):
 
     def __str__(self):
         return f'{self.user.username} - Преподаватель'
+
+    class Meta:
+        verbose_name = 'Преподаватель'
+        verbose_name_plural = 'Преподаватели'
 
 
 class Schedule(models.Model):
@@ -99,3 +115,7 @@ class Schedule(models.Model):
 
     def __str__(self):
         return f'{self.teacher.user.username} - {self.student_group.name} - {self.subject.name} - {self.get_day_of_week_display()}'
+
+    class Meta:
+        verbose_name = 'Расписание'
+        verbose_name_plural = 'Расписания'
