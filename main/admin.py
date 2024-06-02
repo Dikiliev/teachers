@@ -66,8 +66,6 @@ class UserAdmin(BaseUserAdmin):
 class TeacherAdmin(admin.ModelAdmin):
     list_display = ('user', 'bio')
     search_fields = ('user__username', 'user__first_name', 'user__last_name')
-    list_filter = ('subjects', 'groups')
-    filter_horizontal = ('subjects', 'groups')
 
 
 class SubjectAdmin(admin.ModelAdmin):
@@ -76,7 +74,7 @@ class SubjectAdmin(admin.ModelAdmin):
 
 
 class StudentGroupAdmin(admin.ModelAdmin):
-    list_display = ('name',)
+    list_display = ('name', 'price')
     search_fields = ('name',)
 
 

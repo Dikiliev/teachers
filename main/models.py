@@ -4,7 +4,6 @@ from django.core.validators import RegexValidator
 
 
 class User(AbstractUser):
-
     ROLE_ENUM = (
         (1, 'Пользователь'),
         (2, 'Преподаватель'),
@@ -46,7 +45,6 @@ class User(AbstractUser):
     def get_avatar_url(self):
         if self.avatar:
             return self.avatar.url
-
         return self.DEFAULT_AVATAR_URL
 
     class Meta:
@@ -67,6 +65,7 @@ class Subject(models.Model):
 
 class StudentGroup(models.Model):
     name = models.CharField(max_length=100, verbose_name='Название группы')
+    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Цена')  # Добавлено поле для цены
 
     def __str__(self):
         return self.name

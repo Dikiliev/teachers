@@ -26,12 +26,12 @@
         <br>
         <div class="services">
         
-            {% for service in services %}
-            <div id="service-card-{{service.id}}" class="service-card">
+            {% for subject in subjects %}
+            <div id="service-card-{{subject.id}}" class="service-card">
                 <div class="service-info">
-                    <span class="service-title">{{service.title}}<br><span class="service-duration">{{service.duration}} мин.</span></span>
+                    <span class="service-title">{{subject.name}}</span>
         
-                    <span class="hover-text">{{service.price}} ₽</span>
+                    <span class="hover-text">{{subject.price}} ₽</span>
                 </div>
                 <div class="service-right">
                     <button class="select-button">
