@@ -1,5 +1,5 @@
 body{
-    background-color: var(--background-color-2);
+    background-color: var(--background-color-1);
     min-height: 100vh;
 }
 
@@ -9,7 +9,10 @@ main{
 
 h1{
     font-weight: 600;
-    color: var(--color-2);
+    color: var(--color-1);
+    font-size: 40px;
+    font-style: normal;
+    line-height: normal;
 }
 
 hr{
@@ -29,8 +32,6 @@ a{
 
     max-width: var(--max-width);
     margin: auto;
-
-    padding: 1rem;
 }
 
 .row{
@@ -157,10 +158,14 @@ form a:hover{
     width: 100%;
     padding: 0.5rem;
     outline:none;
-    font-size: 1rem;
+    font-size: 20px;
     text-align: center;
 
-    border-radius: calc(var(--base-border-radius) / 2);
+    font-style: normal;
+    font-weight: 600;
+    line-height: 110%; /* 22px */
+
+    border-radius: var(--base-border-radius);
     border: none;
 
     background-color: var(--color-hover-1);
@@ -171,9 +176,21 @@ form a:hover{
     background-color: var(--color-1);
 }
 
+.button.outline{
+    background-color: transparent;
+    color: var(--color-1);
+    border: 1px solid var(--color-1);
+}
+
 .button:hover{
     background-color: var(--color-1);
     cursor: pointer;
+}
+
+.button.outline:hover{
+    background-color: var(--color-1);
+    color: var(--background-color-1);
+
 }
 
 .fixed-bottom{

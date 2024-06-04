@@ -1,11 +1,11 @@
 
 .head{
     width: 100vw;
-    height: 4rem;
+    height: 100px;
     background-color: var(--background-header);
-    box-shadow: 0 1px var(--shadow-blur) var(--shadow);
+    /*box-shadow: 0 1px var(--shadow-blur) var(--shadow);*/
 
-    font-size: 1.5rem;
+    font-size: 1rem;
 }
 
 .head-content{
@@ -27,6 +27,12 @@
 .logo{
 
 }
+
+.logo img{
+    height: 35px;
+    width: auto;
+}
+
 .text-logo-part-1, .text-logo-part-2{
     font-family: var(--logo-font);
     font-weight: 700;
@@ -46,8 +52,8 @@
 }
 
 .nav-item{
-    font-size: 1rem;
-    margin: auto 0.7rem;
+    font-size: 20px;
+    margin: auto 20px;
     text-decoration: none;
 
     display: flex;

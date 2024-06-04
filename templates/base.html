@@ -43,25 +43,28 @@
 
 <div class="head">
     <div class="head-content horizontal-container">
+{#        <div class="logo">#}
+{#            <a href="/"><span class="text-logo-part-2">Х</span><span class="text-logo-part-1">ехархо</span></a>#}
+{#        </div>#}
         <div class="logo">
-            <a href="/"><span class="text-logo-part-2">Х</span><span class="text-logo-part-1">ехархо</span></a>
+            <img class="logo" src="{{ static('icons/favicon.png') }}" alt="Logo" />
         </div>
+    
         <nav class="nav-menu horizontal-container">
-<!--            <a href="/" class="nav-item">Главное</a>-->
-
             {% if user.is_authenticated %}
 
                 {% if user.role == 1 %}
-                    <a href="/" class="nav-item">Записаться</a>
+                    <a href="/" class="nav-item">Главная</a>
+                    <a href="/" class="nav-item">Предметы</a>
+                    <a href="/" class="nav-item">Преподаватели</a>
+                    <a href="/" class="nav-item">О нас</a>
                 {% endif %}
 
                 {% if user.role == 3 %}
                     <a href="/manager/main" class="nav-item">Управление</a>
                     <a href="/orders" class="nav-item">Все записи</a>
-
-
                 {% else %}
-                    <a href="/orders" class="nav-item">Мои записи</a>
+
                 {% endif %}
 
                 <div id="profile-nav" class="dropdown">

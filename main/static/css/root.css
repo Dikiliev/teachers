@@ -1,25 +1,23 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;500;600;700;800;900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800;900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Golos+Text:wght@400..900&display=swap');
-
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Onest:wght@100..900&display=swap');
 
 :root{
     /*--base-font: Montserrat;*/
     /*--base-font: Nunito;*/
-    --base-font: "Nunito";
-    --logo-font: "Montserrat";
+    --base-font: "Onest", sans-serif;
+    --logo-font: "Onest", sans-serif;
 
     --background-color-1: #ffffff;
-    --background-color-2: #EEEEEE;
+    --background-color-2: #F5F5F5;
     --background-header: var(--background-color-1);
 
-    --color-1: #2D3250;
-    --color-2: #424769;
+    --color-1: #212121;
+    --color-2: #777777;
     --color-3: #7077A1;
 
-    --color-hover-1: #7077A1;
-    --color-hover-2: #F6B17A;
+    --color-hover-1: #1455FF;
+    --color-hover-2: #007DFF;
+
+    --color-hover-transparent: rgba(20, 85, 255, 0.1);
 
     --color-transparent: rgba(0, 0, 0, 0.5);
 
@@ -30,12 +28,16 @@
     --shadow: rgba(0, 0, 0, 0.05);
     --shadow-blur: 15px;
 
-    --base-border-radius: 10px;
+    --base-border-radius: 15px;
     --small-border-radius: calc(var(--base-border-radius) / 2);
 
     --base-transition: all 0.2s ease-in;
 
-    --max-width: 1024px;
+    --max-width: 1140px;
+}
+
+html{
+    font-size: 16px;
 }
 
 *{
@@ -45,6 +47,8 @@
     box-sizing: border-box;
 
     font-family: var(--base-font);
+  font-optical-sizing: auto;
+
     color: var(--color-2);
 
     transition: var(--base-transition);
