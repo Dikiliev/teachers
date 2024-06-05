@@ -16,7 +16,7 @@ def home(request: HttpRequest):
     return render(request, 'index.html', context)
 
 
-def select_teacher(request: HttpRequest, teacher_id: int, subject_id: int, group_id: int):
+def select_teacher(request: HttpRequest, teacher_id: int = 0, subject_id: int = 0, group_id: int = 0):
     context = create_base_data(request)
     context['teacher_id'] = teacher_id
     context['subject_id'] = subject_id
@@ -42,7 +42,7 @@ def select_teacher(request: HttpRequest, teacher_id: int, subject_id: int, group
     return render(request, 'lesson_registration/teachers.html', context)
 
 
-def select_subject(request: HttpRequest, teacher_id: int, subject_id: int, group_id: int):
+def select_subject(request: HttpRequest, teacher_id: int = 0, subject_id: int = 0, group_id: int = 0):
     context = create_base_data(request)
     context['teacher_id'] = teacher_id
     context['subject_id'] = subject_id

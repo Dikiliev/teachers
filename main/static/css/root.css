@@ -33,7 +33,7 @@
 
     --base-transition: all 0.2s ease-in;
 
-    --max-width: 1140px;
+    --max-width: min(1140px, 90vw)
 }
 
 html{

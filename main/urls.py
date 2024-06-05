@@ -14,6 +14,8 @@ register_converter(converters.DateTimeConverter, 'datetime')
 urlpatterns = [
     path('', views.home, name='home'),
 
+    path(f'select_teacher', views.select_teacher, name='select_teacher'),
+
     path(f'select_teacher/{WORKER}<int:teacher_id>{SUBJECT}<int:subject_id>{GROUP}<int:group_id>',
          views.select_teacher, name='select_teacher'),
 

@@ -9,18 +9,18 @@
 
 {% block content  %}
     <br><br>
-    <div class="container">
+    <div class="container" style="gap: 40px">
         <div class="main-block">
             <div class="main-block-first">
                 <div class="main-block-text-section">
-                    <div>
+                    <div class="main-block-text">
                         <h1>Подготовим к ЕГЭ<br>
                         с любого уровня<br>
                         <span style="color: var(--color-hover-1)">до 100 баллов</span></h1>
                         <p>Мы помогаем детям и родителям чувствовать уверенность в своих знаниях и навыках для успешной сдачи ЕГЭ и поступления в ВУЗ</p>
                     </div>
                     <div class="main-block-buttons">
-                        <button class="button">Записаться</button>
+                        <a class="button" href="/select_teacher">Записаться</a>
                         <button class="button outline">Узнать подробнее</button>
                     </div>
                 </div>
@@ -34,55 +34,99 @@
                     <h1>14 641</h1>
                     <p>учеников</p>
                 </div>
-                
+
                 <div class="stats-block">
                     <h1>каждый 3-й</h1>
                     <p>сдал на 85+ баллов</p>
                 </div>
-                
+
                 <div class="stats-block">
                     <h1>3400+</h1>
                     <p>отзывов</p>
                 </div>
-                
+
                 <div class="stats-block">
                     <h1>3 года</h1>
                     <p>готовим к ЕГЭ</p>
                 </div>
             </div>
+
+{#            <h1>Наши преподававетили</h1>#}
+{#            #}
+{#            <div class="teacher-card">#}
+{#                <img class="teacher-img" src="{{ static('images/teacher_1.png') }}" />#}
+{#                <div class="teacher-info">#}
+{#                    <div class="teacher-subjects">#}
+{#                        <div class="teacher-subject">#}
+{#                            Математика#}
+{#                        </div>#}
+{#                        <div class="teacher-subject">#}
+{#                            Физика#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    <h1>Сергей Петрович</h1>#}
+{#                    <p class="teacher-description">Преподаватель математики</p>#}
+{#                    <p class="teacher-description">Кандидат физико-математических наук</p>#}
+{#                    <p class="teacher-description">Автор видеокурсов подготовки к ОГЭ и ЕГЭ.</p>#}
+{#                </div>#}
+{#                #}
+{#                <div class="teacher-sub-cards">#}
+{#                    <div class="teacher-sub-card">#}
+{#                        <h1>9 лет</h1>#}
+{#                        <p>Опыт преподавания</p>#}
+{#                    </div>#}
+{#                    #}
+{#                    <div class="teacher-sub-card">#}
+{#                        <h1 class="primary">87 баллов</h1>#}
+{#                        <p>Средний результат учеников</p>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
             
-            <h1>Наши преподававетили</h1>
-            
-            <div class="teacher-card">
-                <img class="teacher-img" src="{{ static('images/teacher_1.png') }}" />
-                <div class="teacher-info">
-                    <div class="teacher-subjects">
-                        <div class="teacher-subject">
-                            Математика
-                        </div>
-                        <div class="teacher-subject">
-                            Физика
-                        </div>
-                    </div>
-                    <h1>Сергей Петрович</h1>
-                    <p class="teacher-description">Преподаватель математики</p>
-                    <p class="teacher-description">Кандидат физико-математических наук</p>
-                    <p class="teacher-description">Автор видеокурсов подготовки к ОГЭ и ЕГЭ.</p>
-                </div>
-                
-                <div class="teacher-sub-cards">
-                    <div class="teacher-sub-card">
-                        <h1>9 лет</h1>
-                        <p>Опыт преподавания</p>
-                    </div>
-                    
-                    <div class="teacher-sub-card">
-                        <h1 class="primary">87 баллов</h1>
-                        <p>Средний результат учеников</p>
-                    </div>
-                </div>
-            </div>
         </div>
+
+        <section class="diagnostic-section">
+            <div class="diagnostic-container">
+                <div class="diagnostic-text">
+                    <h1><b>Пройдите диагностику,</b> чтобы узнать сколько баллов вы получите</h1>
+                    <p>С помощью данного теста вы проверите свою готовность к ЕГЭ по выбранному предмету и поймете, на какие разделы вам стоит сделать упор в обучении.</p>
+                    <a class="button" href="/select_teacher">Пройти диагностику</a>
+                </div>
+                <img src="{{ static('images/diagnostic-icon.jpg') }}" alt="" class="diagnostic-icon">
+            </div>
+        </section>
+
+        <section class="form-section">
+            <div class="form-container">
+                <div class="form-text">
+                <h1>Готовься к ЕГЭ с школой подготовки XEXARXO </h1>
+                <p>Заполни данные  и наш менеджер свяжется
+                    с тобой в течение 10 минут</p>
+            </div>
+
+            <form class="form">
+                <div class="input-group">
+                    <label for="first_name">Имя:</label>
+                    <input type="text" id="first_name" name="first_name" value="" required>
+                </div>
+                <div class="input-group">
+                    <label for="phone">Номер телефона:</label>
+                    <input type="tel" id="phone" name="phone" value="" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="category">Предмет:</label>
+                    <select name="category" id="category" required>
+                        <option value="1">Математика</option>
+                        <option value="2">Физика</option>
+                    </select>
+                </div>
+                <br>
+                <button class="button">Отправить</button>
+
+            </form>
+            </div>
+        </section>
     </div>
 
 {% endblock %}
