@@ -6,7 +6,7 @@ from django.db.models import Count
 from django.http import HttpRequest, JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
 
-from main.models import User, Subject
+from main.models import User, Subject, Teacher
 
 DEFAULT_TITLE = 'Хехархо'
 
@@ -38,6 +38,7 @@ def select_teacher(request: HttpRequest, teacher_id: int = 0, subject_id: int = 
         )
 
     context['workers'] = teachers_query
+    context['subjects'] = Subject.objects.all()
 
     return render(request, 'lesson_registration/teachers.html', context)
 
@@ -65,6 +66,36 @@ def select_group(request: HttpRequest, teacher_id: int, subject_id: int, group_i
     context['group_id'] = group_id
 
     return render(request, 'lesson_registration/group.html', context)
+
+
+def get_teachers(request: HttpRequest, subject_id):
+    data = dict()
+
+    try:
+        if subject_id:
+            subject = Subject.objects.get(pk=subject_id)
+            teachers = Teacher.objects.filter(subjects=subject)
+        else:
+            teachers = Teacher.objects.all()
+
+        teacher_list = []
+        for teacher in teachers:
+            teacher_info = {
+                'id': teacher.user.id,
+                'name': teacher.user.get_full_name(),
+                'avatar': teacher.user.get_avatar_url(),
+                'groups': [group.name for group in teacher.groups.all()],
+                'skills': teacher.skills.split('\n') if teacher.skills else [],
+            }
+            teacher_list.append(teacher_info)
+
+        data['message'] = 'success'
+        data['teachers'] = teacher_list
+
+    except Subject.DoesNotExist:
+        data['message'] = 'Subject not found'
+
+    return JsonResponse(data)
 
 
 def register(request: HttpRequest):

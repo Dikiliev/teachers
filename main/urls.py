@@ -25,6 +25,8 @@ urlpatterns = [
     path(f'select_group/{WORKER}<int:teacher_id>{SUBJECT}<int:subject_id>{GROUP}<int:group_id>',
          views.select_group, name='select_group'),
 
+    path(f'get_teachers/<int:subject_id>', views.get_teachers, name='get_teachers'),
+
     path('register/', views.register, name='register'),
     path('login/', views.user_login, name='login'),
     path('logout/', views.logout_user, name='logout'),

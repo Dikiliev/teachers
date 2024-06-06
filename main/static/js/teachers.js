@@ -1,103 +1,96 @@
-const workerCards = document.getElementsByClassName('worker-card');
+const subjectElements = document.getElementsByClassName('subject');
+const teachersList = document.getElementById('teahcers')
+
+// const workerCards = document.getElementsByClassName('worker-card');
 const cardPrefix = 'worker-card-';
 
-initSTeachers();
+let selectedSubjectId = 0;
+let teachers = [];
+
+start();
+
+function start(){
+    loadTeachers();
+
+}
+
+function loadTeachers(){
+    const response = fetchData(`get_teachers/${selectedSubjectId}`);
+    response.then(result => {
+        teachers = result.teachers;
+
+        generateTeacher();
+    }).catch(error => {
+        console.error(error);
+    });
+
+}
+
+function generateTeacher(){
+    teachersList.innerHTML = '';
+
+    teachers.forEach(worker => {
+        const teacherCardHTML = generateTeacherCard(worker);
+        teachersList.innerHTML += teacherCardHTML;
+    });
+
+    initSTeachers()
+}
+
+function generateTeacherCard(worker){
+    let teacherHTML = `
+        <div id="worker-card-${worker.id}" class="worker-card">
+            <div class="worker">
+                <img src="${worker.avatar}">
+                <div class="worker-info">
+                    <span class="work-title">${worker.name}</span>
+                    
+                    ${worker.skills.map(skill => `<span class="title-skill">${skill}</span>`).join('')}
+                </div>
+            </div>
+
+            <button class="button" onclick="openModelWindow()">Записаться</button>
+        </div>
+    `;
+    return teacherHTML;
+}
+
 
 function initSTeachers(){
-    for (const card of workerCards) {
-        card.querySelector('.worker').addEventListener('click', () => {
-            selectTeacher(+card.id.replace(cardPrefix, ''));
-        });
 
-        const subjectButtons = card.getElementsByClassName('subject')
-        for (const subjectButton of subjectButtons){
-            const subject_id = subjectButton.dataset.id;
-            subjectButton.addEventListener('click', () => {
-                selectSubject(card.id.replace(cardPrefix, ''), subject_id)
-            })
-        }
-    }
-
-    const selectElement = document.getElementById(cardPrefix + selectedTeacherId);
-    selectElement?.classList.toggle('selected', true);
 }
 
-function selectTeacher(id, force=false){
-    console.log(`select teacher ${id} (previous: ${selectedTeacherId}) (force: ${force})`)
-
-    if (!force && id == selectedTeacherId){
-        selectedTeacherId = 0;
-        selectedSubjectId = 0
-    }
-    else{
-         selectedTeacherId = id;
-    }
-
-    unselectAll();
-
-    const selectElement = document.getElementById(cardPrefix + selectedTeacherId);
-    selectElement?.classList.toggle('selected', true);
-
-    // refreshNextButton();
-}
-
-function selectSubject(teacher_id, subject_id){
+function selectSubject(subject_id){
     console.log(`select subject ${subject_id} (previous: ${selectedSubjectId})`)
 
-    if (teacher_id === selectedTeacherId && selectedSubjectId === subject_id){
-        selectedSubjectId = 0
-    }
-    else{
-        selectedTeacherId = teacher_id;
-        selectedSubjectId = subject_id
-    }
+    selectedSubjectId = selectedSubjectId === subject_id ? 0 : subject_id;
 
     unselectAll();
 
-    const selectElement = document.getElementById(cardPrefix + selectedTeacherId);
-    if (selectElement){
+    if (selectedSubjectId !== 0){
+        const selectElement = document.getElementById(`subject_${selectedSubjectId}`);
         selectElement.classList.toggle('selected', true);
-
-        const subjectButton = selectElement.querySelector(`[data-id="${selectedSubjectId}"]`)
-
-        if (subjectButton){
-            subjectButton.classList.toggle('selected', true)
-        }
     }
 
-    // refreshNextButton();
+    loadTeachers();
 }
 
 function unselectAll(){
-    for (const card of workerCards) {
-        card.classList.toggle('selected', false)
-
-        const subjectButtons = card.getElementsByClassName('subject')
-        for (const subjectButton of subjectButtons){
-            subjectButton.classList.toggle('selected', false)
-        }
+    for (const element of subjectElements){
+        element.classList.toggle('selected', false);
     }
 }
 
-
-function toggleDescription(event, workerId) {
-    event.stopPropagation()
-    const descriptionElement = document.getElementById(`description-${workerId}`);
-    const buttonElement = descriptionElement.nextElementSibling;
-    const arrowElement = buttonElement.querySelector('.arrow');
-
-    if (descriptionElement.classList.contains('expanded')) {
-        descriptionElement.classList.remove('expanded');
-        buttonElement.textContent = 'Показать больше';
-        arrowElement.textContent = '⮟';
-    } else {
-        descriptionElement.classList.add('expanded');
-        buttonElement.textContent = 'Скрыть';
-        arrowElement.textContent = '⮝';
-    }
-
-    buttonElement.appendChild(arrowElement);
+function openModelWindow(){
+    document.getElementById('modal').style.display = 'block';
 }
 
+document.querySelector('.close-button').addEventListener('click', function() {
+  document.getElementById('modal').style.display = 'none';
+});
 
-
+window.onclick = function(event) {
+  if (event.target == document.getElementById('modal')) {
+    document.getElementById('modal').style.display = 'none';
+  }
+}

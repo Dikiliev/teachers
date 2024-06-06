@@ -3,15 +3,12 @@
 {% block head  %}
     <link type="text/css" rel="stylesheet" href="{{ static('css/lesson_registration.css') }}">
     <link type="text/css" rel="stylesheet" href="{{ static('css/teachers.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ static('css/modal.css') }}">
     <script type="text/javascript" src="{{ static('js/lesson_registration.js') }}" defer></script>
     <script type="text/javascript" src="{{ static('js/teachers.js') }}" defer></script>
 
     <script>
-        const current_page = 0;
-        
-        let selectedTeacherId = {{teacher_id}};
-        let selectedSubjectId = {{subject_id}};
-        let selectedGroupId = {{group_id}};
+
     </script>
 
 {% endblock %}
@@ -19,42 +16,39 @@
 {% block content  %}
 
     <div class="container">
-    
-        {% include "lesson_registration/navigation_buttons.html" %}
-    
-        <h1>Выбрать преподователя</h1>
+        <br><br>
+        <h1 class="custom-h1">Наши преподаватели</h1>
         <br>
-        <div class="workers">
+        <div class="subjects">
+            {% for subject in subjects %}
+                <button class="subject" id="subject_{{ subject.id }}" onclick="selectSubject({{ subject.id }})">{{ subject.name }}</button>
+            {% endfor %}
+        </div>
+        <br>
+    
+        <div id='teahcers' class="workers">
 
-            {% for worker in workers %}
-
-            <div id="worker-card-{{worker.id}}" class="worker-card">
-                <div class="worker">
-                    <img src="{{worker.get_avatar_url()}}">
-                    <div class="worker-info">
-                        <span class="title-specialist">{{worker.first_name}} {{worker.last_name}}</span>
-                        <span class="description" id="description-{{worker.id}}">{{worker.profile.bio}}</span>
-                        
-                        <button class="more-button" onclick="toggleDescription(event, {{worker.id}})">
-                            Показать больше<span class="arrow">⮟</span>
-                        </button>
-                    </div>
-                </div>
-
-                <span></span>
-                <div class="subjects">
-                    {% for subject in worker.profile.subjects.all() %}
-                        <button class="subject" data-id="{{subject.id}}">{{subject.name}}</button>
-                    {% endfor%}
-                </div>
-            </div>
-
-            {% endfor%}
 
         </div>
+    </div>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">Закрыть</span>
+            <br>
+            <div class="group-cards">
+                <div class="group-card">
+                    <h1>Группа 1</h1>
+                    <p>Среда <span class="primary-text">14:00 - 15:00</span></p>
+                    <p>Пятница <span class="primary-text">14:00 - 15:00</span></p>
+                </div>
     
-        <div id="bottom-menu" class="fixed-bottom disabled">
-            <button id="next-button" class="button">Выбрать услугу</button>
+                <div class="group-card">
+                    <h1>Группа 2</h1>
+                    <p>Среда <span class="primary-text">14:00 - 15:00</span></p>
+                    <p>Пятница <span class="primary-text">14:00 - 15:00</span></p>
+                </div>
+            </div>
         </div>
     </div>
 

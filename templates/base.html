@@ -21,7 +21,7 @@
     <link type="text/css" rel="stylesheet" href="{{ static('css/footer.css') }}">
     <link type="text/css" rel="stylesheet" href="{{ static('css/generic.css') }}">
     <link type="text/css" rel="stylesheet" href="{{ static('css/head.css') }}">
-    <link type="text/css" rel="stylesheet" href="{{ static('css/icons.css') }}">
+{#    <link type="text/css" rel="stylesheet" href="{{ static('css/icons.css') }}">#}
     <script type="text/javascript" src="{{ static('js/base_script.js') }}"></script>
     <script type="text/javascript" src="{{ static('js/head.js') }}" defer></script>
 
@@ -51,13 +51,15 @@
         </div>
     
         <nav class="nav-menu horizontal-container">
+            <a href="/" class="nav-item">Главная</a>
+            <a href="/" class="nav-item">Предметы</a>
+            <a href="/" class="nav-item">Преподаватели</a>
+            <a href="/" class="nav-item">О нас</a>
+        
             {% if user.is_authenticated %}
 
                 {% if user.role == 1 %}
-                    <a href="/" class="nav-item">Главная</a>
-                    <a href="/" class="nav-item">Предметы</a>
-                    <a href="/" class="nav-item">Преподаватели</a>
-                    <a href="/" class="nav-item">О нас</a>
+                    
                 {% endif %}
 
                 {% if user.role == 3 %}

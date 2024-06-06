@@ -17,13 +17,13 @@
 }
 
 .worker img{
-    width: 60px;
-    height: 60px;
+    width: 125px;
+    height: 125px;
 
     aspect-ratio: 1 / 1;
 
     object-fit: cover;
-    border-radius: 30px;
+    border-radius: 25px;
 }
 
 .worker-info{
@@ -33,13 +33,13 @@
     width: 100%;
 }
 
-.title-specialist{
-    font-size: 1.2rem;
-    font-weight: 600;
+.title-skill{
+    color: var(--color-1);
 }
 
 .work-title{
-    font-size: 1rem;
+    font-size: 30px;
+    font-weight: 600;
     color: var(--color-1)
 }
 

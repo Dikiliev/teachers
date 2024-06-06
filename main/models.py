@@ -85,6 +85,7 @@ class Teacher(models.Model):
     bio = models.TextField(verbose_name='Биография', blank=True)
     subjects = models.ManyToManyField(Subject, related_name='teachers', verbose_name='Предметы')
     groups = models.ManyToManyField(StudentGroup, related_name='teachers', verbose_name='Группы студентов')
+    skills = models.TextField(blank=True)
 
     def __str__(self):
         return f'{self.user.username} - Преподаватель'

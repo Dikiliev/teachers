@@ -1,5 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Onest:wght@100..900&display=swap');
 
+@font-face {
+    font-family: 'ActayWide';
+    src: url('../fonts/ActayWide-Bold.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 :root{
     /*--base-font: Montserrat;*/
     /*--base-font: Nunito;*/
@@ -47,11 +54,11 @@ html{
     box-sizing: border-box;
 
     font-family: var(--base-font);
-  font-optical-sizing: auto;
+    font-optical-sizing: auto;
 
     color: var(--color-2);
 
-    transition: var(--base-transition);
+    /*transition: var(--base-transition);*/
 
     scrollbar-width: none;
     -ms-overflow-style: none;
@@ -73,6 +80,10 @@ html{
 
 *:disabled{
     opacity: 0.5;
+}
+
+.custom-h1{
+    font-family: 'ActayWide';
 }
 
 button{
