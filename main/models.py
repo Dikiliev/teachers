@@ -62,19 +62,6 @@ class Subject(models.Model):
         verbose_name = 'Предмет'
         verbose_name_plural = 'Предметы'
 
-
-class StudentGroup(models.Model):
-    name = models.CharField(max_length=100, verbose_name='Название группы')
-    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Цена')  # Добавлено поле для цены
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = 'Группа студентов'
-        verbose_name_plural = 'Группы студентов'
-
-
 class Teacher(models.Model):
     user = models.OneToOneField(
         User,
@@ -84,7 +71,6 @@ class Teacher(models.Model):
     )
     bio = models.TextField(verbose_name='Биография', blank=True)
     subjects = models.ManyToManyField(Subject, related_name='teachers', verbose_name='Предметы')
-    groups = models.ManyToManyField(StudentGroup, related_name='teachers', verbose_name='Группы студентов')
     skills = models.TextField(blank=True)
 
     def __str__(self):
@@ -93,6 +79,19 @@ class Teacher(models.Model):
     class Meta:
         verbose_name = 'Преподаватель'
         verbose_name_plural = 'Преподаватели'
+
+
+class StudentGroup(models.Model):
+    name = models.CharField(max_length=100, verbose_name='Название группы')
+    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Цена')  # Добавлено поле для цены
+    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, related_name='groups', verbose_name='Преподаватель')
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Группа студентов'
+        verbose_name_plural = 'Группы студентов'
 
 
 class Schedule(models.Model):

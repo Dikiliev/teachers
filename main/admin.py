@@ -28,6 +28,7 @@ class UserCreationForm(forms.ModelForm):
             user.save()
         return user
 
+
 class UserChangeForm(forms.ModelForm):
     """Форма для обновления пользователя. Включает все поля пользователя, но заменяет поле пароля на админское поле
     отображения пароля."""
@@ -36,6 +37,7 @@ class UserChangeForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('username', 'email', 'password', 'first_name', 'last_name', 'role', 'avatar', 'phone_number', 'is_active', 'is_staff')
+
 
 class UserAdmin(BaseUserAdmin):
     form = UserChangeForm
@@ -67,7 +69,7 @@ class ScheduleInline(admin.TabularInline):
 
 
 class StudentGroupInline(admin.TabularInline):
-    model = Teacher.groups.through
+    model = StudentGroup
     extra = 1  # Устанавливает количество пустых форм для создания новых объектов
     verbose_name = "Группа студентов"
     verbose_name_plural = "Группы студентов"
@@ -76,8 +78,7 @@ class StudentGroupInline(admin.TabularInline):
 class TeacherAdmin(admin.ModelAdmin):
     list_display = ('user', 'bio')
     search_fields = ('user__username', 'user__first_name', 'user__last_name')
-    inlines = [StudentGroupInline, ScheduleInline]
-    exclude = ('groups',)  # Исключает поле groups из формы, чтобы избежать дублирования
+    inlines = [StudentGroupInline, ScheduleInline]  # Добавили StudentGroupInline для создания групп студентов прямо в профиле преподавателя
 
 
 class SubjectAdmin(admin.ModelAdmin):
@@ -86,8 +87,9 @@ class SubjectAdmin(admin.ModelAdmin):
 
 
 class StudentGroupAdmin(admin.ModelAdmin):
-    list_display = ('name', 'price')
+    list_display = ('name', 'price', 'teacher')
     search_fields = ('name',)
+    list_filter = ('teacher',)  # Фильтрация по преподавателю
 
 
 class ScheduleAdmin(admin.ModelAdmin):

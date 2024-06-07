@@ -6,7 +6,7 @@ from django.db.models import Count
 from django.http import HttpRequest, JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
 
-from main.models import User, Subject, Teacher
+from main.models import User, Subject, Teacher, StudentGroup
 
 DEFAULT_TITLE = 'Хехархо'
 
@@ -79,6 +79,35 @@ def get_teachers(request: HttpRequest, subject_id):
             teachers = Teacher.objects.all()
 
         teacher_list = []
+        for teacher in teachers:
+            teacher_info = {
+                'id': teacher.user.id,
+                'name': teacher.user.get_full_name(),
+                'avatar': teacher.user.get_avatar_url(),
+                'groups': [group.name for group in teacher.groups.all()],
+                'skills': teacher.skills.split('\n') if teacher.skills else [],
+            }
+            teacher_list.append(teacher_info)
+
+        data['message'] = 'success'
+        data['teachers'] = teacher_list
+
+    except Subject.DoesNotExist:
+        data['message'] = 'Subject not found'
+
+    return JsonResponse(data)
+
+
+def get_groups(request: HttpRequest, teacher_id, subject_id):
+    data = dict()
+
+
+    try:
+        subject = Subject.objects.get(pk=subject_id)
+        teacher_user = User.objects.filter(pk=teacher_id)
+
+        groups = StudentGroup.objects.filter(teacher__in=teacher_user)
+        group_list = []
         for teacher in teachers:
             teacher_info = {
                 'id': teacher.user.id,

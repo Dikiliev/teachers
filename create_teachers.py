@@ -18,10 +18,11 @@ skills = [
     'Автор видеокурсов подготовки к ОГЭ и ЕГЭ.'
 ]
 
-def create_random_student_group():
+def create_random_student_group(user):
     group_name = fake.unique.word().capitalize() + " Group"
-    price = round(random.uniform(1000, 5000), 2)
-    group, created = StudentGroup.objects.get_or_create(name=group_name, defaults={'price': price})
+    price = round(random.uniform(1, 15)) * 500
+
+    group, created = StudentGroup.objects.get_or_create(name=group_name, teacher_id=user.profile.user.id, defaults={'price': price})
     return group
 
 def create_random_user():
@@ -86,9 +87,8 @@ def create_random_teacher():
     teacher, created = Teacher.objects.get_or_create(user=user)
 
     assigned_subjects = random.sample(subjects, k=random.randint(1, len(subjects) // 3))
-    assigned_groups = [create_random_student_group() for _ in range(random.randint(1, 4))]
+    assigned_groups = [create_random_student_group(user) for _ in range(random.randint(1, 4))]
     teacher.subjects.set(assigned_subjects)
-    teacher.groups.set(assigned_groups)
 
     teacher.skills = generate_achievements(assigned_subjects)
 
@@ -101,7 +101,7 @@ def create_random_teacher():
     return teacher
 
 
-num_teachers = 5
+num_teachers = 15
 for _ in range(num_teachers):
     teacher = create_random_teacher()
     print(f'Создан {teacher}')

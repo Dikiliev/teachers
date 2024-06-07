@@ -38,6 +38,7 @@ function generateTeacher(){
 }
 
 function generateTeacherCard(worker){
+    console.log(worker);
     let teacherHTML = `
         <div id="worker-card-${worker.id}" class="worker-card">
             <div class="worker">
@@ -81,7 +82,12 @@ function unselectAll(){
     }
 }
 
-function openModelWindow(){
+function openModelWindow(groups){
+    const groupCardsElement = document.getElementById('group-cards');
+    groupCardsElement.innerHTML = '';
+
+
+
     document.getElementById('modal').style.display = 'block';
 }
 
