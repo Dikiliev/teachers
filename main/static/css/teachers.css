@@ -35,13 +35,12 @@ h1{
 
 .workers{
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
 
     gap: 1rem;
 
     width: 100%;
     margin: auto;
-
 }
 
 .worker-card{
@@ -98,5 +97,9 @@ h1{
     .subject{
         padding: 12px 18px;
         font-size: 0.8rem;
+    }
+
+    .workers{
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     }
 }

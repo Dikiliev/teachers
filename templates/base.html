@@ -43,13 +43,10 @@
 
 <div class="head">
     <div class="head-content horizontal-container">
-{#        <div class="logo">#}
-{#            <a href="/"><span class="text-logo-part-2">Х</span><span class="text-logo-part-1">ехархо</span></a>#}
-{#        </div>#}
         <div class="logo">
             <img class="logo" src="{{ static('icons/favicon.png') }}" alt="Logo" />
         </div>
-    
+        
         <nav class="nav-menu horizontal-container">
             <a href="/" class="nav-item">Главная</a>
             <a href="/" class="nav-item">Предметы</a>
@@ -85,11 +82,16 @@
                 </div>
             {% else %}
                 <a href="/login" class="nav-item">Войти</a>
-<!--                <a href="/register" class="nav-item">Зарегистрироваться</a>-->
             {% endif %}
         </nav>
+        <div class="menu-toggle" id="mobile-menu">
+            <span class="bar"></span>
+            <span class="bar second"></span>
+            <span class="bar"></span>
+        </div>
     </div>
 </div>
+
 
 <main>
     {% block content  %}

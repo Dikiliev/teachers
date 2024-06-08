@@ -10,3 +10,12 @@
 //     sideMenu.classList.toggle('active', false);
 //   });
 // }
+
+
+const menuToggle = document.getElementById('mobile-menu');
+menuToggle.addEventListener('click', function() {
+    const navMenu = document.querySelector('.nav-menu');
+
+    navMenu.classList.toggle('active');
+    menuToggle.classList.toggle('active')
+});
