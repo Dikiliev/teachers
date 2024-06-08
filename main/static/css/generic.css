@@ -34,6 +34,12 @@ a{
     margin: auto;
 }
 
+.container.start{
+    justify-content: start;
+    align-items: start;
+    margin: 0;
+}
+
 .row{
     display: flex;
     flex-direction: row;
@@ -48,6 +54,10 @@ a{
 }
 .gap25{
     gap: 25px;
+}
+
+.gap1rem{
+    gap: 1rem;
 }
 
 .justify-content{

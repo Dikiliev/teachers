@@ -43,51 +43,27 @@
 
 <div class="head">
     <div class="head-content horizontal-container">
-        <div class="logo">
-            <img class="logo" src="{{ static('icons/favicon.png') }}" alt="Logo" />
-        </div>
+        <a href="/" class="logo">
+            <img class="logo-image" src="{{ static('icons/favicon.png') }}" alt="Logo" />
+        </a>
         
-        <nav class="nav-menu horizontal-container">
-            <a href="/" class="nav-item">Главная</a>
-            <a href="/" class="nav-item">Предметы</a>
-            <a href="/" class="nav-item">Преподаватели</a>
-            <a href="/" class="nav-item">О нас</a>
-        
+        <div class="horizontal-container">
+            <nav class="nav-menu horizontal-container">
+                <a href="/" class="nav-item">Главная</a>
+                <a href="/select_teacher" class="nav-item">Записаться</a>
+            </nav>
+
             {% if user.is_authenticated %}
 
-                {% if user.role == 1 %}
-                    
-                {% endif %}
-
-                {% if user.role == 3 %}
-                    <a href="/manager/main" class="nav-item">Управление</a>
-                    <a href="/orders" class="nav-item">Все записи</a>
-                {% else %}
-
-                {% endif %}
-
-                <div id="profile-nav" class="dropdown">
-                    <a id="" class="nav-item profile-text"><img class="profile-avatar" src="{{user.get_avatar_url()}}"></a>
-                    <div id="side-menu" class="side-menu">
-                    <ul>
-                        <li class="first"><a class="profile-text" href="#">{{ user.username }}</a></li>
-
-                        {% if user.role == 2 %}
-                            <li><a class="" href="/profile/">Редактировать</a></li>
-                        {% endif %}
-
-                        <li><a class="" href="/logout/">Выйти</a></li>
-                    </ul>
-                    </div>
-                </div>
             {% else %}
-                <a href="/login" class="nav-item">Войти</a>
+                <a href="/login" class="nav-item button sign-in">Войти</a>
             {% endif %}
-        </nav>
-        <div class="menu-toggle" id="mobile-menu">
-            <span class="bar"></span>
-            <span class="bar second"></span>
-            <span class="bar"></span>
+
+            <div class="menu-toggle" id="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar second"></span>
+                <span class="bar"></span>
+            </div>
         </div>
     </div>
 </div>
