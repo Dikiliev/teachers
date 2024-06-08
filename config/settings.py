@@ -172,6 +172,22 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://xexarxo.ru', 'http://localhost'
+]
+
+CORS_ALLOWED_ORIGINS = [
+    'http://xexarxo.ru',
+    'https://xexarxo.ru',
+    'http://localhost'
+]
+
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'
+SESSION_COOKIE_AGE = 1209600
+SESSION_SAVE_EVERY_REQUEST = True
+
+
 # # Разрешить все домены (не рекомендуется для продакшена)
 # CORS_ALLOW_ALL_ORIGINS = True
 #
