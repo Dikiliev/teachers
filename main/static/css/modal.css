@@ -15,11 +15,12 @@
     margin: auto;
     border-radius: var(--base-border-radius);
 
-    display: inline-flex;
-    padding: 40px;
+    display: flex;
+    padding: 2rem;
     flex-direction: column;
     align-items: flex-start;
-    gap: 15px;
+
+    gap: 1rem;
 
     top: 50%;
     left: 50%;
@@ -43,12 +44,23 @@
     color: var(--color-hover-1);
 }
 
-.group-cards{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    width: 100%;
+
+.group-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 300px);
     gap: 1rem;
+    justify-content: center;
+    width: max-content;
+}
+
+@media (max-width: 767px) {
+    .group-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, 300px);
+        gap: 1rem;
+        justify-content: center;
+        width: max-content;
+    }
 }
 
 .group-card{

@@ -65,12 +65,12 @@ class UserAdmin(BaseUserAdmin):
 
 class ScheduleInline(admin.TabularInline):
     model = Schedule
-    extra = 1  # Устанавливает количество пустых форм для создания новых объектов
+    extra = 1
 
 
 class StudentGroupInline(admin.TabularInline):
     model = StudentGroup
-    extra = 1  # Устанавливает количество пустых форм для создания новых объектов
+    extra = 1
     verbose_name = "Группа студентов"
     verbose_name_plural = "Группы студентов"
 
@@ -78,7 +78,7 @@ class StudentGroupInline(admin.TabularInline):
 class TeacherAdmin(admin.ModelAdmin):
     list_display = ('user', 'bio')
     search_fields = ('user__username', 'user__first_name', 'user__last_name')
-    inlines = [StudentGroupInline, ScheduleInline]  # Добавили StudentGroupInline для создания групп студентов прямо в профиле преподавателя
+    inlines = [StudentGroupInline, ScheduleInline]
 
 
 class SubjectAdmin(admin.ModelAdmin):
@@ -87,15 +87,15 @@ class SubjectAdmin(admin.ModelAdmin):
 
 
 class StudentGroupAdmin(admin.ModelAdmin):
-    list_display = ('name', 'price', 'teacher')
-    search_fields = ('name',)
-    list_filter = ('teacher',)  # Фильтрация по преподавателю
+    list_display = ('name', 'price', 'subject',  'teacher')
+    search_fields = ('name', 'subject')
+    list_filter = ('teacher', 'subject__name')
 
 
 class ScheduleAdmin(admin.ModelAdmin):
-    list_display = ('teacher', 'student_group', 'subject', 'day_of_week', 'start_time', 'end_time')
-    list_filter = ('day_of_week', 'teacher', 'student_group', 'subject')
-    search_fields = ('teacher__user__username', 'student_group__name', 'subject__name')
+    list_display = ('teacher', 'student_group', 'day_of_week', 'start_time', 'end_time')
+    list_filter = ('day_of_week', 'teacher', 'student_group')
+    search_fields = ('teacher__user__username', 'student_group__name')
 
 
 admin.site.register(User, UserAdmin)

@@ -26,7 +26,7 @@ JAZZMIN_SETTINGS = {
 
     # 'site_logo': 'your_app/logo.png',
 
-    'copyright': 'Ваша Компания',
+    'copyright': 'XEXARXO',
 
     # Имя поля в модели пользователя, содержащее аватар
     # 'user_avatar': 'avatar',

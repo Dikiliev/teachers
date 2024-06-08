@@ -8,7 +8,9 @@
     <script type="text/javascript" src="{{ static('js/teachers.js') }}" defer></script>
 
     <script>
-
+        let selectedSubjectId = 0;
+        
+        selectedSubjectId = {{ subjects[0].id }};
     </script>
 
 {% endblock %}
@@ -37,17 +39,7 @@
             <span class="close-button">Закрыть</span>
             <br>
             <div id="group-cards" class="group-cards">
-                <div class="group-card">
-                    <h1>Группа 1</h1>
-                    <p>Среда <span class="primary-text">14:00 - 15:00</span></p>
-                    <p>Пятница <span class="primary-text">14:00 - 15:00</span></p>
-                </div>
-    
-                <div class="group-card">
-                    <h1>Группа 2</h1>
-                    <p>Среда <span class="primary-text">14:00 - 15:00</span></p>
-                    <p>Пятница <span class="primary-text">14:00 - 15:00</span></p>
-                </div>
+                
             </div>
         </div>
     </div>

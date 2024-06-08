@@ -4,14 +4,15 @@ const teachersList = document.getElementById('teahcers')
 // const workerCards = document.getElementsByClassName('worker-card');
 const cardPrefix = 'worker-card-';
 
-let selectedSubjectId = 0;
+let theFirstLoadTeachers = true;
 let teachers = [];
 
 start();
 
 function start(){
-    loadTeachers();
+    // loadTeachers();
 
+    selectSubject(selectedSubjectId);
 }
 
 function loadTeachers(){
@@ -38,7 +39,6 @@ function generateTeacher(){
 }
 
 function generateTeacherCard(worker){
-    console.log(worker);
     let teacherHTML = `
         <div id="worker-card-${worker.id}" class="worker-card">
             <div class="worker">
@@ -50,7 +50,7 @@ function generateTeacherCard(worker){
                 </div>
             </div>
 
-            <button class="button" onclick="openModelWindow()">Записаться</button>
+            <button class="button" onclick="openModelWindow(${worker.id})">Записаться</button>
         </div>
     `;
     return teacherHTML;
@@ -64,7 +64,10 @@ function initSTeachers(){
 function selectSubject(subject_id){
     console.log(`select subject ${subject_id} (previous: ${selectedSubjectId})`)
 
-    selectedSubjectId = selectedSubjectId === subject_id ? 0 : subject_id;
+    if (!theFirstLoadTeachers && selectedSubjectId === subject_id) return;
+
+    theFirstLoadTeachers = false
+    selectedSubjectId = subject_id;
 
     unselectAll();
 
@@ -82,13 +85,34 @@ function unselectAll(){
     }
 }
 
-function openModelWindow(groups){
+function openModelWindow(teacher_id){
     const groupCardsElement = document.getElementById('group-cards');
     groupCardsElement.innerHTML = '';
 
+    getGroups(teacher_id, selectedSubjectId).then(groups => {
 
+        groupCardsElement.innerHTML = groups.map(group => `
+        
+            <div class="group-card">
+                    <h1>${group.name}</h1>
+                    ${ group.schedules.map(schedule => `<p>${schedule.day_of_week} <span class="primary-text">${schedule.start_time} - ${schedule.end_time}</span></p>`).join('\n') }
+            </div>
+        
+        `).join('\n')
 
-    document.getElementById('modal').style.display = 'block';
+        document.getElementById('modal').style.display = 'block';
+    })
+}
+
+async function getGroups(teacher_id, subject_id){
+    try {
+        const response = await fetchData(`get_groups/${teacher_id}/${subject_id}`);
+        return response.groups;
+    }
+    catch (error){
+        console.error(error);
+        return [];
+    }
 }
 
 document.querySelector('.close-button').addEventListener('click', function() {

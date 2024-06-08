@@ -3,7 +3,7 @@
 }
 
 .worker{
-    width: 100%;
+    width: auto;
     height: auto;
 
     display: flex;
@@ -30,7 +30,8 @@
     display: flex;
     flex-direction: column;
     gap: 5px;
-    width: 100%;
+    width: auto;
+    flex: 1;
 }
 
 .title-skill{
@@ -41,6 +42,7 @@
     font-size: 30px;
     font-weight: 600;
     color: var(--color-1)
+
 }
 
 .service-info{
@@ -50,14 +52,16 @@
     gap: 1rem
 }
 
-.service-title{
-    font-size: 1.2rem;
+@media (max-width: 767px) {
+    .work-title{
+        font-size: 1.5rem
 
+    }
+
+    .title-skill{
+        color: var(--color-1);
+        font-size: 0.8rem
 }
-
-.service-duration{
-    font-size: 16px;
-    color: var(--color-transparent)
 }
 
 .hover-text{

@@ -18,11 +18,12 @@ skills = [
     'Автор видеокурсов подготовки к ОГЭ и ЕГЭ.'
 ]
 
-def create_random_student_group(user):
-    group_name = fake.unique.word().capitalize() + " Group"
+def create_random_student_group(user, subject, index):
+    # group_name = fake.unique.word().capitalize()
+    group_name = f'Группа {index}'
     price = round(random.uniform(1, 15)) * 500
 
-    group, created = StudentGroup.objects.get_or_create(name=group_name, teacher_id=user.profile.user.id, defaults={'price': price})
+    group, created = StudentGroup.objects.get_or_create(name=group_name, teacher_id=user.profile.user.id, subject=subject, defaults={'price': price})
     return group
 
 def create_random_user():
@@ -39,33 +40,24 @@ def create_random_user():
             user.save()
             return user
 
-def round_time_to_nearest_half_hour(input_time):
-    hour = input_time.hour
-    minute = input_time.minute
-    if minute < 15:
-        minute = 0
-    elif minute < 45:
-        minute = 30
-    else:
-        minute = 0
-        hour += 1
+def round_time_to_nearest_half_hour():
+    hour = random.randint(9, 19)
+    minute = random.randint(0, 3) * 15
     return time(hour, minute)
 
-def create_random_schedule(teacher, student_group, subject):
+def create_random_schedule(teacher, student_group):
     days_of_week = [1, 2, 3, 4, 5, 6, 7]
-    start_time = round_time_to_nearest_half_hour(fake.time_object())
+    start_time = round_time_to_nearest_half_hour()
     end_time = (datetime.combine(date.today(), start_time) + timedelta(hours=2)).time()
     day_of_week = random.choice(days_of_week)
-    schedule, created = Schedule.objects.get_or_create(
+    schedule = Schedule.objects.create(
         teacher=teacher,
         student_group=student_group,
-        subject=subject,
-        defaults={
-            'day_of_week': day_of_week,
-            'start_time': start_time,
-            'end_time': end_time
-        }
+        day_of_week=day_of_week,
+        start_time=start_time,
+        end_time=end_time
     )
+
     return schedule
 
 
@@ -86,8 +78,14 @@ def create_random_teacher():
     user = create_random_user()
     teacher, created = Teacher.objects.get_or_create(user=user)
 
-    assigned_subjects = random.sample(subjects, k=random.randint(1, len(subjects) // 3))
-    assigned_groups = [create_random_student_group(user) for _ in range(random.randint(1, 4))]
+    subject_count_changes = [1] * 10 + [2] * 4 + [3]
+    assigned_subjects = random.sample(subjects, k=subject_count_changes[random.randint(0, len(subject_count_changes) - 1)])
+    assigned_groups = []
+
+    for subject in assigned_subjects:
+        assigned_groups = [create_random_student_group(user, subject, i + 1)
+                           for i in range(random.randint(1, 3))]
+
     teacher.subjects.set(assigned_subjects)
 
     teacher.skills = generate_achievements(assigned_subjects)
@@ -95,13 +93,13 @@ def create_random_teacher():
     teacher.save()
 
     for group in assigned_groups:
-        for subject in assigned_subjects:
-            create_random_schedule(teacher, group, subject)
+        for _ in range(0, random.randint(1, 3)):
+            schedule = create_random_schedule(teacher, group)
 
     return teacher
 
 
-num_teachers = 15
+num_teachers = 20
 for _ in range(num_teachers):
     teacher = create_random_teacher()
     print(f'Создан {teacher}')

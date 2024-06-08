@@ -101,25 +101,29 @@ def get_teachers(request: HttpRequest, subject_id):
 def get_groups(request: HttpRequest, teacher_id, subject_id):
     data = dict()
 
-
     try:
         subject = Subject.objects.get(pk=subject_id)
-        teacher_user = User.objects.filter(pk=teacher_id)
+        teacher = Teacher.objects.get(pk=teacher_id)
 
-        groups = StudentGroup.objects.filter(teacher__in=teacher_user)
+        groups = StudentGroup.objects.filter(teacher=teacher)
         group_list = []
-        for teacher in teachers:
-            teacher_info = {
-                'id': teacher.user.id,
-                'name': teacher.user.get_full_name(),
-                'avatar': teacher.user.get_avatar_url(),
-                'groups': [group.name for group in teacher.groups.all()],
-                'skills': teacher.skills.split('\n') if teacher.skills else [],
+        for group in groups:
+            group_info = {
+                'id': group.id,
+                'name': group.name,
+                'price': group.price,
+                'schedules': [{
+                    'day_of_week': schedule.get_day_of_week_display(),
+                    'start_time': schedule.start_time.strftime('%H:%M'),
+                    'end_time': schedule.end_time.strftime('%H:%M'),
+                } for schedule in group.schedules.all()],
             }
-            teacher_list.append(teacher_info)
+            group_list.append(group_info)
 
+        data['groups'] = group_list
         data['message'] = 'success'
-        data['teachers'] = teacher_list
+
+        print(data)
 
     except Subject.DoesNotExist:
         data['message'] = 'Subject not found'

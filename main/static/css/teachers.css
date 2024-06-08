@@ -35,7 +35,7 @@ h1{
 
 .workers{
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 
     gap: 1rem;
 
@@ -47,20 +47,18 @@ h1{
 .worker-card{
     --padding: 1rem;
 
-    width: 1fr;
+    width: 100%;
     height: auto;
 
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    flex: 1 0 0;
 
     gap: 1rem;
 
     padding: var(--padding);
     background-color: var(--background-color-2);
 
-    border: 2px solid transparent;
     border-radius: var(--base-border-radius);
     border-radius: 30px;
 }
@@ -92,24 +90,13 @@ h1{
     white-space: normal;
 }
 
+@media (max-width: 767px) {
+    h1{
+        font-size: 28px;
+    }
 
-
-/*.more-button{*/
-/*    width: max-content;*/
-/*    color: var(--color-hover-2);*/
-
-/*    font-size: 0.9rem;*/
-
-/*    background: none;*/
-/*    border: none;*/
-/*    cursor: pointer;*/
-/*    margin-top: 5px;*/
-/*    display: flex;*/
-/*    align-items: center;*/
-/*}*/
-
-/*.more-button .arrow {*/
-/*    margin-left: 5px;*/
-/*    color: var(--color-hover-2);*/
-/*}*/
-
+    .subject{
+        padding: 12px 18px;
+        font-size: 0.8rem;
+    }
+}

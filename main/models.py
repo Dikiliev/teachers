@@ -83,7 +83,9 @@ class Teacher(models.Model):
 
 class StudentGroup(models.Model):
     name = models.CharField(max_length=100, verbose_name='Название группы')
-    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Цена')  # Добавлено поле для цены
+    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Цена')
+
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='student_groups', verbose_name='Предмет')
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, related_name='groups', verbose_name='Преподаватель')
 
     def __str__(self):
@@ -107,13 +109,12 @@ class Schedule(models.Model):
 
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, related_name='schedules', verbose_name='Преподаватель')
     student_group = models.ForeignKey(StudentGroup, on_delete=models.CASCADE, related_name='schedules', verbose_name='Группа студентов')
-    subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='schedules', verbose_name='Предмет')
     day_of_week = models.IntegerField(choices=DAYS_OF_WEEK, verbose_name='День недели')
     start_time = models.TimeField(verbose_name='Время начала')
     end_time = models.TimeField(verbose_name='Время окончания')
 
     def __str__(self):
-        return f'{self.teacher.user.username} - {self.student_group.name} - {self.subject.name} - {self.get_day_of_week_display()}'
+        return f'{self.teacher.user.username} - {self.student_group.name} - {self.get_day_of_week_display()}'
 
     class Meta:
         verbose_name = 'Расписание'
