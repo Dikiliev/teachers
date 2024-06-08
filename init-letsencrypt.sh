@@ -1,6 +1,6 @@
 #!/bin/bash
 
-domains=(ldent.online)
+domains=(xexarxo.ru)
 rsa_key_size=4096
 data_path="./certbot"
 email="mdikiy069@gmail.com" # Укажите ваш email
