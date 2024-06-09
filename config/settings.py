@@ -5,7 +5,7 @@ SECRET_KEY = 'django-insecure-b=5-s*x-4_7i%$m081hs5edyw(dp5rgx_^hvn@4x6g^(9y0_&x
 
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['xexarxo.ru', 'localhost']
 
 if DEBUG:
     ALLOWED_HOSTS.append('*')
