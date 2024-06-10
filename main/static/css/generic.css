@@ -182,6 +182,10 @@ form a:hover{
     color: var(--background-color-1);
 }
 
+.button.inactive{
+    opacity: 0.5;
+}
+
 .button.simple{
     background-color: var(--color-1);
 }

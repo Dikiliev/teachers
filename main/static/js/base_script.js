@@ -1,4 +1,7 @@
-const BASE_URL = 'https://xexarxo.ru/';
+const DEBUG = true;
+
+
+const BASE_URL = DEBUG ? 'http://localhost:8000/' : 'https://xexarxo.ru/';
 
 
 async function fetchData(endpoint) {

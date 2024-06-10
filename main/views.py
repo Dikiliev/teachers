@@ -123,11 +123,10 @@ def get_groups(request: HttpRequest, teacher_id, subject_id):
         data['groups'] = group_list
         data['message'] = 'success'
 
-        print(data)
-
     except Subject.DoesNotExist:
         data['message'] = 'Subject not found'
 
+    print(data)
     return JsonResponse(data)
 
 
