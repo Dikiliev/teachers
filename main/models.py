@@ -119,3 +119,22 @@ class Schedule(models.Model):
     class Meta:
         verbose_name = 'Расписание'
         verbose_name_plural = 'Расписания'
+
+
+class Appointment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='appointment', blank=True, verbose_name='Клиент')
+    group = models.ForeignKey(StudentGroup, on_delete=models.CASCADE, related_name='appointments', verbose_name='Группа')
+
+    user_name = models.CharField(max_length=150, verbose_name='Имя')
+    user_phone = models.CharField(max_length=25, blank=True,
+        validators=[
+            RegexValidator(
+                regex=r'^\+?1?\d{9,15}$',
+                message="Номер телефона должен быть в формате: '+999999999'. Допустимо до 15 цифр."
+            )
+        ],
+        verbose_name='Номер телефона'
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+

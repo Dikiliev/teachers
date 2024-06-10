@@ -116,7 +116,7 @@ async function getGroups(teacher_id, subject_id){
 }
 
 function setGroup(event){
-    selectedGroupId = event.currentTarget.dataset.id;
+    selectedGroupId = +event.currentTarget.dataset.id;
 
     const groupCardsElement = document.getElementById('group-cards');
     const groupCards = groupCardsElement.getElementsByClassName('group-card');
@@ -132,8 +132,9 @@ function setGroup(event){
 }
 
 function closeModalWindow(){
-    const selectGroupButton = document.getElementById('select-group-button');
+    selectedGroupId = 0;
 
+    const selectGroupButton = document.getElementById('select-group-button');
     selectGroupButton.classList.toggle('inactive', true);
     document.getElementById('modal').style.display = 'none';
 }
@@ -146,4 +147,14 @@ window.onclick = function(event) {
     if (event.target == document.getElementById('modal')) {
         closeModalWindow();
     }
+}
+
+
+function selectGroup(){
+    if (!Number.isInteger(selectedGroupId) || selectedGroupId <= 0){
+        console.error(`Группа не выбрана! (${selectedGroupId})`)
+        return
+    }
+
+    console.log(selectedGroupId);
 }

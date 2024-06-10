@@ -6,7 +6,7 @@ from django.db.models import Count
 from django.http import HttpRequest, JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
 
-from main.models import User, Subject, Teacher, StudentGroup
+from main.models import User, Subject, Teacher, StudentGroup, Appointment
 
 DEFAULT_TITLE = 'Хехархо'
 
@@ -58,6 +58,18 @@ def select_subject(request: HttpRequest, teacher_id: int = 0, subject_id: int = 
 
     return render(request, 'lesson_registration/subject.html', context)
 
+
+def make_appointment(request: HttpRequest, group_id: int):
+    context = create_base_data(request)
+
+    group = StudentGroup.objects.get(id=group_id)
+    user = request.user if request.user.is_authenticated else None
+
+    appointment = Appointment(user=user, group=group)
+
+    appointment.save();
+
+    return render(request, 'lesson_registration/appointment.html', context)
 
 def select_group(request: HttpRequest, teacher_id: int, subject_id: int, group_id: int):
     context = create_base_data(request)
