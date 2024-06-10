@@ -16,15 +16,6 @@ urlpatterns = [
 
     path(f'select_teacher', views.select_teacher, name='select_teacher'),
 
-    path(f'select_teacher/{WORKER}<int:teacher_id>{SUBJECT}<int:subject_id>{GROUP}<int:group_id>',
-         views.select_teacher, name='select_teacher'),
-
-    path(f'select_subject/{WORKER}<int:teacher_id>{SUBJECT}<int:subject_id>{GROUP}<int:group_id>',
-         views.select_subject, name='select_subject'),
-
-    path(f'select_group/{WORKER}<int:teacher_id>{SUBJECT}<int:subject_id>{GROUP}<int:group_id>',
-         views.select_group, name='select_group'),
-
     path(f'get_teachers/<int:subject_id>', views.get_teachers, name='get_teachers'),
     path(f'get_groups/<int:teacher_id>/<int:subject_id>', views.get_groups, name='get_groups'),
 

@@ -40,7 +40,14 @@
 
     --base-transition: all 0.2s ease-in;
 
+    --head-height: 100px;
     --max-width: min(1140px, 90vw)
+}
+
+@media (max-width: 768px) {
+    :root{
+        --head-height: 70px;
+    }
 }
 
 html{

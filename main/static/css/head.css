@@ -1,8 +1,12 @@
 .head {
     width: 100vw;
-    height: 100px;
+    height: var(--head-height);
     background-color: var(--background-header);
     font-size: 1rem;
+    z-index: 1;
+
+
+    position: fixed;
 }
 
 .head-content {
@@ -154,10 +158,6 @@
 
     }
 
-    .head{
-        height: 70px;
-    }
-
     .logo img {
         height: 25px;
         width: auto;
@@ -187,7 +187,7 @@
     .nav-menu.active {
         display: flex;
         visibility: visible;
-        height: 100%;
+        height: calc(100vh - var(--head-height));
         padding-top: 2rem;
     }
 

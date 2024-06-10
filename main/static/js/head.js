@@ -18,4 +18,6 @@ menuToggle.addEventListener('click', function() {
 
     navMenu.classList.toggle('active');
     menuToggle.classList.toggle('active')
+
+    document.body.style.overflow = menuToggle.classList.contains('active') ? 'hidden' : 'auto';
 });

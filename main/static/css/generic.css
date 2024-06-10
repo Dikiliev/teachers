@@ -4,6 +4,8 @@ body{
 }
 
 main{
+    position: relative;
+    top: var(--head-height);
     min-height: 90vh;
 }
 
@@ -170,6 +172,9 @@ form a:hover{
     outline:none;
     font-size: 20px;
     text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     font-style: normal;
     font-weight: 600;
