@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
-from .models import User, Teacher, Subject, StudentGroup, Schedule
+from .models import User, Teacher, Subject, StudentGroup, Schedule, Appointment
 
 
 class UserCreationForm(forms.ModelForm):

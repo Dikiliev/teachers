@@ -135,6 +135,7 @@ class Appointment(models.Model):
         ],
         verbose_name='Номер телефона'
     )
+    user_comment = models.TextField(blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
 

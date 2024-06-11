@@ -13,6 +13,7 @@ DEFAULT_TITLE = 'Хехархо'
 
 def home(request: HttpRequest):
     context = create_base_data(request)
+    context['subjects'] = Subject.objects.all()
     return render(request, 'index.html', context)
 
 
@@ -52,7 +53,14 @@ def confirm_appointment(request: HttpRequest, group_id: int):
     context = create_base_data(request)
 
     if request.method == 'POST':
-        print(request.POST)
+        appointment = Appointment()
+        appointment.user = request.user if request.user.is_authenticated else None
+        appointment.group = group_id
+
+        appointment.user_name = request.POST.get('fullname', '')
+        appointment.user_phone = request.POST.get('phone', '')
+        appointment.user_comment = request.POST.get('comment', '')
+
         return redirect('appointment_completed', group_id=group_id)
 
     group = StudentGroup.objects.get(id=group_id)
