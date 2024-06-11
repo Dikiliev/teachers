@@ -53,15 +53,6 @@
     width: max-content;
 }
 
-@media (max-width: 767px) {
-    .group-cards {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, 300px);
-        gap: 1rem;
-        justify-content: center;
-        width: max-content;
-    }
-}
 
 .group-card{
     display: flex;
@@ -101,23 +92,11 @@
     justify-content: space-between;
     align-items: center;
     align-self: stretch;
-
     font-size: 1rem;
     font-style: normal;
     font-weight: 400;
 
-    gap: 2rem;
-}
-
-.group-card p .primary-text{
-    padding: 8px 10px;
-
-    border-radius: 10px;
-    background: var(--color-hover-transparent);
-
-    color: var(--color-hover-1);
-    font-size: 0.9rem;
-    font-weight: 500;
+    gap: 1rem;
 }
 
 .group-card .button{
@@ -129,6 +108,32 @@
     border-radius: 15px;
     font-size: 1rem;
     padding: 0.75rem 1rem;
+}
+
+@media (max-width: 767px) {
+    .group-cards {
+        grid-template-columns: repeat(auto-fit, 300px);
+    }
+
+}
+
+@media (max-width: 480px){
+    .group-cards {
+        grid-template-columns: repeat(auto-fit, 300px);
+    }
+}
+
+@media (max-width: 405px){
+    .group-cards {
+        grid-template-columns: repeat(auto-fill, 225px);
+    }
+
+    .group-card p{
+        align-items: start;
+        flex-direction: column;
+
+        gap: 5px
+    }
 }
 
 @keyframes modalOpen {

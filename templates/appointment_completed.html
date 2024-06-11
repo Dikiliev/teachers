@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block head  %}
+    <link type="text/css" rel="stylesheet" href="{{ static('css/teacher_card.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ static('css/appointment.css') }}">
+
+{% endblock %}
+
+{% block content  %}
+
+    <div class="container">
+        <div class="confirmation-container">
+
+            <div class="confirmation-header">
+                <div class="icon-strap">
+                    <img class="big-icon" src="{{ static('icons/check_mark_icon.svg') }}">
+                </div>
+                <div class="center-text">
+                    <h1 class="custom-h1">Ваша заявка отправлена</h1>
+                    <p>Наш менеджер скоро свяжется с вами</p>
+                </div>
+            </div>
+
+            <div class="confirmation-details">
+
+                <div class="teacher-card">
+                    <img class="teacher-img" src="{{ teacher.avatar_url }}" />
+                    <div class="teacher-info">
+
+                        <div class="teacher-subjects">
+                            <div class="teacher-subject"> {{ group.subject }} </div>
+                        </div>
+                        <h1>{{ teacher.name }}</h1>
+                        
+                        <div class="teacher-descriptions">
+                            {% for skill in teacher.skills %}
+                                <p class="teacher-description">{{ skill }}</p>
+                            {% endfor %}
+                        </div>
+  
+
+                    </div>
+
+                    <div class="teacher-sub-cards">
+                        <h3 class="custom-h1">Расписание:</h3>
+                        {% for schedule in group.schedules %}
+                            <div class="teacher-sub-card">
+                                <p>{{ schedule.day_of_week }} <span class="primary-text">{{schedule.start_time}} - {{schedule.end_time}}</span></p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+            </div>
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+

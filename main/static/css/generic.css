@@ -17,6 +17,14 @@ h1{
     line-height: normal;
 }
 
+p{
+    color: var(--color-1);
+
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 400;
+}
+
 hr{
     border: none;
     border-top: 1px dashed var(--color-transparent);
@@ -60,6 +68,17 @@ a{
 
 .gap1rem{
     gap: 1rem;
+}
+
+.primary-text{
+    padding: 8px 10px;
+
+    border-radius: 10px;
+    background: var(--color-hover-transparent);
+
+    color: var(--color-hover-1);
+    font-size: 0.9rem;
+    font-weight: 500;
 }
 
 .justify-content{
@@ -145,6 +164,7 @@ option{
 .input-group label{
     margin-bottom: 5px;
     color: var(--color-1);
+    text-align: start;
 }
 
 form a{

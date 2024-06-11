@@ -1,0 +1,128 @@
+.teacher-card{
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    align-items: center;
+    gap: 29px;
+}
+
+.teacher-img{
+    border-radius: 50px;
+        width: 260px;
+    height: 260px;
+    flex-shrink: 0;
+}
+
+.teacher-info{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    flex: 1 0 0;
+
+    font-size: 30px;
+
+    min-width: 350px;
+}
+
+.teacher-subjects{
+    display: flex;
+    gap: 1rem;
+}
+
+.teacher-subject{
+    border-radius: var(--base-border-radius);
+    background-color: var(--color-hover-transparent);
+    color: var(--color-hover-1);
+
+    padding: 10px 30px;
+    text-align: center;
+
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.teacher-descriptions{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.teacher-description{
+    font-size: 16px;
+    color: var(--color-1);
+}
+
+.teacher-description:before{
+    content: '● ';
+    color: var(--color-hover-1)
+}
+
+.teacher-sub-cards{
+    flex: 1;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    max-width: 300px;
+}
+
+@media (max-width: 1024px) {
+    .teacher-sub-cards{
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .teacher-info{
+        min-width: 250px;
+    }
+}
+
+.teacher-sub-card{
+    flex: 1;
+
+    min-width: 250px;
+
+    display: flex;
+    padding: 20px 30px;
+    flex-direction: column;
+    align-items: flex-start;
+    align-self: stretch;
+
+    border-radius: 20px;
+    border: 1px solid #212121;
+    background: #FFF;
+
+    max-width: 500px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.teacher-sub-card h1{
+    color: var(--color-1);
+    font-size: 30px;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.teacher-sub-card p{
+    color: var(--color-2);
+    font-size: 20px;
+    font-weight: 300;
+    line-height: normal;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-self: stretch;
+
+    gap: 1rem;
+}
+
+.teacher-sub-card h1.primary{
+    color: var(--color-hover-1);
+}

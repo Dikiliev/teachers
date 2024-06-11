@@ -20,20 +20,58 @@ def select_teacher(request: HttpRequest):
     context = create_base_data(request)
     context['subjects'] = Subject.objects.all()
 
-    return render(request, 'lesson_registration/teachers.html', context)
+    return render(request, 'teachers.html', context)
 
 
-def make_appointment(request: HttpRequest, group_id: int):
+def create_context_for_appointment(context: dict, group: StudentGroup):
+    teacher = group.teacher
+    group_info = {
+        'id': group.id,
+        'name': group.name,
+        'price': group.price,
+        'subject': group.subject,
+        'schedules': [{
+            'day_of_week': schedule.get_day_of_week_display(),
+            'start_time': schedule.start_time.strftime('%H:%M'),
+            'end_time': schedule.end_time.strftime('%H:%M'),
+        } for schedule in group.schedules.all()],
+    }
+
+    context['teacher'] = teacher
+    context['teacher'] = {
+        'id': teacher.user.id,
+        'name': teacher.user.get_full_name(),
+        'avatar_url': teacher.user.get_avatar_url(),
+        'skills': teacher.skills.split('\n')
+    }
+    context['group'] = group_info
+    return context
+
+
+def confirm_appointment(request: HttpRequest, group_id: int):
+    context = create_base_data(request)
+
+    if request.method == 'POST':
+        print(request.POST)
+        return redirect('appointment_completed', group_id=group_id)
+
+    group = StudentGroup.objects.get(id=group_id)
+    user = request.user if request.user.is_authenticated else None
+
+    context = create_context_for_appointment(context, group)
+
+    return render(request, 'appointment.html', context)
+
+
+def appointment_completed(request: HttpRequest, group_id: int):
     context = create_base_data(request)
 
     group = StudentGroup.objects.get(id=group_id)
     user = request.user if request.user.is_authenticated else None
 
-    appointment = Appointment(user=user, group=group)
+    context = create_context_for_appointment(context, group)
 
-    appointment.save();
-
-    return render(request, 'lesson_registration/appointment.html', context)
+    return render(request, 'appointment_completed.html', context)
 
 def get_teachers(request: HttpRequest, subject_id):
     data = dict()

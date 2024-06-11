@@ -91,6 +91,7 @@ html{
 
 .custom-h1{
     font-family: 'ActayWide';
+    color: var(--color-1);
 }
 
 button{
@@ -111,13 +112,6 @@ button:disabled:hover{
 img{
     object-fit: cover;
     border-radius: var(--small-border-radius);
-}
-
-footer{
-    margin-top: 100px;
-    min-height: 200px;
-    width: 100%;
-    background-color: var(--background-color-1);
 }
 
 .success{

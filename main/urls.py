@@ -19,6 +19,9 @@ urlpatterns = [
     path(f'get_teachers/<int:subject_id>', views.get_teachers, name='get_teachers'),
     path(f'get_groups/<int:teacher_id>/<int:subject_id>', views.get_groups, name='get_groups'),
 
+    path(f'confirm_appointment/<int:group_id>', views.confirm_appointment, name='confirm_appointment'),
+    path(f'appointment_completed/<int:group_id>', views.appointment_completed, name='appointment_completed'),
+
     path('register/', views.register, name='register'),
     path('login/', views.user_login, name='login'),
     path('logout/', views.logout_user, name='logout'),

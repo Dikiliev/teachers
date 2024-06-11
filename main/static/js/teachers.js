@@ -156,5 +156,5 @@ function selectGroup(){
         return
     }
 
-    console.log(selectedGroupId);
+    window.location.assign(`/confirm_appointment/${selectedGroupId}`);
 }
