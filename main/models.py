@@ -1,20 +1,39 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.core.validators import RegexValidator
+from enum import Enum
+
+
+class UserRole(Enum):
+    USER = 1, 'Пользователь'
+    TEACHER = 2, 'Преподаватель'
+    MANAGER = 3, 'Менеджер'
+
+
+class DayOfWeek(Enum):
+    MONDAY = 1, 'Понедельник'
+    TUESDAY = 2, 'Вторник'
+    WEDNESDAY = 3, 'Среда'
+    THURSDAY = 4, 'Четверг'
+    FRIDAY = 5, 'Пятница'
+    SATURDAY = 6, 'Суббота'
+    SUNDAY = 7, 'Воскресенье'
+
+
+phone_validator = RegexValidator(
+    regex=r'^\+?1?\d{9,15}$',
+    message="Номер телефона должен быть в формате: '+999999999'. Допустимо до 15 цифр."
+)
 
 
 class User(AbstractUser):
-    ROLE_ENUM = (
-        (1, 'Пользователь'),
-        (2, 'Преподаватель'),
-        (3, 'Менеджер'),
-    )
+    ROLE_ENUM = [(role.value[0], role.value[1]) for role in UserRole]
 
     DEFAULT_AVATAR_URL = 'https://abrakadabra.fun/uploads/posts/2021-12/1640528661_1-abrakadabra-fun-p-serii-chelovek-na-avu-1.png'
 
     role = models.IntegerField(
         choices=ROLE_ENUM,
-        default=1,
+        default=UserRole.USER.value[0],
         verbose_name='Роль'
     )
 
@@ -26,12 +45,7 @@ class User(AbstractUser):
     phone_number = models.CharField(
         max_length=25,
         blank=True,
-        validators=[
-            RegexValidator(
-                regex=r'^\+?1?\d{9,15}$',
-                message="Номер телефона должен быть в формате: '+999999999'. Допустимо до 15 цифр."
-            )
-        ],
+        validators=[phone_validator],
         verbose_name='Номер телефона'
     )
 
@@ -62,16 +76,18 @@ class Subject(models.Model):
         verbose_name = 'Предмет'
         verbose_name_plural = 'Предметы'
 
+
 class Teacher(models.Model):
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,
         primary_key=True,
-        related_name='profile'
+        related_name='profile',
+        verbose_name='Пользователь'
     )
     bio = models.TextField(verbose_name='Биография', blank=True)
     subjects = models.ManyToManyField(Subject, related_name='teachers', verbose_name='Предметы')
-    skills = models.TextField(blank=True)
+    skills = models.TextField(blank=True, verbose_name='Навыки')
 
     def __str__(self):
         return f'{self.user.username} - Преподаватель'
@@ -97,15 +113,7 @@ class StudentGroup(models.Model):
 
 
 class Schedule(models.Model):
-    DAYS_OF_WEEK = (
-        (1, 'Понедельник'),
-        (2, 'Вторник'),
-        (3, 'Среда'),
-        (4, 'Четверг'),
-        (5, 'Пятница'),
-        (6, 'Суббота'),
-        (7, 'Воскресенье'),
-    )
+    DAYS_OF_WEEK = [(day.value[0], day.value[1]) for day in DayOfWeek]
 
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, related_name='schedules', verbose_name='Преподаватель')
     student_group = models.ForeignKey(StudentGroup, on_delete=models.CASCADE, related_name='schedules', verbose_name='Группа студентов')
@@ -122,20 +130,18 @@ class Schedule(models.Model):
 
 
 class Appointment(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='appointment', blank=True, verbose_name='Клиент')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='appointments', blank=True, verbose_name='Клиент')
     group = models.ForeignKey(StudentGroup, on_delete=models.CASCADE, related_name='appointments', verbose_name='Группа')
 
     user_name = models.CharField(max_length=150, verbose_name='Имя')
-    user_phone = models.CharField(max_length=25, blank=True,
-        validators=[
-            RegexValidator(
-                regex=r'^\+?1?\d{9,15}$',
-                message="Номер телефона должен быть в формате: '+999999999'. Допустимо до 15 цифр."
-            )
-        ],
-        verbose_name='Номер телефона'
-    )
-    user_comment = models.TextField(blank=True)
+    user_phone = models.CharField(max_length=25, blank=True, validators=[phone_validator], verbose_name='Номер телефона')
+    user_comment = models.TextField(blank=True, verbose_name='Комментарий')
 
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
 
+    def __str__(self):
+        return f'Запись {self.user_name} в {self.group.name}'
+
+    class Meta:
+        verbose_name = 'Запись'
+        verbose_name_plural = 'Записи'
