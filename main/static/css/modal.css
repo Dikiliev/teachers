@@ -60,12 +60,21 @@
     padding: 20px;
     flex-direction: column;
     align-items: center;
+    justify-content: space-between;
     gap: 1rem;
 
     color: var(--color-1);
 
     border-radius: 20px;
     border: 1px solid var(--color-1);
+}
+
+.group-card-top-section{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 1rem;
 }
 
 .group-card:hover{

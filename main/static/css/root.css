@@ -24,7 +24,10 @@
     --color-hover-1: #1455FF;
     --color-hover-2: #007DFF;
 
+    --color-hover-success: #40A578;
+
     --color-hover-transparent: rgba(20, 85, 255, 0.1);
+    --color-hover-transparent-success: rgba(64, 165, 120, 0.1);
 
     --color-transparent: rgba(0, 0, 0, 0.5);
 

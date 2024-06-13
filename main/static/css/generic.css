@@ -81,6 +81,11 @@ a{
     font-weight: 500;
 }
 
+.primary-text.success{
+    color: var(--color-hover-success);
+    background: transparent;
+}
+
 .justify-content{
     display: flex;
     flex-direction: row;
