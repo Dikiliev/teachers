@@ -130,12 +130,12 @@ class Schedule(models.Model):
 
 
 class Appointment(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='appointments', blank=True, verbose_name='Клиент')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='appointments', blank=True, null=True, verbose_name='Клиент')
     group = models.ForeignKey(StudentGroup, on_delete=models.CASCADE, related_name='appointments', verbose_name='Группа')
 
     user_name = models.CharField(max_length=150, verbose_name='Имя')
     user_phone = models.CharField(max_length=25, blank=True, validators=[phone_validator], verbose_name='Номер телефона')
-    user_comment = models.TextField(blank=True, verbose_name='Комментарий')
+    user_comment = models.TextField(blank=True, default='', verbose_name='Комментарий')
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
 

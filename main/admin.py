@@ -88,7 +88,7 @@ class SubjectAdmin(admin.ModelAdmin):
 
 class StudentGroupAdmin(admin.ModelAdmin):
     list_display = ('name', 'price', 'subject',  'teacher')
-    search_fields = ('name', 'subject')
+    search_fields = ('name', 'subject__name')
     list_filter = ('teacher', 'subject__name')
 
 
@@ -98,8 +98,15 @@ class ScheduleAdmin(admin.ModelAdmin):
     search_fields = ('teacher__user__username', 'student_group__name')
 
 
+class AppointmentAdmin(admin.ModelAdmin):
+    list_display = ('user', 'group', 'user_name', 'user_phone', 'created_at')
+    search_fields = ('user__username', 'user_name', 'group__name')
+    list_filter = ('group', 'created_at')
+
+
 admin.site.register(User, UserAdmin)
 admin.site.register(Teacher, TeacherAdmin)
 admin.site.register(Subject, SubjectAdmin)
 admin.site.register(StudentGroup, StudentGroupAdmin)
 admin.site.register(Schedule, ScheduleAdmin)
+admin.site.register(Appointment, AppointmentAdmin)
