@@ -75,6 +75,8 @@
     align-items: center;
     width: 100%;
     gap: 1rem;
+
+    color: inherit;
 }
 
 .group-card:hover{
