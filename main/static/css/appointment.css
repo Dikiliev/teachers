@@ -20,8 +20,31 @@
     padding: 20px;
 }
 
+.icon-strap.visible {
+    animation: bounceIn 0.5s ease-out forwards;
+}
+
 .big-icon{
     width: 100%;
+}
+
+.icon-strap.visible .big-icon{
+    animation: bounceIn 0.75s ease-out forwards;
+}
+
+@keyframes bounceIn {
+    0% {
+        opacity: 0;
+        transform: scale(0);
+    }
+    60% {
+        opacity: 1;
+        transform: scale(1.1);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 .confirmation-header{
@@ -122,7 +145,17 @@
     }
 }
 
+.back-url{
+    /*text-align: center;*/
+    /*color: var(--color-hover-1);*/
+    /*text-decoration: underline;*/
 
+    border-radius: var(--small-border-radius);
+    padding: 10px;
+    font-size: 1rem;
+
+    max-width: 400px;
+}
 
 /*.teacher-info {*/
 /*    display: flex;*/

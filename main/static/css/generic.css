@@ -116,23 +116,6 @@ a{
     align-items: center;
 }
 
-form{
-    box-shadow: 0 1px var(--shadow-blur) var(--shadow);
-    padding: 20px 50px;
-    margin: 20px auto;
-
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-
-    width: 100%;
-    max-width: var(--max-width);
-
-    background-color: white;
-
-    border-radius: var(--base-border-radius);
-}
-
 .reg{
     max-width: 600px;
 }
@@ -167,14 +150,7 @@ option{
     text-align: start;
 }
 
-form a{
-    display: block;
-    width: 100%;
-    text-align: center;
-}
-form a:hover{
-    color: var(--color-hover-1);
-}
+
 
 .input-list{
     display: flex;

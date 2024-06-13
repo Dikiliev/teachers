@@ -8,7 +8,7 @@
 
 .teacher-img{
     border-radius: 50px;
-        width: 260px;
+    width: 260px;
     height: 260px;
     flex-shrink: 0;
 }
@@ -125,4 +125,35 @@
 
 .teacher-sub-card h1.primary{
     color: var(--color-hover-1);
+}
+
+
+.teacher-card.small{
+    align-items: center;
+}
+
+.teacher-card.small .teacher-img{
+    border-radius: 30px;
+    width: 80px;
+    height: 80px;
+}
+
+.teacher-card.small .teacher-info{
+    gap: 0.5rem;
+}
+
+.teacher-card.small h1{
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+.teacher-card.small .teacher-subject{
+    font-size: 1rem;
+
+    background-color: transparent;
+    color: var(--color-hover-1);
+
+    padding: 0;
+    text-align: center;
+    font-weight: 500;
 }

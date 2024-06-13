@@ -4,6 +4,14 @@
     <link type="text/css" rel="stylesheet" href="{{ static('css/teacher_card.css') }}">
     <link type="text/css" rel="stylesheet" href="{{ static('css/appointment.css') }}">
 
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const iconStrap = document.querySelector('.icon-strap');
+        iconStrap.classList.add('visible');
+    });
+</script>
+
+
 {% endblock %}
 
 {% block content  %}
@@ -18,43 +26,33 @@
                 <div class="center-text">
                     <h1 class="custom-h1">Ваша заявка отправлена</h1>
                     <p>Наш менеджер скоро свяжется с вами</p>
+                    <br><br>
+                    <a href="/" class="button back-url">Вернутся на главную страницу</a>
                 </div>
-                
-                
             </div>
 
-            <div class="confirmation-details">
-
-                <div class="teacher-card">
-                    <img class="teacher-img" src="{{ teacher.avatar_url }}" />
-                    <div class="teacher-info">
-
-                        <div class="teacher-subjects">
-                            <div class="teacher-subject"> {{ group.subject }} </div>
-                        </div>
-                        <h1>{{ teacher.name }}</h1>
-                        
-                        <div class="teacher-descriptions">
-                            {% for skill in teacher.skills %}
-                                <p class="teacher-description">{{ skill }}</p>
-                            {% endfor %}
-                        </div>
-
-                    </div>
-
-                    <div class="teacher-sub-cards">
-                        <h3 class="custom-h1">Расписание:</h3>
-                        {% for schedule in group.schedules %}
-                            <div class="teacher-sub-card">
-                                <p>{{ schedule.day_of_week }} <span class="primary-text">{{schedule.start_time}} - {{schedule.end_time}}</span></p>
-                            </div>
-                        {% endfor %}
-                    </div>
-                </div>
-
-            </div>
+{#            <div class="confirmation-details">#}
+{##}
+{#                <div class="teacher-card small">#}
+{#                    <img class="teacher-img" src="{{ teacher.avatar_url }}" />#}
+{#                    <div class="teacher-info">#}
+{#                        <h1>{{ teacher.name }}</h1>#}
+{#                        <div class="teacher-subject"> {{ group.subject }} </div>#}
+{#                        #}
+{#                        <div class="teacher-descriptions">#}
+{#                            {% for skill in teacher.skills %}#}
+{#                                <p class="teacher-description">{{ skill }}</p>#}
+{#                            {% endfor %}#}
+{#                        </div>#}
+{##}
+{#                    </div>#}
+{##}
+{##}
+{#                </div>#}
+{##}
+{#            </div>#}
         
-            <a href="/" class="button">Вернется на главную страницу</a>
+
 
         </div>
     </div>

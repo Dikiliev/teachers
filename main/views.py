@@ -55,7 +55,7 @@ def confirm_appointment(request: HttpRequest, group_id: int):
     if request.method == 'POST':
         appointment = Appointment()
         appointment.user = request.user if request.user.is_authenticated else None
-        appointment.group = group_id
+        appointment.group_id = group_id
 
         appointment.user_name = request.POST.get('fullname', '')
         appointment.user_phone = request.POST.get('phone', '')
