@@ -20,12 +20,6 @@ class DayOfWeek(Enum):
     SUNDAY = 7, 'Воскресенье'
 
 
-phone_validator = RegexValidator(
-    regex=r'^\+?1?\d{9,15}$',
-    message="Номер телефона должен быть в формате: '+999999999'. Допустимо до 15 цифр."
-)
-
-
 class User(AbstractUser):
     ROLE_ENUM = [(role.value[0], role.value[1]) for role in UserRole]
 
@@ -45,16 +39,15 @@ class User(AbstractUser):
     phone_number = models.CharField(
         max_length=25,
         blank=True,
-        validators=[phone_validator],
         verbose_name='Номер телефона'
     )
 
     def __str__(self):
-        return f'{self.username} ({dict(self.ROLE_ENUM).get(self.role, "Неизвестная роль")})'
+        return f'{self.get_full_name()} ({self.username}) ({dict(self.ROLE_ENUM).get(self.role, "Неизвестная роль")})'
 
     @classmethod
-    def user_exists(cls, username):
-        return cls.objects.filter(username=username).exists()
+    def exists(self):
+        return self.objects.filter(username=self.username).exists()
 
     def get_avatar_url(self):
         if self.avatar:
@@ -90,7 +83,7 @@ class Teacher(models.Model):
     skills = models.TextField(blank=True, verbose_name='Навыки')
 
     def __str__(self):
-        return f'{self.user.username} - Преподаватель'
+        return f'{self.user.get_full_name()} ({self.user.username})'
 
     class Meta:
         verbose_name = 'Преподаватель'
@@ -105,7 +98,7 @@ class StudentGroup(models.Model):
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, related_name='groups', verbose_name='Преподаватель')
 
     def __str__(self):
-        return self.name
+        return f'{self.teacher} - {self.name}'
 
     class Meta:
         verbose_name = 'Группа студентов'
@@ -130,11 +123,11 @@ class Schedule(models.Model):
 
 
 class Appointment(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='appointments', blank=True, null=True, verbose_name='Клиент')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='appointments', blank=True, null=True, verbose_name='Ученик')
     group = models.ForeignKey(StudentGroup, on_delete=models.CASCADE, related_name='appointments', verbose_name='Группа')
 
     user_name = models.CharField(max_length=150, verbose_name='Имя')
-    user_phone = models.CharField(max_length=25, blank=True, validators=[phone_validator], verbose_name='Номер телефона')
+    user_phone = models.CharField(max_length=25, blank=True, verbose_name='Номер телефона')
     user_comment = models.TextField(blank=True, default='', verbose_name='Комментарий')
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')

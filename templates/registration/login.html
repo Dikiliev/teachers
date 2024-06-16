@@ -14,7 +14,7 @@
         <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
 
         <div class="input-group">
-            <label for="username">Имя пользователя:</label>
+            <label for="username">Логин:</label>
             <input type="text" id="username" name="username"
                    value="{% if username %}{{ username }}{% endif %}" required>
         </div>

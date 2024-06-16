@@ -2,6 +2,8 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
+
+from .admin_filters import TeacherFilter
 from .models import User, Teacher, Subject, StudentGroup, Schedule, Appointment
 
 
@@ -87,9 +89,9 @@ class SubjectAdmin(admin.ModelAdmin):
 
 
 class StudentGroupAdmin(admin.ModelAdmin):
-    list_display = ('name', 'price', 'subject',  'teacher')
-    search_fields = ('name', 'subject__name')
-    list_filter = ('teacher', 'subject__name')
+    list_display = ('name', 'teacher', 'price', 'subject')
+    search_fields = ('name', 'subject__name', 'teacher__user__username', 'teacher__user__first_name', 'teacher__user__last_name')
+    list_filter = ('subject', TeacherFilter)
 
 
 class ScheduleAdmin(admin.ModelAdmin):

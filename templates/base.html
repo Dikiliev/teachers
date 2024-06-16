@@ -51,10 +51,17 @@
             <nav class="nav-menu horizontal-container">
                 <a href="/" class="nav-item">Главная</a>
                 <a href="/select_teacher" class="nav-item">Записаться</a>
+                
+                {% if user.is_authenticated %}
+                    <a href="#" class="nav-item">Профиль</a>
+                {% else %}
+                    
+                {% endif %}
+                
             </nav>
 
             {% if user.is_authenticated %}
-
+                
             {% else %}
                 <a href="/login" class="button nav-item sign-in">Войти</a>
             {% endif %}
