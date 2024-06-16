@@ -2,6 +2,8 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
+from django.urls import reverse
+from django.utils.html import format_html
 
 from .admin_filters import TeacherFilter
 from .models import User, Teacher, Subject, StudentGroup, Schedule, Appointment
@@ -38,7 +40,16 @@ class UserChangeForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'password', 'first_name', 'last_name', 'role', 'avatar', 'phone_number', 'is_active', 'is_staff')
+        fields = (
+            'username', 'email', 'password', 'first_name', 'last_name', 'role', 'avatar', 'phone_number', 'is_active', 'is_staff'
+        )
+
+
+class TeacherInline(admin.StackedInline):
+    model = Teacher
+    can_delete = False
+    verbose_name_plural = 'Преподаватели'
+    fields = ('bio', 'subjects', 'skills')
 
 
 class UserAdmin(BaseUserAdmin):
@@ -52,17 +63,26 @@ class UserAdmin(BaseUserAdmin):
         ('Личная информация', {'fields': ('first_name', 'last_name', 'email', 'avatar', 'phone_number')}),
         ('Права доступа', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
         ('Важные даты', {'fields': ('last_login', 'date_joined')}),
-        ('Роль', {'fields': ('role',)}),
+        ('Роль', {'fields': ('role', 'view_teacher_profile',)}),
     )
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
             'fields': ('username', 'email', 'first_name', 'last_name', 'role', 'password1', 'password2')}
-        ),
+         ),
     )
     search_fields = ('username', 'first_name', 'last_name', 'email')
     ordering = ('username',)
     filter_horizontal = ('groups', 'user_permissions',)
+    readonly_fields = ['view_teacher_profile']  # Make the button read-only
+
+    def view_teacher_profile(self, obj):
+        if obj.role == 2 and hasattr(obj, 'profile'):  # Assuming 2 is the value for the Teacher role
+            link = reverse('admin:main_teacher_change', args=[obj.profile.pk])
+            return format_html('<a class="btn btn-info form-control" href="{}">Перейти на профиль преподавателя</a>', link)
+        return 'Нет профиля преподавателя'
+    view_teacher_profile.short_description = 'Профиль преподавателя'
+    view_teacher_profile.allow_tags = True
 
 
 class ScheduleInline(admin.TabularInline):
