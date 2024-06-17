@@ -2,11 +2,16 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
+from django.core.exceptions import ValidationError
 from django.urls import reverse
 from django.utils.html import format_html
 
+from django.urls import path
+from django.shortcuts import redirect
+from django.contrib import messages
+
 from .admin_filters import TeacherFilter
-from .models import User, Teacher, Subject, StudentGroup, Schedule, Appointment
+from .models import User, Teacher, Subject, StudentGroup, Schedule, Appointment, AppointmentStatus
 
 
 class UserCreationForm(forms.ModelForm):
@@ -121,9 +126,35 @@ class ScheduleAdmin(admin.ModelAdmin):
 
 
 class AppointmentAdmin(admin.ModelAdmin):
-    list_display = ('user', 'group', 'user_name', 'user_phone', 'created_at')
+    list_display = ('get_user_display', 'group', 'user_name', 'user_phone', 'created_at', 'status')
     search_fields = ('user__username', 'user_name', 'group__name')
-    list_filter = ('group', 'created_at')
+    list_filter = ('group', 'created_at', 'status')
+    fields = ('user', 'group', 'user_name', 'user_phone', 'user_comment', 'created_at', 'status')
+    readonly_fields = ('created_at',)
+
+    def save_model(self, request, obj, form, change):
+        if obj.status == AppointmentStatus.ACCEPTED.name and obj.user is None:
+            messages.error(request, "Невозможно принять запись без зарегистрированного пользователя.")
+            return
+
+        if change:
+            old_status = Appointment.objects.get(pk=obj.pk).status
+            if old_status != AppointmentStatus.ACCEPTED.name and obj.status == AppointmentStatus.ACCEPTED.name:
+                if obj.user is not None:
+                    obj.group.students.add(obj.user)
+                    messages.add_message(request, messages.SUCCESS, 'Пользователь был добавлен в группу.')
+            elif old_status == AppointmentStatus.ACCEPTED.name and obj.status != AppointmentStatus.ACCEPTED.name:
+                if obj.user is not None:
+                    obj.group.students.remove(obj.user)
+                    messages.add_message(request, messages.SUCCESS, 'Пользователь был удален из группы.')
+
+        super().save_model(request, obj, form, change)
+
+    def get_user_display(self, obj):
+        if obj.user is None:
+            return 'не зарегистрирован'
+        return obj.user.username
+    get_user_display.short_description = 'User'
 
 
 admin.site.register(User, UserAdmin)

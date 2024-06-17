@@ -97,6 +97,8 @@ class StudentGroup(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='student_groups', verbose_name='Предмет')
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, related_name='groups', verbose_name='Преподаватель')
 
+    students = models.ManyToManyField(User, related_name='student_groups', verbose_name='Студенты', blank=True)
+
     def __str__(self):
         return f'{self.teacher} - {self.name}'
 
@@ -122,7 +124,23 @@ class Schedule(models.Model):
         verbose_name_plural = 'Расписания'
 
 
+class AppointmentStatus(Enum):
+    CREATED = 'Создано'
+    ACCEPTED = 'Принято'
+    REJECTED = 'Отклонено'
+
+from django.db import models
+from django.core.exceptions import ValidationError
+from enum import Enum
+
+class AppointmentStatus(Enum):
+    CREATED = 'Создано'
+    ACCEPTED = 'Принято'
+    REJECTED = 'Отклонено'
+
 class Appointment(models.Model):
+    STATUS_CHOICES = [(status.name, status.value) for status in AppointmentStatus]
+
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='appointments', blank=True, null=True, verbose_name='Ученик')
     group = models.ForeignKey(StudentGroup, on_delete=models.CASCADE, related_name='appointments', verbose_name='Группа')
 
@@ -131,9 +149,18 @@ class Appointment(models.Model):
     user_comment = models.TextField(blank=True, default='', verbose_name='Комментарий')
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default=AppointmentStatus.CREATED.name, verbose_name='Статус')
 
     def __str__(self):
         return f'Запись {self.user_name} в {self.group.name}'
+
+    def clean(self):
+        if self.status == AppointmentStatus.ACCEPTED.name and self.user is None:
+            raise ValidationError("Невозможно принять запись без зарегистрированного пользователя.")
+
+    def save(self, *args, **kwargs):
+        self.clean()
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'Запись'
