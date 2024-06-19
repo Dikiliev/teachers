@@ -233,6 +233,14 @@ input:focus {
     background-color: var(--color-2);
 }
 
+.button.danger{
+    background-color: var(--error-color);
+}
+
+.button.danger:hover{
+    filter: brightness(1.1);
+}
+
 .fields-list{
     display: flex;
     gap: 1rem;

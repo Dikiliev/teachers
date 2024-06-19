@@ -14,11 +14,13 @@
 {% block content %}
     <br>
     <div class="container">
+        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+        
         <h1>Мои группы</h1>
 
-        <form id="groups-container" class="" action="" method="post">
+        <div id="groups-container" class="form">
             
-        </form>
+        </div>
     </div>
 
 {% endblock %}
