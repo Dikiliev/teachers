@@ -119,7 +119,7 @@ def get_teachers(request: HttpRequest, subject_id):
     return JsonResponse(data)
 
 
-def get_groups(request: HttpRequest, teacher_id):
+def get_groups(request: HttpRequest, teacher_id: int):
     data = dict()
 
     try:
@@ -131,7 +131,7 @@ def get_groups(request: HttpRequest, teacher_id):
             group_info = {
                 'id': group.id,
                 'name': group.name,
-                'subject': group.subject,
+                'subject': {'id': group.subject.id, 'name': group.subject.name},
                 'price': group.price,
                 'schedules': [{
                     'day_of_week': schedule.get_day_of_week_display(),
@@ -143,6 +143,11 @@ def get_groups(request: HttpRequest, teacher_id):
             group_list.append(group_info)
 
         data['groups'] = group_list
+
+        available_subjects = teacher.subjects.all()
+        data['available_subjects'] = [{'id': subject.id, 'name': subject.name} for subject in available_subjects]
+        data['days_of_week'] = Schedule.DAYS_OF_WEEK
+
         data['message'] = 'success'
 
     except Subject.DoesNotExist:

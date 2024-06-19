@@ -6,6 +6,24 @@ form{
     border: none;
 }
 
+h2{
+
+    color: var(--color-1);
+}
+
+h3{
+
+
+}
+
+.add-group{
+
+}
+
+.add-schedule{
+
+}
+
 .group{
     display: flex;
     flex-direction: column;
