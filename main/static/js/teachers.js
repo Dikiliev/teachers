@@ -110,7 +110,7 @@ function openModelWindow(teacher_id){
 
 async function getGroups(teacher_id, subject_id){
     try {
-        const response = await fetchData(`get_groups/${teacher_id}/${subject_id}`);
+        const response = await fetchData(`get_groups/${teacher_id}`);
         return response.groups;
     }
     catch (error){

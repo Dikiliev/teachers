@@ -1,0 +1,82 @@
+{% extends  "base.html" %}
+
+{% block head  %}
+    <link type="text/css" rel="stylesheet" href="{{ static('css/form.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ static('css/profile.css') }}">
+{% endblock %}
+
+{% block content  %}
+
+<br>
+
+<div class="container">
+    <h1>Профиль</h1>
+    <form class="" action="" method="post">
+        
+        <span>Логин: <h2>{{ user.username }}</h2></span>
+        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+    
+        <div class="upload-section">
+            <img id="image-show" class="uploaded-image" src="{{ user.get_avatar_url() }}">
+            <input type="file"  name="image_file" accept="image/*" id="file-upload" class="file-input" style="display: none;">
+            <label for="file-upload" class="text-button">Загрузить аватарку</label>
+        </div>
+    
+        <div class="input-group">
+            <label for="first_name">Имя:</label>
+            <input type="text" id="first_name" name="first_name" value="{{ user.first_name }}" required>
+        </div>
+
+        <div class="input-group">
+            <label for="last_name">Фамилия:</label>
+            <input type="text" id="last_name" name="last_name" value="{{ user.last_name }}" required>
+        </div>
+
+        <div class="input-group">
+            <label for="phone">Номер телефона:</label>
+            <input type="tel" id="phone" name="phone" value="{{ user.phone_number }}" required>
+        </div>
+    
+        {% if user.role == 2 %}
+            
+            <div class="input-group">
+                <label for="about">Кратское портфолио:</label>
+                <textarea type="text" id="about" name="about" placeholder="Пример: Кандидат наук, Автор видеокурсов подготовки к ОГЭ и ЕГЭ." required>{{ user.profile.skills }}</textarea>
+            </div>
+
+            <div class="input-group">
+                <label>Какие предметы вы введете?</label>
+                <div class="input-list">
+    
+    
+                    {% for subject in subjects %}
+    
+                        <label class="custom-checkbox">
+                            <input {% if subject in selected_subjects %} checked {% endif %} type="checkbox" name="subjects" value="{{subject.id}}">
+                             <span class="checkmark"></span>
+                            {{subject}}
+                        </label>
+                        
+                    {% endfor %}
+    
+                </div>
+            </div>
+        
+        {% endif %}
+
+
+        {% if error %}
+        <p class="error">{{ error }}</p>
+        {% endif %}
+
+        <div class="fields-list">
+            <button class="button secondary" type="submit">Отменить</button>
+            <button class="button" type="submit">Подтвердить</button>
+        </div>
+
+    </form>
+</div>
+
+
+{% endblock %}
+

@@ -11,6 +11,7 @@ from django.shortcuts import redirect
 from django.contrib import messages
 
 from .admin_filters import TeacherFilter
+from .forms import ScheduleForm
 from .models import User, Teacher, Subject, StudentGroup, Schedule, Appointment, AppointmentStatus
 
 
@@ -120,9 +121,20 @@ class StudentGroupAdmin(admin.ModelAdmin):
 
 
 class ScheduleAdmin(admin.ModelAdmin):
-    list_display = ('teacher', 'student_group', 'day_of_week', 'start_time', 'end_time')
+    form = ScheduleForm
+    list_display = ('teacher', 'student_group', 'day_of_week', 'start_time', 'formatted_duration')
     list_filter = ('day_of_week', 'teacher', 'student_group')
     search_fields = ('teacher__user__username', 'student_group__name')
+
+    def formatted_duration(self, obj):
+        total_minutes = obj.duration.total_seconds() // 60
+        hours = total_minutes // 60
+        minutes = total_minutes % 60
+
+        if minutes == 0:
+            return f'{int(hours)}ч'
+        return f'{int(hours)}ч {int(minutes)}мин'
+    formatted_duration.short_description = 'Длительность'
 
 
 class AppointmentAdmin(admin.ModelAdmin):

@@ -145,9 +145,13 @@ option{
     padding: 12px;
     font-size: 16px;
 }
+
+.input-group textarea{
+    height: 100px;
+}
+
 .input-group input:hover, .input-group textarea:hover{
-    border-color: var(--color-1);
-    /*box-shadow: 0 0 5px var(--light-color);*/
+
 }
 .input-group label{
     margin-bottom: 5px;
@@ -155,6 +159,14 @@ option{
     text-align: start;
 }
 
+input:hover {
+    border-color: var(--color-hover-1);
+    box-shadow: 0 0 5px var(--color-hover-transparent);
+}
+input:focus {
+    border-color: var(--color-hover-1);
+    box-shadow: 0 0 5px var(--color-hover-transparent);
+}
 
 
 .input-list{
@@ -210,7 +222,20 @@ option{
 .button.outline:hover{
     background-color: var(--color-1);
     color: var(--background-color-1);
+}
 
+.button.secondary{
+    background-color: var(--color-1);
+    color: var(--background-color-1);
+}
+
+.button.secondary:hover{
+    background-color: var(--color-2);
+}
+
+.fields-list{
+    display: flex;
+    gap: 1rem;
 }
 
 .fixed-bottom{
@@ -317,7 +342,7 @@ option{
 }
 
 .upload-section {
-    border: 2px dashed var(--color-transparent);
+    border: 0px dashed var(--color-transparent);
     border-radius: var(--small-border-radius);
 
     text-align: center;
@@ -354,7 +379,7 @@ option{
     max-width: 100%;
     aspect-ratio: 1 / 1;
     margin: auto;
-    border-radius: 300px;
+    border-radius: 20%;
 }
 
 .text-button{

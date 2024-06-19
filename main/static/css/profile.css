@@ -1,0 +1,14 @@
+
+
+.input-group input, .input-group textarea{
+
+}
+
+h1{
+    text-align: center;
+}
+
+h2{
+    font-weight: 500;
+    color: var(--color-1);
+}

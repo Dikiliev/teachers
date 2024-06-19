@@ -2,11 +2,13 @@ import datetime
 import json
 
 from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.decorators import login_required
 from django.db.models import Count
 from django.http import HttpRequest, JsonResponse, HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
 
-from main.models import User, Subject, Teacher, StudentGroup, Appointment
+from main.models import User, Subject, Teacher, StudentGroup, Appointment, UserRole, Schedule
 
 DEFAULT_TITLE = 'Хехархо'
 
@@ -86,6 +88,7 @@ def appointment_completed(request: HttpRequest, group_id: int):
 
     return render(request, 'appointment_completed.html', context)
 
+
 def get_teachers(request: HttpRequest, subject_id):
     data = dict()
 
@@ -116,11 +119,10 @@ def get_teachers(request: HttpRequest, subject_id):
     return JsonResponse(data)
 
 
-def get_groups(request: HttpRequest, teacher_id, subject_id):
+def get_groups(request: HttpRequest, teacher_id):
     data = dict()
 
     try:
-        subject = Subject.objects.get(pk=subject_id)
         teacher = Teacher.objects.get(pk=teacher_id)
 
         groups = StudentGroup.objects.filter(teacher=teacher)
@@ -129,11 +131,13 @@ def get_groups(request: HttpRequest, teacher_id, subject_id):
             group_info = {
                 'id': group.id,
                 'name': group.name,
+                'subject': group.subject,
                 'price': group.price,
                 'schedules': [{
                     'day_of_week': schedule.get_day_of_week_display(),
                     'start_time': schedule.start_time.strftime('%H:%M'),
                     'end_time': schedule.end_time.strftime('%H:%M'),
+                    'duration_minutes': schedule.duration.total_seconds() // 60,
                 } for schedule in group.schedules.all()],
             }
             group_list.append(group_info)
@@ -146,6 +150,76 @@ def get_groups(request: HttpRequest, teacher_id, subject_id):
 
     print(data)
     return JsonResponse(data)
+
+
+@login_required
+def profile(request):
+    context = create_base_data(request)
+    user = request.user
+    context['username'] = user.username
+
+    if user.role == 2:
+        context['subjects'] = Subject.objects.all()
+        context['selected_subjects'] = user.profile.subjects.all()
+
+    def get():
+        return render(request, 'profile.html', context)
+
+    def post():
+        post_data = request.POST
+        uploaded_image = request.FILES.get('image_file', None)
+
+        if uploaded_image:
+            user.avatar = uploaded_image
+
+        subjects = Subject.objects.filter(id__in=post_data.getlist('subjects', []))
+        user.profile.subjects.set(subjects)
+
+        user.first_name = request.POST.get('first_name', '')
+        user.last_name = request.POST.get('last_name', '')
+        user.skills = request.POST.get('about', '')
+
+        user.phone_number = post_data.get('phone', '')
+
+        user.profile.save()
+        user.save()
+
+        context['message'] = 'Сохранено!'
+
+        messages.success(request, 'Profile updated successfully')
+        return render(request, 'profile.html', context)
+
+    if request.method == 'POST':
+        return post()
+
+    return get()
+
+
+@login_required
+def manage_groups(request):
+    if not hasattr(request.user, 'profile'):
+        return redirect('home')
+
+    context = create_base_data(request)
+    context['subjects'] = Subject.objects.all()
+
+    user = request.user
+    teacher = user.profile
+    groups = StudentGroup.objects.filter(teacher=teacher)
+
+    context['groups'] = groups
+
+    def get():
+        return render(request, 'manage_groups.html', context)
+
+    def post():
+
+        return render(request, 'manage_groups.html', context)
+
+    if request.method == 'POST':
+        return post()
+
+    return get()
 
 
 def register(request: HttpRequest):
@@ -225,7 +299,7 @@ def user_login(request: HttpRequest):
             if user.role == 1:
                 return redirect('home')
 
-            return redirect('orders')
+            return redirect('home')
 
         context['error'] = '* Неверное имя пользователя или пароль'
 

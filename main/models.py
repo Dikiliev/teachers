@@ -1,5 +1,7 @@
 from django.contrib.auth.models import AbstractUser
+from django.core.exceptions import ValidationError
 from django.db import models
+from django.utils import timezone
 from django.core.validators import RegexValidator
 from enum import Enum
 
@@ -46,8 +48,8 @@ class User(AbstractUser):
         return f'{self.get_full_name()} ({self.username}) ({dict(self.ROLE_ENUM).get(self.role, "Неизвестная роль")})'
 
     @classmethod
-    def exists(self):
-        return self.objects.filter(username=self.username).exists()
+    def exists(cls):
+        return cls.objects.filter(username=cls.username).exists()
 
     def get_avatar_url(self):
         if self.avatar:
@@ -114,7 +116,13 @@ class Schedule(models.Model):
     student_group = models.ForeignKey(StudentGroup, on_delete=models.CASCADE, related_name='schedules', verbose_name='Группа студентов')
     day_of_week = models.IntegerField(choices=DAYS_OF_WEEK, verbose_name='День недели')
     start_time = models.TimeField(verbose_name='Время начала')
-    end_time = models.TimeField(verbose_name='Время окончания')
+    duration = models.DurationField(verbose_name='Длительность', default=timezone.timedelta(hours=2))
+
+    @property
+    def end_time(self):
+        start_datetime = timezone.datetime.combine(timezone.now().date(), self.start_time)
+        end_datetime = start_datetime + self.duration
+        return end_datetime.time()
 
     def __str__(self):
         return f'{self.teacher.user.username} - {self.student_group.name} - {self.get_day_of_week_display()}'
@@ -123,15 +131,6 @@ class Schedule(models.Model):
         verbose_name = 'Расписание'
         verbose_name_plural = 'Расписания'
 
-
-class AppointmentStatus(Enum):
-    CREATED = 'Создано'
-    ACCEPTED = 'Принято'
-    REJECTED = 'Отклонено'
-
-from django.db import models
-from django.core.exceptions import ValidationError
-from enum import Enum
 
 class AppointmentStatus(Enum):
     CREATED = 'Создано'

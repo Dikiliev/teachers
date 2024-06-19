@@ -94,18 +94,16 @@ ROOT_URLCONF = 'config.urls'
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.jinja2.Jinja2'
-        ,
-        'DIRS': [BASE_DIR / 'templates']
-        ,
+        'BACKEND': 'django.template.backends.jinja2.Jinja2',
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-            ],
+            # 'context_processors': [
+            #     'django.template.context_processors.debug',
+            #     'django.template.context_processors.request',
+            #     'django.contrib.auth.context_processors.auth',
+            #     'django.contrib.messages.context_processors.messages',
+            # ],
             'environment': 'my_jinja2.environment',
         },
     },
