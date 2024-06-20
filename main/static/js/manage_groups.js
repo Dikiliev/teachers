@@ -2,7 +2,7 @@
 let data = {};
 
 document.addEventListener('DOMContentLoaded', function () {
-    manageGroupsInit().then();
+    //manageGroupsInit().then();
 });
 
 async function manageGroupsInit(){

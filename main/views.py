@@ -206,6 +206,30 @@ def manage_groups(request):
         return redirect('home')
 
     context = create_base_data(request)
+
+    user = request.user
+    groups = StudentGroup.objects.filter(teacher=user.profile)
+
+    context['groups'] = groups
+
+    def get():
+        return render(request, 'manage_groups.html', context)
+
+    def post():
+        return render(request, 'manage_groups.html', context)
+
+    if request.method == 'POST':
+        return post()
+
+    return get()
+
+
+@login_required
+def manage_groups(request):
+    if not hasattr(request.user, 'profile'):
+        return redirect('home')
+
+    context = create_base_data(request)
     context['subjects'] = Subject.objects.all()
 
     user = request.user
@@ -225,7 +249,6 @@ def manage_groups(request):
         return post()
 
     return get()
-
 
 def register(request: HttpRequest):
     context = create_base_data(request)
