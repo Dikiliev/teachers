@@ -24,6 +24,7 @@ urlpatterns = [
 
     path('profile/', views.profile, name='profile'),
     path('manage_groups/', views.manage_groups, name='manage_groups'),
+    path('manage_group/<int:group_id>', views.manage_group, name='manage_group'),
 
     path('register/', views.register, name='register'),
     path('login/', views.user_login, name='login'),

@@ -225,7 +225,7 @@ def manage_groups(request):
 
 
 @login_required
-def manage_groups(request):
+def manage_group(request, group_id):
     if not hasattr(request.user, 'profile'):
         return redirect('home')
 
@@ -233,17 +233,14 @@ def manage_groups(request):
     context['subjects'] = Subject.objects.all()
 
     user = request.user
-    teacher = user.profile
-    groups = StudentGroup.objects.filter(teacher=teacher)
-
-    context['groups'] = groups
+    group = StudentGroup.objects.get(pk=group_id)
+    context['group'] = group
 
     def get():
-        return render(request, 'manage_groups.html', context)
+        return render(request, 'manage_group.html', context)
 
     def post():
-
-        return render(request, 'manage_groups.html', context)
+        return render(request, 'manage_group.html', context)
 
     if request.method == 'POST':
         return post()
