@@ -81,6 +81,15 @@ a{
     font-weight: 500;
 }
 
+.primary-text.lite{
+    padding: 0;
+
+    border-radius: 0;
+    background: transparent;
+
+    color: var(--color-hover-1);
+}
+
 .primary-text.success{
     color: var(--color-hover-success);
     background: transparent;

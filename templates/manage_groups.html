@@ -22,8 +22,18 @@
             {% for group in groups %}
                 
                 <div class="group">
-                    <h2>{{ group.name }}</h2>
-                    <p>{{ group.subject.name }}</p>
+                    <div class="group-info">
+                        <h2>{{ group.name }}</h2>
+
+                        <p>{{ group.subject.name }}</p>
+                        <p>Cтудентов: <span class="primary-text lite" style="font-size: 1rem; font-weight: 500"> 12</span></p>
+                        <br>
+                        <p>Расписание: </p>
+                        {% for schedule in group.schedules.all() %}
+                            <p class="schedule-p">{{ schedule.get_day_of_week_display() }} <span class="primary-text">{{ schedule.start_time.strftime('%H:%M') }} - {{ schedule.end_time.strftime('%H:%M') }}</span></p>
+                        {% endfor %}
+                    </div>
+
                     <button class="button">Редактировать</button>
                 </div>
             
