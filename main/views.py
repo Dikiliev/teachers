@@ -157,6 +157,41 @@ def get_groups(request: HttpRequest, teacher_id: int):
     return JsonResponse(data)
 
 
+def get_group(request: HttpRequest, group_id: int):
+    data = dict()
+
+    try:
+        group = StudentGroup.objects.get(id=group_id)
+        teacher = group.teacher
+
+        group_info = {
+            'id': group.id,
+            'name': group.name,
+            'subject': {'id': group.subject.id, 'name': group.subject.name},
+            'price': group.price,
+            'schedules': [{
+                'day_of_week': schedule.get_day_of_week_display(),
+                'start_time': schedule.start_time.strftime('%H:%M'),
+                'end_time': schedule.end_time.strftime('%H:%M'),
+                'duration_minutes': schedule.duration.total_seconds() // 60,
+            } for schedule in group.schedules.all()],
+        }
+
+        data['group'] = group_info
+
+        available_subjects = teacher.subjects.all()
+        data['available_subjects'] = [{'id': subject.id, 'name': subject.name} for subject in available_subjects]
+        data['days_of_week'] = Schedule.DAYS_OF_WEEK
+
+        data['message'] = 'success'
+
+    except Subject.DoesNotExist:
+        data['message'] = 'Subject not found'
+
+    print(data)
+    return JsonResponse(data)
+
+
 @login_required
 def profile(request):
     context = create_base_data(request)
@@ -209,8 +244,10 @@ def manage_groups(request):
 
     user = request.user
     groups = StudentGroup.objects.filter(teacher=user.profile)
+    groups = groups.annotate(students_count=Count('students'))
 
     context['groups'] = groups
+
 
     def get():
         return render(request, 'manage_groups.html', context)
@@ -244,6 +281,22 @@ def manage_group(request, group_id):
 
     if request.method == 'POST':
         return post()
+
+    return get()
+
+@login_required
+def group_students(request, group_id):
+    if not hasattr(request.user, 'profile'):
+        return redirect('home')
+
+    context = create_base_data(request)
+
+    group = StudentGroup.objects.get(pk=group_id)
+    context['group'] = group
+    context['students'] = group.students.all()
+
+    def get():
+        return render(request, 'group_students.html', context)
 
     return get()
 

@@ -2,12 +2,13 @@
 
 {% block head %}
     <link type="text/css" rel="stylesheet" href="{{ static('css/form.css') }}">
-    <link type="text/css" rel="stylesheet" href="{{ static('css/manage_groups.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ static('css/manage_group.css') }}">
 
     <script type="text/javascript" src="{{ static('js/manage_groups.js') }}" defer></script>
 
     <script>
         const user_id = {{ user.id }};
+        const group_id = {{ group.id }};
     </script>
 {% endblock %}
 
@@ -15,12 +16,18 @@
     <br>
     <div class="container">
         <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-
-        <h1>Мои группы</h1>
+        
+        <a href="/manage_groups" class="href">Назад</a>
+        <h1>Редактирование группы</h1>
 
         <div id="groups-container" class="form">
 
         </div>
+    
+        <div id="students-container" class="students-container">
+            
+        </div>
     </div>
+
 
 {% endblock %}

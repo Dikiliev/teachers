@@ -5,17 +5,17 @@
     gap: 3rem;
     border: none;
 
-    background-color: var(--background-color-1);
-    box-shadow: 0 1px var(--shadow-blur) var(--shadow);
+    /*background-color: var(--background-color-1);*/
+    /*box-shadow: 0 1px var(--shadow-blur) var(--shadow);*/
 
-    margin: 20px auto;
+    margin: 10px auto;
     padding: 3rem;
 
     align-items: stretch;
 }
 
 body{
-    background-color: var(--background-color-2);
+    /*background-color: var(--background-color-2);*/
 }
 
 h2{
@@ -57,9 +57,9 @@ h3{
     flex-direction: column;
     gap: 1rem;
 
-    border: 1px solid var(--color-1);
-    padding: 2rem;
-    border-radius: var(--base-border-radius);
+    /*border: 1px solid var(--color-1);*/
+    /*padding: 2rem;*/
+    /*border-radius: var(--base-border-radius);*/
 }
 
 .group-fields{
@@ -111,7 +111,7 @@ h3{
 
     }
 
-        .group-fields{
+    .group-fields{
         width: 100%;
         justify-content: space-between;
     }
@@ -124,4 +124,9 @@ h3{
     .form .group-fields .button{
         padding: 15px 15px;
     }
+}
+
+
+.students-container{
+
 }

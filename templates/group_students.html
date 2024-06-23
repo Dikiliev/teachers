@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <link type="text/css" rel="stylesheet" href="{{ static('css/form.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ static('css/group_students.css') }}">
+
+
+
+    <script>
+        const user_id = {{ user.id }};
+        const group_id = {{ group.id }};
+    </script>
+{% endblock %}
+
+{% block content %}
+    <br>
+    <div class="container">
+        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+    
+        <a href="/manage_groups" class="href">Назад</a>
+        
+    
+        {% if students %}
+            <h1>Студенты группы</h1>
+        {% else %}
+            <h1>В вашей группе пока нет студентов</h1>
+        {% endif %}
+
+        <div id="students-container" class="students-container">
+            
+            <div class="students-list">
+
+                {% for student in students %}
+    
+                    <div class="student-card">
+                        <img src="{{ student.get_avatar_url() }}">
+                        <h1>{{ student.get_full_name() }}</h1>
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+    </div>
+
+
+{% endblock %}
