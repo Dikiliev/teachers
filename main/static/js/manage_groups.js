@@ -26,7 +26,7 @@ function refreshData(){
 
     container.innerHTML +=
         `<div class="group-fields">
-            <button onclick="addGroup()" class="button">Добавить новую группу</button>
+            
             <button class="button" type="submit">Сохранить</button>
         </div>
         `
@@ -53,10 +53,7 @@ function generateGroupElement(group, available_subjects){
                 <label for="name">Название&nbsp;группы:</label>
                 <input type="text" id="name" name="name" value="${group.name}" required>
             </div>
-            <div class="input-group">
-                <label for="price">Цена&nbsp;в&nbsp;месяц:</label>
-                <input type="number" id="price" name="price" value="${group.price}" required>
-            </div>
+
             <div class="input-group">
                 <label for="category">Предмет:</label>
                 <select name="category" id="category" required>
