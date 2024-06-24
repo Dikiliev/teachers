@@ -7,6 +7,7 @@ from django.db.models import Count
 from django.http import HttpRequest, JsonResponse, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
+from django.views.decorators.csrf import csrf_exempt
 
 from main.models import User, Subject, Teacher, StudentGroup, Appointment, UserRole, Schedule
 
@@ -31,7 +32,7 @@ def create_context_for_appointment(context: dict, group: StudentGroup):
     group_info = {
         'id': group.id,
         'name': group.name,
-        'price': group.price,
+        # 'price': group.price,
         'subject': group.subject,
         'schedules': [{
             'day_of_week': schedule.get_day_of_week_display(),
@@ -65,7 +66,6 @@ def confirm_appointment(request: HttpRequest, group_id: int):
         appointment.user_phone = request.POST.get('phone', '')
         appointment.user_comment = request.POST.get('comment', '')
 
-        print(appointment)
         appointment.save()
 
         return redirect('appointment_completed', group_id=group_id)
@@ -132,7 +132,7 @@ def get_groups(request: HttpRequest, teacher_id: int):
                 'id': group.id,
                 'name': group.name,
                 'subject': {'id': group.subject.id, 'name': group.subject.name},
-                'price': group.price,
+                # 'price': group.price,
                 'schedules': [{
                     'day_of_week': schedule.get_day_of_week_display(),
                     'start_time': schedule.start_time.strftime('%H:%M'),
@@ -168,7 +168,7 @@ def get_group(request: HttpRequest, group_id: int):
             'id': group.id,
             'name': group.name,
             'subject': {'id': group.subject.id, 'name': group.subject.name},
-            'price': group.price,
+            # 'price': group.price,
             'schedules': [{
                 'day_of_week': schedule.get_day_of_week_display(),
                 'start_time': schedule.start_time.strftime('%H:%M'),
@@ -248,7 +248,6 @@ def manage_groups(request):
 
     context['groups'] = groups
 
-
     def get():
         return render(request, 'manage_groups.html', context)
 
@@ -283,6 +282,54 @@ def manage_group(request, group_id):
         return post()
 
     return get()
+
+
+@csrf_exempt
+def save_group(request, group_id):
+    if request.method != "POST":
+        return JsonResponse({'error': 'Invalid request method'}, status=400)
+
+    try:
+        data = json.loads(request.body)
+
+        group = StudentGroup.objects.get(pk=group_id)
+        group.name = data['name']
+        group.subject_id = data['subject']['id']
+        group.save()
+
+        # Обновление существующих расписаний или создание новых
+        existing_schedules = {s.id: s for s in Schedule.objects.filter(student_group=group)}
+
+        for schedule_data in data.get('schedules', []):
+            schedule_id = schedule_data.get('id')
+            if schedule_id and schedule_id in existing_schedules:
+                # Обновление существующего расписания
+                schedule = existing_schedules[schedule_id]
+                schedule.day_of_week = schedule_data['day_of_week']
+                schedule.start_time = schedule_data['start_time']
+                schedule.duration = datetime.timedelta(minutes=int(schedule_data['duration_minutes']))
+                schedule.save()
+                del existing_schedules[schedule_id]
+            else:
+                # Создание нового расписания
+                Schedule.objects.create(
+                    teacher=group.teacher,
+                    student_group=group,
+                    day_of_week=schedule_data['day_of_week'],
+                    start_time=schedule_data['start_time'],
+                    duration=datetime.timedelta(minutes=int(schedule_data['duration_minutes']))
+                )
+
+        # Удаление любых расписаний, не включенных в обновление
+        for schedule in existing_schedules.values():
+            schedule.delete()
+
+        return JsonResponse({'message': 'Данные успешно сохранены.'})
+
+    except StudentGroup.DoesNotExist:
+        return JsonResponse({'error': 'Group not found'}, status=404)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
 
 @login_required
 def group_students(request, group_id):

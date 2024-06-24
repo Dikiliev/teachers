@@ -28,6 +28,8 @@ urlpatterns = [
     path('manage_group/<int:group_id>', views.manage_group, name='manage_group'),
     path('group_students/<int:group_id>', views.group_students, name='group_students'),
 
+    path('save_group/<int:group_id>', views.save_group, name='save_group'),
+
     path('register/', views.register, name='register'),
     path('login/', views.user_login, name='login'),
     path('logout/', views.logout_user, name='logout'),

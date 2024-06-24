@@ -115,7 +115,7 @@ class SubjectAdmin(admin.ModelAdmin):
 
 
 class StudentGroupAdmin(admin.ModelAdmin):
-    list_display = ('name', 'teacher', 'price', 'subject')
+    list_display = ('name', 'teacher', 'subject')
     search_fields = ('name', 'subject__name', 'teacher__user__username', 'teacher__user__first_name', 'teacher__user__last_name')
     list_filter = ('subject', TeacherFilter)
 

@@ -480,5 +480,32 @@ input:focus {
 
 
 
+.log{
+    --color: var(--color-1);
 
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    color: var(--color);
+    border: 1px solid var(--color);
+    border-radius: var(--small-border-radius);
+    width: max-content;
+
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.log.hide{
+    transform: translateX(-100px);
+    opacity: 0;
+}
+
+.log.success{
+    --color-1: var(--color-hover-1);
+    background-color: var(--color-hover-transparent);
+}
+
+.log.error{
+    --color-1: var(--error-color);
+    background-color: var(--color-hover-transparent-error);
+}
 

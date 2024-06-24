@@ -94,7 +94,6 @@ class Teacher(models.Model):
 
 class StudentGroup(models.Model):
     name = models.CharField(max_length=100, verbose_name='Название группы')
-    price = models.DecimalField(max_digits=10, decimal_places=0, verbose_name='Цена')
 
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='student_groups', verbose_name='Предмет')
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, related_name='groups', verbose_name='Преподаватель')

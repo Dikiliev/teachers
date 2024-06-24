@@ -99,7 +99,7 @@ function openModelWindow(teacher_id){
                     ${ group.schedules.map(schedule => `<p>${schedule.day_of_week} <span class="primary-text">${schedule.start_time} - ${schedule.end_time}</span></p>`).join('\n') }
                 </div>
                 
-                <p>В месяц <span class="primary-text success">${group.price}₽</span></p>
+                ${/*`<p>В месяц <span class="primary-text success">${group.price}₽</span></p>`*/ ''}
             </div>
             `)
             .join('\n')

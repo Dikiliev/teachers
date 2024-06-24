@@ -1,4 +1,3 @@
-
 let data = {};
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -25,11 +24,15 @@ function refreshData(){
     });
 
     container.innerHTML +=
-        `<div class="group-fields">
-            
-            <button class="button" type="submit">Сохранить</button>
-        </div>
         `
+        <div style="display: flex; flex-direction: column; gap: 1rem; width: 100%">
+            <p id="log-p" class="log success hide">Сохранено.</p>
+            <div class="group-fields">
+                <button class="button secondary" onclick="cancelChanges()">Отменить</button>
+                <button class="button" type="submit" onclick="saveChanges()">Сохранить</button>
+            </div>
+        </div>
+        `;
 }
 
 async function getGroupData(group_id){
@@ -47,7 +50,6 @@ function generateGroupElement(group, available_subjects){
     const groupDiv = document.createElement('div');
     groupDiv.classList.add('group');
     groupDiv.innerHTML = `
-        
         <div class="group-fields">
             <div class="input-group">
                 <label for="name">Название&nbsp;группы:</label>
@@ -65,10 +67,9 @@ function generateGroupElement(group, available_subjects){
             </div>
         </div>
         <div class="schedules-list"></div>
-        
         <div class="container row" style="width: 100%">
             <div class="group-fields">
-                <button onclick="addSchedule()" class="button add-schedule">Добавить урок</button>
+                <button onclick="addSchedule()" class="button add-schedule"><span style="color: inherit; font-size: 2rem;">+</span>&ensp;Добавить урок</button>
             </div>
         </div>
     `;
@@ -100,24 +101,9 @@ function generateScheduleElement(schedule, scheduleIndex, days_of_week){
             </div>
             <button onclick="deleteSchedule(${scheduleIndex})" class="button danger delete-schedule">Удалить урок</button>
         </div>
-        
         <div class="container row" style="width: 100%"></div>
     `;
     return scheduleDiv;
-}
-
-function addGroup(){
-    const group = {
-        'schedules': [{},],
-        'subject': {}
-    }
-
-    refreshData();
-}
-
-function deleteGroup(){
-
-    refreshData();
 }
 
 function addSchedule(){
@@ -128,4 +114,52 @@ function addSchedule(){
 function deleteSchedule(scheduleIndex){
     data.group.schedules.splice(scheduleIndex, 1);
     refreshData();
+}
+
+function saveChanges() {
+    const group = data.group;
+    group.name = document.getElementById('name').value;
+    group.subject.id = document.getElementById('category').value;
+
+    group.schedules.forEach((schedule, scheduleIndex) => {
+        schedule.day_of_week = document.getElementById(`day_of_week_${scheduleIndex}`).value;
+        schedule.start_time = document.getElementById(`start_time_${scheduleIndex}`).value;
+        schedule.duration_minutes = document.getElementById(`duration_${scheduleIndex}`).value;
+    });
+
+    fetch(`/save_group/${group.id}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCsrfToken()
+        },
+        body: JSON.stringify(group)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Success:', data);
+
+        if ('error' in data){
+            logInfo('Ошибка при сохранении данных.', true);
+        }
+        else{
+            logInfo('Данные успешно сохранены.');
+        }
+
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+        logInfo('Ошибка при сохранении данных.', true);
+    });
+}
+
+function logInfo(text, isError = false){
+    const logElement = document.getElementById('log-p');
+    logElement.innerHTML = text;
+    logElement.classList.toggle('error', isError)
+    logElement.classList.toggle('hide', false);
+}
+
+function cancelChanges() {
+    manageGroupInit();
 }
