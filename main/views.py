@@ -134,7 +134,7 @@ def get_groups(request: HttpRequest, teacher_id: int):
                 'subject': {'id': group.subject.id, 'name': group.subject.name},
                 # 'price': group.price,
                 'schedules': [{
-                    'day_of_week': schedule.get_day_of_week_display(),
+                    'day_of_week': schedule.day_of_week,
                     'start_time': schedule.start_time.strftime('%H:%M'),
                     'end_time': schedule.end_time.strftime('%H:%M'),
                     'duration_minutes': schedule.duration.total_seconds() // 60,
@@ -170,7 +170,7 @@ def get_group(request: HttpRequest, group_id: int):
             'subject': {'id': group.subject.id, 'name': group.subject.name},
             # 'price': group.price,
             'schedules': [{
-                'day_of_week': schedule.get_day_of_week_display(),
+                'day_of_week': schedule.day_of_week,
                 'start_time': schedule.start_time.strftime('%H:%M'),
                 'end_time': schedule.end_time.strftime('%H:%M'),
                 'duration_minutes': schedule.duration.total_seconds() // 60,

@@ -29,7 +29,7 @@ function refreshData(){
             <p id="log-p" class="log success hide">Сохранено.</p>
             <div class="group-fields">
                 <button class="button secondary" onclick="cancelChanges()">Отменить</button>
-                <button class="button" type="submit" onclick="saveChanges()">Сохранить</button>
+                <button class="button" onclick="saveChanges()">Сохранить</button>
             </div>
         </div>
         `;
@@ -61,7 +61,7 @@ function generateGroupElement(group, available_subjects){
                 <select name="category" id="category" required>
                     <option value="0"> -- Не выбрано -- </option>
                     ${available_subjects.map(subject => `
-                        <option value="${subject.id}" ${subject.id === group.subject.id ? 'selected' : ''}>${subject.name}</option>
+                        <option value="${subject.id}" ${subject.id == group.subject.id ? 'selected' : ''}>${subject.name}</option>
                     `).join('')}
                 </select>
             </div>
@@ -87,7 +87,7 @@ function generateScheduleElement(schedule, scheduleIndex, days_of_week){
                 <select id="day_of_week_${scheduleIndex}" name="day_of_week_${scheduleIndex}" required>
                     <option value="0"> -- Не выбрано -- </option>
                     ${days_of_week.map(day => `
-                        <option value="${day[0]}" ${day[1] === schedule.day_of_week ? 'selected' : ''}>${day[1]}</option>
+                        <option value="${day[0]}" ${day[0] == schedule.day_of_week ? 'selected' : ''}>${day[1]}</option>
                     `).join('')}
                 </select>
             </div>
@@ -116,7 +116,40 @@ function deleteSchedule(scheduleIndex){
     refreshData();
 }
 
+function validateForm() {
+    let isValid = true;
+    const name = document.getElementById('name').value.trim();
+    const category = document.getElementById('category').value;
+
+    if (!name) {
+        isValid = false;
+        logInfo('Название группы обязательно.', true);
+    }
+
+    if (category === "0") {
+        isValid = false;
+        logInfo('Предмет обязателен.', true);
+    }
+
+    data.group.schedules.forEach((_, scheduleIndex) => {
+        const dayOfWeek = document.getElementById(`day_of_week_${scheduleIndex}`).value;
+        const startTime = document.getElementById(`start_time_${scheduleIndex}`).value;
+        const duration = document.getElementById(`duration_${scheduleIndex}`).value;
+
+        if (dayOfWeek === "0" || !startTime || !duration) {
+            isValid = false;
+            logInfo(`Все поля для Урока ${scheduleIndex + 1} обязательны.`, true);
+        }
+    });
+
+    return isValid;
+}
+
 function saveChanges() {
+    if (!validateForm()) {
+        return;
+    }
+
     const group = data.group;
     group.name = document.getElementById('name').value;
     group.subject.id = document.getElementById('category').value;
@@ -156,7 +189,7 @@ function saveChanges() {
 function logInfo(text, isError = false){
     const logElement = document.getElementById('log-p');
     logElement.innerHTML = text;
-    logElement.classList.toggle('error', isError)
+    logElement.classList.toggle('error', isError);
     logElement.classList.toggle('hide', false);
 }
 
