@@ -28,10 +28,11 @@ function refreshData(){
         <div style="display: flex; flex-direction: column; gap: 1rem; width: 100%">
             <p id="log-p" class="log success hide">Сохранено.</p>
             <div class="group-fields">
-                <button class="button danger" onclick="deleteGroup()">Удалить группу</button>
-                <button class="button secondary" onclick="cancelChanges()">Отменить</button>
+                
+                <button class="button" onclick="cancelChanges()">Отменить</button>
                 <button class="button" onclick="saveChanges()">Сохранить</button>
             </div>
+            <a class="href danger" style="text-align: center; margin-top: 10px;" onclick="deleteGroup()">Удалить группу</a>
         </div>
         `;
 }

@@ -448,9 +448,17 @@ input:focus {
     text-decoration: none;
 }
 
+.href.danger{
+    color: var(--error-color);
+}
+
 .href:hover{
     color: var(--color-hover-2);
     text-decoration: underline;
+}
+
+.href.danger:hover{
+    color: var(--error-color);
 }
 
 @media (max-width: 768px) {
