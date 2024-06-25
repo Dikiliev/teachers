@@ -135,6 +135,7 @@ def get_groups(request: HttpRequest, teacher_id: int):
                 # 'price': group.price,
                 'schedules': [{
                     'day_of_week': schedule.day_of_week,
+                    'day_of_week_display': schedule.get_day_of_week_display(),
                     'start_time': schedule.start_time.strftime('%H:%M'),
                     'end_time': schedule.end_time.strftime('%H:%M'),
                     'duration_minutes': schedule.duration.total_seconds() // 60,

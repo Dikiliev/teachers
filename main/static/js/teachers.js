@@ -96,7 +96,7 @@ function openModelWindow(teacher_id){
             <div class="group-card" onclick="setGroup(event)" data-id="${group.id}">
                 <div class="group-card-top-section">
                     <h1>${group.name}</h1>
-                    ${ group.schedules.map(schedule => `<p>${schedule.day_of_week} <span class="primary-text">${schedule.start_time} - ${schedule.end_time}</span></p>`).join('\n') }
+                    ${ group.schedules.map(schedule => `<p>${schedule.day_of_week_display} <span class="primary-text">${schedule.start_time} - ${schedule.end_time}</span></p>`).join('\n') }
                 </div>
                 
                 ${/*`<p>В месяц <span class="primary-text success">${group.price}₽</span></p>`*/ ''}
