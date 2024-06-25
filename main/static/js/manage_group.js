@@ -28,6 +28,7 @@ function refreshData(){
         <div style="display: flex; flex-direction: column; gap: 1rem; width: 100%">
             <p id="log-p" class="log success hide">Сохранено.</p>
             <div class="group-fields">
+                <button class="button danger" onclick="deleteGroup()">Удалить группу</button>
                 <button class="button secondary" onclick="cancelChanges()">Отменить</button>
                 <button class="button" onclick="saveChanges()">Сохранить</button>
             </div>
@@ -205,4 +206,32 @@ function logInfo(text, isError = false){
 
 function cancelChanges() {
     manageGroupInit();
+}
+
+function deleteGroup(){
+        fetch(`/delete_group/${group_id}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCsrfToken()
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Success:', data);
+
+        if (!data.ok){
+            logInfo('Ошибка при удалении группы.', true);
+
+            return
+        }
+
+        logInfo('Группа удалена');
+        window.location.replace('/manage_groups')
+
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+        logInfo('Ошибка при удалении группы.', true);
+    });
 }
