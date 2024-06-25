@@ -157,12 +157,25 @@ def get_groups(request: HttpRequest, teacher_id: int):
     return JsonResponse(data)
 
 
-def get_group(request: HttpRequest, group_id: int):
+def get_group(request: HttpRequest, teacher_id, group_id: int):
     data = dict()
+
+    teacher = Teacher.objects.get(pk=teacher_id)
+    available_subjects = teacher.subjects.all()
+    data['available_subjects'] = [{'id': subject.id, 'name': subject.name} for subject in available_subjects]
+    data['days_of_week'] = Schedule.DAYS_OF_WEEK
+
+    if group_id == 0:
+        data['group'] = {
+            'name': '',
+            'subject': {'id': 0, 'name': ''},
+            'schedules': [{}]
+        }
+
+        return JsonResponse(data)
 
     try:
         group = StudentGroup.objects.get(id=group_id)
-        teacher = group.teacher
 
         group_info = {
             'id': group.id,
@@ -179,10 +192,6 @@ def get_group(request: HttpRequest, group_id: int):
 
         data['group'] = group_info
 
-        available_subjects = teacher.subjects.all()
-        data['available_subjects'] = [{'id': subject.id, 'name': subject.name} for subject in available_subjects]
-        data['days_of_week'] = Schedule.DAYS_OF_WEEK
-
         data['message'] = 'success'
 
     except Subject.DoesNotExist:
@@ -193,7 +202,7 @@ def get_group(request: HttpRequest, group_id: int):
 
 
 @login_required
-def profile(request):
+def profile(request: HttpRequest):
     context = create_base_data(request)
     user = request.user
     context['username'] = user.username
@@ -236,7 +245,7 @@ def profile(request):
 
 
 @login_required
-def manage_groups(request):
+def manage_groups(request: HttpRequest):
     if not hasattr(request.user, 'profile'):
         return redirect('home')
 
@@ -261,7 +270,7 @@ def manage_groups(request):
 
 
 @login_required
-def manage_group(request, group_id):
+def manage_group(request: HttpRequest, group_id):
     if not hasattr(request.user, 'profile'):
         return redirect('home')
 
@@ -269,30 +278,24 @@ def manage_group(request, group_id):
     context['subjects'] = Subject.objects.all()
 
     user = request.user
-    group = StudentGroup.objects.get(pk=group_id)
-    context['group'] = group
 
-    def get():
-        return render(request, 'manage_group.html', context)
+    # group = StudentGroup.objects.get(pk=group_id)
+    context['group_id'] = group_id
+    context['teacher'] = user.profile
 
-    def post():
-        return render(request, 'manage_group.html', context)
-
-    if request.method == 'POST':
-        return post()
-
-    return get()
+    return render(request, 'manage_group.html', context)
 
 
 @csrf_exempt
-def save_group(request, group_id):
+def save_group(request: HttpRequest, group_id):
     if request.method != "POST":
         return JsonResponse({'error': 'Invalid request method'}, status=400)
 
     try:
         data = json.loads(request.body)
 
-        group = StudentGroup.objects.get(pk=group_id)
+        group = StudentGroup.objects.get(pk=group_id) if group_id != 0 else StudentGroup(teacher=request.user.profile)
+
         group.name = data['name']
         group.subject_id = data['subject']['id']
         group.save()
@@ -330,6 +333,24 @@ def save_group(request, group_id):
         return JsonResponse({'error': 'Group not found'}, status=404)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
+
+
+@csrf_exempt
+def delete_group(request: HttpRequest, group_id):
+    if request.method != "POST":
+        return JsonResponse({'error': 'Invalid request method'}, status=400)
+
+    try:
+        group = StudentGroup.objects.get(pk=group_id)
+        group.delete()
+
+        return JsonResponse({'ok': True, 'message': 'Группа успешно удалена'})
+
+    except StudentGroup.DoesNotExist:
+        return JsonResponse({'ok': False, 'error': 'Group not found'}, status=404)
+    except Exception as e:
+        return JsonResponse({'ok': False, 'error': str(e)}, status=500)
+
 
 @login_required
 def group_students(request, group_id):

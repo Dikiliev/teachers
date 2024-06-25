@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 async function manageGroupInit(){
-    data = await getGroupData(group_id);
+    data = await getGroupData(teacher_id, group_id);
 
     refreshData();
 }
@@ -35,9 +35,9 @@ function refreshData(){
         `;
 }
 
-async function getGroupData(group_id){
+async function getGroupData(teacher_id, group_id){
     try {
-        const response = await fetch(`/get_group/${group_id}`);
+        const response = await fetch(`/get_group/${teacher_id}/${group_id}`);
         return await response.json();
     }
     catch (error){
@@ -61,7 +61,7 @@ function generateGroupElement(group, available_subjects){
                 <select name="category" id="category" required>
                     <option value="0"> -- Не выбрано -- </option>
                     ${available_subjects.map(subject => `
-                        <option value="${subject.id}" ${subject.id == group.subject.id ? 'selected' : ''}>${subject.name}</option>
+                        <option value="${subject.id}" ${group.subject && subject.id == group.subject.id ? 'selected' : ''}>${subject.name}</option>
                     `).join('')}
                 </select>
             </div>
@@ -97,7 +97,7 @@ function generateScheduleElement(schedule, scheduleIndex, days_of_week){
             </div>
             <div class="input-group">
                 <label for="duration_${scheduleIndex}">Длительность&nbsp;(в&nbsp;минутах):</label>
-                <input type="number" id="duration_${scheduleIndex}" name="duration_${scheduleIndex}" value="${Math.round(schedule.duration_minutes)}" required>
+                <input type="number" id="duration_${scheduleIndex}" name="duration_${scheduleIndex}" value="${schedule.duration_minutes ? Math.round(schedule.duration_minutes) : 120}" required>
             </div>
             <button onclick="deleteSchedule(${scheduleIndex})" class="button danger delete-schedule">Удалить урок</button>
         </div>
@@ -107,11 +107,15 @@ function generateScheduleElement(schedule, scheduleIndex, days_of_week){
 }
 
 function addSchedule(){
+    updateGroupData();
+
     data.group.schedules.push({})
     refreshData();
 }
 
 function deleteSchedule(scheduleIndex){
+    updateGroupData();
+
     data.group.schedules.splice(scheduleIndex, 1);
     refreshData();
 }
@@ -145,11 +149,7 @@ function validateForm() {
     return isValid;
 }
 
-function saveChanges() {
-    if (!validateForm()) {
-        return;
-    }
-
+function updateGroupData(){
     const group = data.group;
     group.name = document.getElementById('name').value;
     group.subject.id = document.getElementById('category').value;
@@ -160,7 +160,17 @@ function saveChanges() {
         schedule.duration_minutes = document.getElementById(`duration_${scheduleIndex}`).value;
     });
 
-    fetch(`/save_group/${group.id}`, {
+    return group;
+}
+
+function saveChanges() {
+    if (!validateForm()) {
+        return;
+    }
+
+    const group = updateGroupData();
+
+    fetch(`/save_group/${group_id}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

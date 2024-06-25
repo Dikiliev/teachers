@@ -2,7 +2,7 @@
 
 {% block head %}
     <link type="text/css" rel="stylesheet" href="{{ static('css/form.css') }}">
-    <link type="text/css" rel="stylesheet" href="{{ static('css/manage_group.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ static('css/manage_groups.css') }}">
 
     <script>
         const user_id = {{ user.id }};
@@ -41,7 +41,7 @@
             {% endfor %}
         </div>
 
-        <a class="button add-group">Добавить группу</a>
+        <a href="/manage_group/0" class="button add-group">Добавить группу</a>
     </div>
 
 {% endblock %}
