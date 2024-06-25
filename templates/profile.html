@@ -13,8 +13,13 @@
     <h1>Профиль</h1>
     <form class="" action="" method="post">
         
-        <span>Логин: <h2>{{ user.username }}</h2></span>
-        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+        <div class="profile-header">
+            <div class="login-div">
+                <span>Логин: <h2>{{ user.username }}</h2></span>
+                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+            </div>
+            <a class="href" href="/logout">Выйти</a>
+        </div>
     
         <div class="upload-section">
             <img id="image-show" class="uploaded-image" src="{{ user.get_avatar_url() }}">

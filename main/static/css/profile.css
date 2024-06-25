@@ -12,3 +12,18 @@ h2{
     font-weight: 500;
     color: var(--color-1);
 }
+
+.profile-header{
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+
+}
+
+.login-div{
+
+}
+
+.href{
+    width: auto;
+}
