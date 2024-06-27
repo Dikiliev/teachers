@@ -165,3 +165,20 @@ class Appointment(models.Model):
         verbose_name_plural = 'Записи'
 
 
+class Application(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='applications', verbose_name='Пользователь')
+
+    user_name = models.CharField(max_length=150, verbose_name='Имя')
+    user_phone = models.CharField(max_length=25, verbose_name='Номер телефона')
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='applications', verbose_name='Предмет')
+
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='Дата обновления')
+
+    def __str__(self):
+        return f'Заявка {self.user_name} на {self.subject.name}'
+
+
+    class Meta:
+        verbose_name = 'Заявка'
+        verbose_name_plural = 'Заявки'

@@ -146,30 +146,32 @@
                     </div>
                 </div>
 
-                <form class="form" action="" method="post">
-                    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-                    <div class="input-group">
-                        <label for="first_name">Имя:</label>
-                        <input type="text" id="first_name" name="first_name" value="" required>
-                    </div>
-                    <div class="input-group">
-                        <label for="phone">Номер телефона:</label>
-                        <input type="tel" id="phone" name="phone" value="" required>
-                    </div>
-    
-                    <div class="input-group">
-                        <label for="category">Предмет:</label>
-                        <select name="category" id="category" required>
-                            <option value="0"> -- Не выбрано -- </option>
-                            {% for subject in subjects %}
-                                <option value="{{ subject.id }}">{{ subject.name }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <br>
-                    <button class="button" type="submit">Отправить</button>
-    
-                </form>
+            <form class="form" action="" method="post">
+                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                <div class="input-group">
+                    <label for="first_name">Имя:</label>
+                    <input type="text" id="first_name" name="first_name" value="" required>
+                </div>
+                <div class="input-group">
+                    <label for="phone">Номер телефона:</label>
+                    <input type="tel" id="phone" name="phone" value="" required>
+                </div>
+            
+                <div class="input-group">
+                    <label for="category">Предмет:</label>
+                    <select name="category" id="category" required>
+                        <option value="0"> -- Не выбрано -- </option>
+                        {% for subject in subjects %}
+                            <option value="{{ subject.id }}">{{ subject.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <br>
+                {% if error %}
+                    <p class="error">{{ error }}</p>
+                {% endif %}
+                <button class="button" type="submit">Отправить</button>
+            </form>
             </div>
         </section>
     </div>

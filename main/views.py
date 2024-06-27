@@ -9,7 +9,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 
-from main.models import User, Subject, Teacher, StudentGroup, Appointment, UserRole, Schedule
+from main.models import User, Subject, Teacher, StudentGroup, Appointment, UserRole, Schedule, Application
 
 DEFAULT_TITLE = 'Хехархо'
 
@@ -19,18 +19,22 @@ def home(request: HttpRequest):
     context['subjects'] = Subject.objects.all()
 
     if request.method == 'POST':
-        # appointment = Appointment()
-        #
-        # if request.user.is_authenticated:
-        #     appointment.user = request.user
-        #
-        # appointment.user_name = request.POST.get('fullname', '')
-        # appointment.user_phone = request.POST.get('phone', '')
-        # appointment.user_comment = request.POST.get('comment', '')
-        #
-        # appointment.save()
+        first_name = request.POST.get('first_name')
+        phone = request.POST.get('phone')
+        subject_id = request.POST.get('category')
 
-        return redirect('appointment_completed')
+        if subject_id == "0":
+            context['error'] = 'Пожалуйста, выберите предмет.'
+        else:
+            subject = Subject.objects.get(id=subject_id)
+
+            Application.objects.create(
+                user_name=first_name,
+                user_phone=phone,
+                subject=subject
+            )
+
+            return redirect('appointment_completed')
 
     return render(request, 'index.html', context)
 
