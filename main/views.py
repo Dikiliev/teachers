@@ -17,6 +17,21 @@ DEFAULT_TITLE = 'Хехархо'
 def home(request: HttpRequest):
     context = create_base_data(request)
     context['subjects'] = Subject.objects.all()
+
+    if request.method == 'POST':
+        # appointment = Appointment()
+        #
+        # if request.user.is_authenticated:
+        #     appointment.user = request.user
+        #
+        # appointment.user_name = request.POST.get('fullname', '')
+        # appointment.user_phone = request.POST.get('phone', '')
+        # appointment.user_comment = request.POST.get('comment', '')
+        #
+        # appointment.save()
+
+        return redirect('appointment_completed')
+
     return render(request, 'index.html', context)
 
 
@@ -68,7 +83,7 @@ def confirm_appointment(request: HttpRequest, group_id: int):
 
         appointment.save()
 
-        return redirect('appointment_completed', group_id=group_id)
+        return redirect('appointment_completed')
 
     group = StudentGroup.objects.get(id=group_id)
     user = request.user if request.user.is_authenticated else None
@@ -78,13 +93,11 @@ def confirm_appointment(request: HttpRequest, group_id: int):
     return render(request, 'appointment.html', context)
 
 
-def appointment_completed(request: HttpRequest, group_id: int):
+def appointment_completed(request: HttpRequest):
     context = create_base_data(request)
 
-    group = StudentGroup.objects.get(id=group_id)
-    user = request.user if request.user.is_authenticated else None
-
-    context = create_context_for_appointment(context, group)
+    # group = StudentGroup.objects.get(id=group_id)
+    # context = create_context_for_appointment(context, group)
 
     return render(request, 'appointment_completed.html', context)
 

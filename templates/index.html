@@ -146,7 +146,8 @@
                     </div>
                 </div>
 
-                <form class="form">
+                <form class="form" action="" method="post">
+                    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
                     <div class="input-group">
                         <label for="first_name">Имя:</label>
                         <input type="text" id="first_name" name="first_name" value="" required>
@@ -166,7 +167,7 @@
                         </select>
                     </div>
                     <br>
-                    <button class="button">Отправить</button>
+                    <button class="button" type="submit">Отправить</button>
     
                 </form>
             </div>

@@ -21,7 +21,7 @@ urlpatterns = [
     path(f'get_group/<int:teacher_id>/<int:group_id>', views.get_group, name='get_group'),
 
     path(f'confirm_appointment/<int:group_id>', views.confirm_appointment, name='confirm_appointment'),
-    path(f'appointment_completed/<int:group_id>', views.appointment_completed, name='appointment_completed'),
+    path(f'appointment_completed', views.appointment_completed, name='appointment_completed'),
 
     path('profile/', views.profile, name='profile'),
     path('manage_groups/', views.manage_groups, name='manage_groups'),
