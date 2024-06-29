@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <link type="text/css" rel="stylesheet" href="{{ static('css/form.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ static('css/manage_groups.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ static('css/my_groups.css') }}">
+
+    <script>
+        const user_id = {{ user.id }};
+    </script>
+{% endblock %}
+
+{% block content %}
+    <br>
+    <div class="container">
+        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+        <h1>Мои группы</h1>
+
+        <div id="groups-container" class="groups-list">
+            {% for group in groups %}
+                
+                <div class="group">
+                    <div class="group-info">
+                        <h2>{{ group.name }}</h2>
+
+                        
+                        <div class="teacher-card">
+                            <div class="teacher">
+                                <img src="{{group.teacher.user.get_avatar_url() }}">
+                                <div class="teacher-info">
+                                    <p class="teacher-name">{{ group.teacher.user.get_full_name() }}</p>
+                                    <p class="teacher-subject">{{ group.subject.name }}</p>
+                                    <p>Cтудентов: <span class="primary-text lite" style="font-size: 1rem; font-weight: 500"> {{ group.students_count }}</span></p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <br>
+                        <p>Расписание: </p>
+                        {% for schedule in group.schedules.all() %}
+                            <p class="schedule-p">{{ schedule.get_day_of_week_display() }} <span class="primary-text">{{ schedule.start_time.strftime('%H:%M') }} - {{ schedule.end_time.strftime('%H:%M') }}</span></p>
+                        {% endfor %}
+                    </div>
+                
+                </div>
+            
+            {% endfor %}
+        </div>
+
+    </div>
+
+{% endblock %}

@@ -1,0 +1,56 @@
+
+.groups-list{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+}
+
+.group{
+
+}
+
+.teacher-card{
+
+}
+
+.teacher{
+    display: flex;
+    gap: 1rem;
+}
+
+.teacher img{
+    width: 80px;
+    height: 80px;
+}
+
+.teacher-info{
+    display: flex;
+    flex-direction: column;
+
+    gap: 0.25rem;
+}
+
+.teacher-name{
+    color: var(--color-1);
+    font-size: 1.5rem;
+}
+
+.teacher-subject{
+    color: var(--color-hover-1);
+}
+
+
+@media (max-width: 405px){
+    .groups-list{
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+
+        padding: 0;
+    }
+
+    .group{
+        min-width: auto;
+    }
+
+    .teacher-name{
+        font-size: 1.2rem;
+    }
+}

@@ -24,6 +24,7 @@ urlpatterns = [
     path(f'appointment_completed', views.appointment_completed, name='appointment_completed'),
 
     path('profile/', views.profile, name='profile'),
+    path('my_groups/', views.my_groups, name='my_groups'),
     path('manage_groups/', views.manage_groups, name='manage_groups'),
     path('manage_group/<int:group_id>', views.manage_group, name='manage_group'),
     path('group_students/<int:group_id>', views.group_students, name='group_students'),

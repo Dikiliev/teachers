@@ -263,6 +263,29 @@ def profile(request: HttpRequest):
 
 
 @login_required
+def my_groups(request: HttpRequest):
+    context = create_base_data(request)
+
+    def get():
+        user = request.user
+        groups = user.student_groups.all()
+        groups = groups.annotate(students_count=Count('students'))
+
+        print(groups)
+
+        context['groups'] = groups
+        return render(request, 'my_groups.html', context)
+
+    def post():
+        return render(request, 'my_groups.html', context)
+
+    if request.method == 'POST':
+        return post()
+
+    return get()
+
+
+@login_required
 def manage_groups(request: HttpRequest):
     if not hasattr(request.user, 'profile'):
         return redirect('home')
