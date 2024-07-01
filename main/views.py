@@ -271,8 +271,6 @@ def my_groups(request: HttpRequest):
         groups = user.student_groups.all()
         groups = groups.annotate(students_count=Count('students'))
 
-        print(groups)
-
         context['groups'] = groups
         return render(request, 'my_groups.html', context)
 
@@ -312,20 +310,64 @@ def manage_groups(request: HttpRequest):
 
 @login_required
 def manage_group(request: HttpRequest, group_id):
-    if not hasattr(request.user, 'profile'):
+    if request.user.role == UserRole.USER.value[0]:
         return redirect('home')
 
     context = create_base_data(request)
     context['subjects'] = Subject.objects.all()
 
     user = request.user
-
-    # group = StudentGroup.objects.get(pk=group_id)
+    group = StudentGroup.objects.get(pk=group_id)
     context['group_id'] = group_id
-    context['teacher'] = user.profile
+    context['teacher'] = group.teacher
 
-    return render(request, 'manage_group.html', context)
+    if request.GET.get('from') == 'manager_home':
+        context['back_url'] = '/manager_home'
+    else:
+        context['back_url'] = '/manage_groups'
 
+    def teacher_get():
+        return render(request, 'manage_group.html', context)
+
+    def manager_get():
+        return render(request, 'manage_group.html', context)
+
+    if request.user.role == UserRole.MANAGER.value[0]:
+        return teacher_get()
+    return manager_get()
+
+@login_required
+def manager_home(request: HttpRequest):
+    if request.user.role != UserRole.MANAGER.value[0]:
+        return redirect('home')
+
+    context = create_base_data(request)
+
+    teacher_id = request.GET.get('teacher_id')
+    subject_id = request.GET.get('subject_id')
+    sort_by = request.GET.get('sort_by')
+
+    groups = StudentGroup.objects.all().annotate(students_count=Count('students'))
+
+    if teacher_id:
+        groups = groups.filter(teacher__user__id=teacher_id)
+
+    if subject_id:
+        groups = groups.filter(subject__id=subject_id)
+
+    if sort_by == 'teacher':
+        groups = groups.order_by('teacher__user__first_name', 'teacher__user__last_name')
+    elif sort_by == 'students_count':
+        groups = groups.order_by('-students_count')
+
+    teachers = User.objects.filter(role=UserRole.TEACHER.value[0])
+    subjects = Subject.objects.all()
+
+    context['groups'] = groups
+    context['teachers'] = teachers
+    context['subjects'] = subjects
+
+    return render(request, 'manager/home.html', context)
 
 @csrf_exempt
 def save_group(request: HttpRequest, group_id):
@@ -395,14 +437,19 @@ def delete_group(request: HttpRequest, group_id):
 
 @login_required
 def group_students(request, group_id):
-    if not hasattr(request.user, 'profile'):
-        return redirect('home')
+    # if not hasattr(request.user, 'profile'):
+    #     return redirect('home')
 
     context = create_base_data(request)
 
     group = StudentGroup.objects.get(pk=group_id)
     context['group'] = group
     context['students'] = group.students.all()
+
+    if request.GET.get('from') == 'manager_home':
+        context['back_url'] = '/manager_home'
+    else:
+        context['back_url'] = '/manage_groups'
 
     def get():
         return render(request, 'group_students.html', context)

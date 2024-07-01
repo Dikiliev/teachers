@@ -29,7 +29,7 @@ function refreshData(){
             <p id="log-p" class="log success hide">Сохранено.</p>
             <div class="group-fields">
                 
-                <button class="button" onclick="cancelChanges()">Отменить</button>
+                <button class="button outline" onclick="cancelChanges()">Отменить</button>
                 <button class="button" onclick="saveChanges()">Сохранить</button>
             </div>
             <a class="href danger" style="text-align: center; margin-top: 10px;" onclick="deleteGroup()">Удалить группу</a>

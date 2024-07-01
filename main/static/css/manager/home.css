@@ -1,0 +1,49 @@
+
+.filters-form{
+    max-width: var(--max-width);
+
+    padding: 0;
+    border: none;
+}
+
+.filters{
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+    align-items: end;
+
+    gap: 1rem;
+}
+
+
+.filters .input-group{
+    max-width: 100%;
+}
+
+.filters .button{
+    padding: 0.5rem 2rem;
+    width: max-content;
+    height: max-content;
+    margin-right: auto;
+
+    font-weight: 400;
+    border-radius: var(--small-border-radius);
+}
+
+.select2{
+    width: 100% !important;
+}
+
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+    background-color: var(--color-hover-1) !important;
+}
+
+/* Change background color of selected item in the dropdown */
+.select2-container--default .select2-selection__choice {
+    background-color: var(--color-hover-1) !important;
+}
+
+/* Change background color of selected item in the multiple select dropdown */
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    background-color: var(--color-hover-1) !important;
+}

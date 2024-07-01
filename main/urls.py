@@ -35,4 +35,9 @@ urlpatterns = [
     path('register/', views.register, name='register'),
     path('login/', views.user_login, name='login'),
     path('logout/', views.logout_user, name='logout'),
+
+
+    # ----- MANAGER ----- #
+    path('manager_home/', views.manager_home, name='manager_home'),
+    # path('manage_group', views.manage_group, name='manage_group'),
 ]

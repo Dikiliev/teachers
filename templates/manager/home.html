@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <link type="text/css" rel="stylesheet" href="{{ static('css/form.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ static('css/manage_groups.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ static('css/my_groups.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ static('css/manager/home.css') }}">
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    
+    <script>
+        const user_id = {{ user.id }};
+    </script>
+{% endblock %}
+
+{% block content %}
+    <br>
+    <div class="container">
+        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+        <h1>Все группы</h1>
+        
+        <!-- Filters and Sorting -->
+        <form class="filters-form" method="get">
+            <div class="filters">
+            
+                <div class="input-group">
+                    <label for="teacher_id">Преподаватель:</label>
+                    <select name="teacher_id" id="teacher_id" class="select2">
+                        <option value="">Все</option>
+                        {% for teacher in teachers %}
+                            <option value="{{ teacher.id }}" {% if teacher.id|string == request.GET.teacher_id %}selected{% endif %}>{{ teacher.get_full_name() }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            
+                <div class="input-group">
+                    <label for="subject_id">Предмет:</label>
+                    <select name="subject_id" id="subject_id" class="select2">
+                        <option value="">Все</option>
+                        {% for subject in subjects %}
+                            <option value="{{ subject.id }}" {% if subject.id|string == request.GET.subject_id %}selected{% endif %}>{{ subject.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="sort_by">Сортировать по:</label>
+                    <select name="sort_by" id="sort_by" class="select2">
+                        <option value="">Выберите</option>
+                        <option value="teacher" {% if request.GET.sort_by == "teacher" %}selected{% endif %}>Преподаватель</option>
+                        <option value="students_count" {% if request.GET.sort_by == "students_count" %}selected{% endif %}>Количество студентов</option>
+                    </select>
+                </div>
+
+                <button class="button" type="submit">Применить</button>
+            </div>
+        </form>
+
+        <div class="groups-list">
+            {% for group in groups %}
+                <div class="group">
+                    <div class="group-info">
+                        <h2>{{ group.name }}</h2>
+
+                        <div class="teacher-card">
+                            <div class="teacher">
+                                <img src="{{ group.teacher.user.get_avatar_url() }}">
+                                <div class="teacher-info">
+                                    <p class="teacher-name">{{ group.teacher.user.get_full_name() }}</p>
+                                    <p class="teacher-subject">{{ group.subject.name }}</p>
+                                    <p>Студентов: <span class="primary-text lite" style="font-size: 1rem; font-weight: 500">{{ group.students_count }}</span></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <br>
+                        <p>Расписание:</p>
+                        {% for schedule in group.schedules.all() %}
+                            <p class="schedule-p">{{ schedule.get_day_of_week_display() }} <span class="primary-text">{{ schedule.start_time.strftime('%H:%M') }} - {{ schedule.end_time.strftime('%H:%M') }}</span></p>
+                        {% endfor %}
+                    </div>
+                    <div class="fields-container">
+                        <a href="/manage_group/{{ group.id }}?from=manager_home" class="button">Редактировать</a>
+                        <a href="/group_students/{{ group.id }}?from=manager_home" class="button">Студенты</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('.select2').select2({
+                width: 'resolve'
+            });
+        });
+    </script>
+{% endblock %}

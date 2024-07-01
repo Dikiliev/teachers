@@ -17,7 +17,7 @@
     <div class="container">
         <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
     
-        <a href="/manage_groups" class="href">Назад</a>
+        <a href="{{ back_url }}" class="href">Назад</a>
         
     
         {% if students %}
