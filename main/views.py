@@ -293,6 +293,7 @@ def manage_groups(request: HttpRequest):
     user = request.user
     groups = StudentGroup.objects.filter(teacher=user.profile)
     groups = groups.annotate(students_count=Count('students'))
+    groups = groups.order_by('created_at')
 
     context['groups'] = groups
 
@@ -315,24 +316,26 @@ def manage_group(request: HttpRequest, group_id):
 
     context = create_base_data(request)
     context['subjects'] = Subject.objects.all()
-
-    user = request.user
-    group = StudentGroup.objects.get(pk=group_id)
     context['group_id'] = group_id
-    context['teacher'] = group.teacher
 
-    if request.GET.get('from') == 'manager_home':
-        context['back_url'] = '/manager_home'
-    else:
-        context['back_url'] = '/manage_groups'
+    context['back_url'] = '/manager_home' if request.GET.get('from') == 'manager_home' else '/manage_groups'
+
+    try:
+        group = StudentGroup.objects.get(pk=group_id)
+        context['teacher'] = group.teacher
+    except StudentGroup.DoesNotExist:
+        context['teacher'] = None
 
     def teacher_get():
+        if context['teacher'] is None:
+            context['teacher'] = request.user.profile
+
         return render(request, 'manage_group.html', context)
 
     def manager_get():
         return render(request, 'manage_group.html', context)
 
-    if request.user.role == UserRole.MANAGER.value[0]:
+    if request.user.role == UserRole.TEACHER.value[0]:
         return teacher_get()
     return manager_get()
 

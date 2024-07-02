@@ -21,9 +21,8 @@ skills = [
 def create_random_student_group(user, subject, index):
     # group_name = fake.unique.word().capitalize()
     group_name = f'Группа {index}'
-    price = round(random.uniform(1, 15)) * 500
 
-    group, created = StudentGroup.objects.get_or_create(name=group_name, teacher_id=user.profile.user.id, subject=subject, defaults={'price': price})
+    group, created = StudentGroup.objects.get_or_create(name=group_name, teacher_id=user.profile.user.id, subject=subject)
     return group
 
 def create_random_user():
@@ -48,14 +47,13 @@ def round_time_to_nearest_half_hour():
 def create_random_schedule(teacher, student_group):
     days_of_week = [1, 2, 3, 4, 5, 6, 7]
     start_time = round_time_to_nearest_half_hour()
-    end_time = (datetime.combine(date.today(), start_time) + timedelta(hours=2)).time()
     day_of_week = random.choice(days_of_week)
     schedule = Schedule.objects.create(
         teacher=teacher,
         student_group=student_group,
         day_of_week=day_of_week,
         start_time=start_time,
-        end_time=end_time
+        duration=timedelta(hours=2)
     )
 
     return schedule

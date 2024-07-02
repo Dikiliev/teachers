@@ -99,6 +99,7 @@ class StudentGroup(models.Model):
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, related_name='groups', verbose_name='Преподаватель')
 
     students = models.ManyToManyField(User, related_name='student_groups', verbose_name='Студенты', blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f'{self.teacher} - {self.name}'

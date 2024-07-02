@@ -228,6 +228,7 @@ input:focus {
     cursor: pointer;
 }
 
+
 .button.outline:hover{
     background-color: var(--color-1);
     color: var(--background-color-1);
