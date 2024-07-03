@@ -1,6 +1,15 @@
 version: '3.8'
 
 services:
+  db:
+    image: postgres:13
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_DB: mydatabase
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+
   web:
     build: .
     command: gunicorn config.wsgi:application --bind 0.0.0.0:8000
@@ -10,6 +19,8 @@ services:
       - "8000"
     env_file:
       - .env
+    depends_on:
+      - db
 
   nginx:
     image: nginx:latest
@@ -25,17 +36,11 @@ services:
     depends_on:
       - web
 
-#  nginx-init:
-#    image: nginx:latest
-#    volumes:
-#      - ./nginx:/etc/nginx/conf.d
-#      - ./certbot/www:/var/www/certbot
-#    command: ["sh", "-c", "while :; do sleep 6h & wait $${!}; nginx -s reload; done"]
-#    depends_on:
-#      - certbot
-
   certbot:
     image: certbot/certbot
     volumes:
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
+
+volumes:
+  postgres_data:

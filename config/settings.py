@@ -1,9 +1,11 @@
+import os
 from pathlib import Path
+import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-SECRET_KEY = 'django-insecure-b=5-s*x-4_7i%$m081hs5edyw(dp5rgx_^hvn@4x6g^(9y0_&x'
+SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-b=5-s*x-4_7i%$m081hs5edyw(dp5rgx_^hvn@4x6g^(9y0_&x')
 
-DEBUG = True
+DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = ['xexarxo.ru', 'localhost']
 
@@ -126,14 +128,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'teachers',
-        'USER': 'postgres',
-        'PASSWORD': 'root',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
+    'default': dj_database_url.config(default='postgres://postgres:root@localhost:5432/teachers')
 }
 
 AUTH_PASSWORD_VALIDATORS = [
