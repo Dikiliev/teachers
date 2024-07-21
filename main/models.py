@@ -179,7 +179,87 @@ class Application(models.Model):
     def __str__(self):
         return f'Заявка {self.user_name} на {self.subject.name}'
 
-
     class Meta:
         verbose_name = 'Заявка'
         verbose_name_plural = 'Заявки'
+
+
+class Test(models.Model):
+    name = models.CharField(max_length=200, verbose_name='Название теста')
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='tests', verbose_name='Предмет')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='Дата обновления')
+
+    def __str__(self):
+        return self.name
+
+    def clean(self):
+        if Test.objects.filter(name=self.name, subject=self.subject).exclude(pk=self.pk).exists():
+            raise ValidationError(f"Тест с именем '{self.name}' уже существует для этого предмета.")
+
+    def save(self, *args, **kwargs):
+        self.clean()
+        super().save(*args, **kwargs)
+
+    class Meta:
+        verbose_name = 'Тест'
+        verbose_name_plural = 'Тесты'
+        unique_together = ('name', 'subject')
+
+
+class Question(models.Model):
+    text = models.TextField(verbose_name='Текст вопроса')
+    test = models.ForeignKey(Test, on_delete=models.CASCADE, related_name='questions', verbose_name='Тест')
+
+    def __str__(self):
+        return f'Вопрос {self.pk}: {self.text[:50]}...'
+
+    def clean(self):
+        # Example validation: Ensure a question text is not too short
+        if len(self.text) < 10:
+            raise ValidationError("Текст вопроса должен содержать как минимум 10 символов.")
+
+    def save(self, *args, **kwargs):
+        self.clean()
+        super().save(*args, **kwargs)
+
+    class Meta:
+        verbose_name = 'Вопрос'
+        verbose_name_plural = 'Вопросы'
+
+
+class Answer(models.Model):
+    text = models.TextField(verbose_name='Текст ответа')
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='answers', verbose_name='Вопрос')
+    is_correct = models.BooleanField(default=False, verbose_name='Правильный ответ')
+
+    def __str__(self):
+        return f'Ответ {self.pk}: {self.text[:50]}...'
+
+    def clean(self):
+        # Example validation: Ensure at least one correct answer exists per question
+        if self.is_correct:
+            if Answer.objects.filter(question=self.question, is_correct=True).exclude(pk=self.pk).exists():
+                raise ValidationError("Каждый вопрос может иметь только один правильный ответ.")
+
+    def save(self, *args, **kwargs):
+        self.clean()
+        super().save(*args, **kwargs)
+
+    class Meta:
+        verbose_name = 'Ответ'
+        verbose_name_plural = 'Ответы'
+
+
+class TestResult(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='test_results', verbose_name='Пользователь')
+    test = models.ForeignKey(Test, on_delete=models.CASCADE, related_name='test_results', verbose_name='Тест')
+    score = models.IntegerField(verbose_name='Баллы')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
+
+    def __str__(self):
+        return f'{self.user.get_full_name()} - {self.test.name} - {self.score} баллов'
+
+    class Meta:
+        verbose_name = 'Результат теста'
+        verbose_name_plural = 'Результаты тестов'

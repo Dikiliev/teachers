@@ -12,7 +12,8 @@ from django.contrib import messages
 
 from .admin_filters import TeacherFilter
 from .forms import ScheduleForm
-from .models import User, Teacher, Subject, StudentGroup, Schedule, Appointment, AppointmentStatus, Application
+from .models import User, Teacher, Subject, StudentGroup, Schedule, Appointment, AppointmentStatus, Application, Test, \
+    Question, Answer, TestResult
 
 
 class UserCreationForm(forms.ModelForm):
@@ -182,6 +183,27 @@ class ApplicationAdmin(admin.ModelAdmin):
             return
 
         super().save_model(request, obj, form, change)
+
+
+@admin.register(Test)
+class TestAdmin(admin.ModelAdmin):
+    list_display = ('name', 'subject', 'created_at', 'updated_at')
+    search_fields = ('name', 'subject__name')
+
+@admin.register(Question)
+class QuestionAdmin(admin.ModelAdmin):
+    list_display = ('text', 'test')
+    search_fields = ('text', 'test__name')
+
+@admin.register(Answer)
+class AnswerAdmin(admin.ModelAdmin):
+    list_display = ('text', 'question', 'is_correct')
+    search_fields = ('text', 'question__text')
+
+@admin.register(TestResult)
+class TestResultAdmin(admin.ModelAdmin):
+    list_display = ('user', 'test', 'score', 'created_at')
+    search_fields = ('user__username', 'test__name')
 
 
 admin.site.register(User, UserAdmin)

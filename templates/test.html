@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <link type="text/css" rel="stylesheet" href="{{ static('css/test.css') }}">
+{% endblock %}
+
+{% block content %}
+    <br>
+    <div class="container">
+        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+        
+        <br>
+        <div class="strap">
+            <div id="question-numbers-list" class="question-numbers-list">
+                {% for question in questions %}
+                    <div class="question-number {% if forloop.first %}current{% endif %}">{{ forloop.counter }}</div>
+                {% endfor %}
+            </div>
+            
+            <h2 id="question-title" class="question-title"></h2>
+            <p id="question-text" class="question-text"></p>
+            
+            <div id="answers-list" class="answers-list">
+            </div>
+            <button id="next-button" class="button large">Далее</button>
+        
+            <div id="result" class="result" style="display:none;">
+                <h2>Результаты</h2>
+                <p id="result-text"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questions = {{ questions|safe }};
+    </script>
+
+    <script type="text/javascript" src="{{ static('js/test.js') }}" defer></script>
+{% endblock %}

@@ -32,6 +32,10 @@ urlpatterns = [
     path('save_group/<int:group_id>', views.save_group, name='save_group'),
     path('delete_group/<int:group_id>', views.delete_group, name='delete_group'),
 
+
+    path('test/<int:subject_id>', views.test, name='test'),
+    path('send_results/', views.send_results, name='send_results'),
+
     path('register/', views.register, name='register'),
     path('login/', views.user_login, name='login'),
     path('logout/', views.logout_user, name='logout'),

@@ -8,8 +8,10 @@ from django.http import HttpRequest, JsonResponse, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
+from django.core.mail import send_mail
 
-from main.models import User, Subject, Teacher, StudentGroup, Appointment, UserRole, Schedule, Application
+from main.models import User, Subject, Teacher, StudentGroup, Appointment, UserRole, Schedule, Application, Test, \
+    Question, Answer
 
 DEFAULT_TITLE = 'Хехархо'
 
@@ -37,6 +39,52 @@ def home(request: HttpRequest):
             return redirect('appointment_completed')
 
     return render(request, 'index.html', context)
+
+
+def test(request: HttpRequest, subject_id):
+    subject = get_object_or_404(Subject, id=subject_id)
+
+    test = get_object_or_404(Test, subject=subject)
+
+    questions = Question.objects.filter(test=test)
+
+    questions_list = []
+    for question in questions:
+        answers = Answer.objects.filter(question=question).values_list('text', flat=True)
+        questions_list.append({
+            'text': question.text,
+            'answers': list(answers)
+        })
+
+    context = create_base_data(request)
+    context['subject'] = subject
+    context['test'] = test
+    context['questions'] = questions_list
+
+    return render(request, 'test.html', context)
+
+
+@csrf_exempt
+def send_results(request):
+    if request.method == 'POST':
+        # data = json.loads(request.body)
+        # email = data['email']
+        # results = data['results']
+        #
+        # subject = 'Результаты вашего теста'
+        # message = 'Результаты теста:\n\n'
+        # for result in results:
+        #     message += f"Вопрос: {result['question']}\n"
+        #     message += f"Ваш ответ: {result['userAnswer']}\n"
+        #     message += f"Правильный ответ: {result['correctAnswer']}\n\n"
+
+        try:
+            send_mail('xexarxo title', 'message this it yes', 'estagpt@gmail.com', ['mdikiy069@gmail.com'])
+            return JsonResponse({'success': True})
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)})
+    else:
+        return JsonResponse({'success': False, 'error': 'Invalid request method'})
 
 
 def select_teacher(request: HttpRequest):
