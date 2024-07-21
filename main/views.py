@@ -10,8 +10,9 @@ from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 from django.core.mail import send_mail
 
+from config import settings
 from main.models import User, Subject, Teacher, StudentGroup, Appointment, UserRole, Schedule, Application, Test, \
-    Question, Answer
+    Question, Answer, TestResult
 
 DEFAULT_TITLE = 'Хехархо'
 
@@ -44,19 +45,19 @@ def home(request: HttpRequest):
 def test(request: HttpRequest, subject_id):
     subject = get_object_or_404(Subject, id=subject_id)
 
+    context = create_base_data(request)
     test = get_object_or_404(Test, subject=subject)
-
     questions = Question.objects.filter(test=test)
 
     questions_list = []
     for question in questions:
-        answers = Answer.objects.filter(question=question).values_list('text', flat=True)
+        answers = question.answers.all()
         questions_list.append({
+            'id': question.id,
             'text': question.text,
-            'answers': list(answers)
+            'answers': [{'id': answer.id, 'text': answer.text} for answer in answers]
         })
 
-    context = create_base_data(request)
     context['subject'] = subject
     context['test'] = test
     context['questions'] = questions_list
@@ -66,25 +67,71 @@ def test(request: HttpRequest, subject_id):
 
 @csrf_exempt
 def send_results(request):
-    if request.method == 'POST':
-        # data = json.loads(request.body)
-        # email = data['email']
-        # results = data['results']
-        #
-        # subject = 'Результаты вашего теста'
-        # message = 'Результаты теста:\n\n'
-        # for result in results:
-        #     message += f"Вопрос: {result['question']}\n"
-        #     message += f"Ваш ответ: {result['userAnswer']}\n"
-        #     message += f"Правильный ответ: {result['correctAnswer']}\n\n"
-
-        try:
-            send_mail('xexarxo title', 'message this it yes', 'estagpt@gmail.com', ['mdikiy069@gmail.com'])
-            return JsonResponse({'success': True})
-        except Exception as e:
-            return JsonResponse({'success': False, 'error': str(e)})
-    else:
+    if request.method != 'POST':
         return JsonResponse({'success': False, 'error': 'Invalid request method'})
+
+    data = json.loads(request.body)
+    email = data['email']
+    results = data['results']
+
+    test = get_object_or_404(Test, id=data['test_id'])
+
+    correct_count = 0
+    for question in test.questions.all():
+        print(f'question: {question}')
+        print(f'result: {results.get(str(question.id))}')
+        print(f'correct: {question.answers.filter(is_correct=True).first().id}')
+        if results.get(str(question.id)) == question.answers.filter(is_correct=True).first().id:
+            correct_count += 1
+
+    total_questions = len(results)
+
+    test_result = TestResult.objects.create(
+        test=test,
+        score=correct_count,
+        user_answers=results
+    )
+
+    result_url = request.build_absolute_uri(f"/test_result/{test_result.id}/")
+
+    subject = 'Результаты вашего теста'
+    message = f'Вы правильно ответили на {correct_count} из {total_questions} вопросов.\n'
+    message += f'Посмотреть подробные результаты можно по ссылке: {result_url}'
+
+    try:
+        send_mail(subject, message, settings.EMAIL_HOST_USER, [email])
+        return JsonResponse({'success': True})
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)})
+
+
+def test_result_view(request, result_id):
+    test_result = get_object_or_404(TestResult, id=result_id)
+
+    test = test_result.test
+    questions = test.questions.all()
+    user_answers = test_result.user_answers
+
+    details = []
+
+    for question in questions:
+        correct_answer = question.answers.filter(is_correct=True).first()
+
+        user_answer_id = int(user_answers.get(str(question.id)))
+        user_answer = question.answers.filter(id=user_answer_id).first()
+
+        details.append({
+            'question': question.text,
+            'userAnswer': user_answer.text if user_answer else 'Не отвечено',
+            'correctAnswer': correct_answer.text if correct_answer else 'Нет правильного ответа',
+            'isCorrect': user_answer == correct_answer
+        })
+
+    context = create_base_data(request)
+    context['test_result'] = test_result
+    context['details'] = details
+
+    return render(request, 'test_result.html', context)
 
 
 def select_teacher(request: HttpRequest):

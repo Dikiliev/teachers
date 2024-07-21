@@ -7,6 +7,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     let currentQuestionIndex = 0;
     let selectedAnswerIndex = -1;
+    const userAnswers = {};
+
+    console.log(questions);
 
     function renderQuestion(index) {
         selectedAnswerIndex = -1;
@@ -15,12 +18,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
         questionTitle.textContent = `Задание ${index + 1}`;
         questionText.textContent = question.text;
 
+
+
         answersList.innerHTML = '';
         question.answers.forEach((answer, i) => {
             const button = document.createElement('button');
             button.className = 'button answer';
-            button.textContent = `${i + 1}. ${answer}`;
-            button.addEventListener('click', () => selectAnswer(index, i));
+            button.textContent = `${i + 1}. ${answer.text}`;
+            button.addEventListener('click', () => selectAnswer(index, i, question.id));
             answersList.appendChild(button);
         });
 
@@ -29,7 +34,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         updateQuestionNumbers(index);
     }
 
-    function selectAnswer(questionIndex, answerIndex) {
+    function selectAnswer(questionIndex, answerIndex, questionId) {
         selectedAnswerIndex = answerIndex;
         nextButton.classList.toggle('inactive', false);
 
@@ -39,7 +44,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             buttons[i].classList.toggle('selected', selectedAnswerIndex === i);
         }
 
-        localStorage.setItem(`question_${questionIndex}_answer`, answerIndex);
+        userAnswers[questionId] = answerIndex;
     }
 
     function updateQuestionNumbers(currentIndex) {
@@ -63,7 +68,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
             },
             body: JSON.stringify({
                 email: email,
-                results: results
+                results: results,
+                test_id: testId
             })
         })
         .then(response => response.json())
@@ -77,51 +83,37 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
 
     nextButton.addEventListener('click', () => {
-        if (selectedAnswerIndex === -1){
+        if (selectedAnswerIndex === -1) {
             return;
         }
+
+        console.log(userAnswers);
 
         currentQuestionIndex++;
         if (currentQuestionIndex < questions.length) {
             renderQuestion(currentQuestionIndex);
         } else {
-            // Сбор результатов и отображение их пользователю
             let correctCount = 0;
-            let resultDetails = '';
+            let results = {
+
+            };
 
             questions.forEach((question, index) => {
-                const userAnswerIndex = localStorage.getItem(`question_${index}_answer`);
-                const userAnswer = question.answers[userAnswerIndex];
-                const correctAnswer = question.answers[question.correctAnswer];
-
-                if (userAnswerIndex !== null && question.correctAnswer == userAnswerIndex) {
-                    correctCount++;
-                }
-
-                resultDetails += `
-                    <div>
-                        <h3>Вопрос ${index + 1}: ${question.text}</h3>
-                        <p>Ваш ответ: ${userAnswer || 'Не отвечено'}</p>
-                        <p>Правильный ответ: ${correctAnswer}</p>
-                    </div>
-                `;
+                const userAnswerIndex = userAnswers[question.id];
+                results[question.id] = question.answers[userAnswerIndex].id
             });
-
-            const totalQuestions = questions.length;
-            const resultMessage = `Вы правильно ответили на ${correctCount} из ${totalQuestions} вопросов.`;
 
             const resultDiv = document.createElement('div');
             resultDiv.className = 'result';
-            resultDiv.innerHTML = `<h2>Результаты</h2><p>${resultMessage}</p>${resultDetails}`;
+            resultDiv.innerHTML = `<h2>Результаты</h2><p></p>`;
 
             document.querySelector('.strap').innerHTML = '';
             document.querySelector('.strap').appendChild(resultDiv);
             resultDiv.style.display = 'block';
 
-            // Отправка результатов на сервер для отправки по почте
             const userEmail = prompt("Введите ваш email для получения результатов:");
             if (userEmail) {
-                sendResults(userEmail, resultDetails);
+                sendResults(userEmail, results);
             }
         }
     });

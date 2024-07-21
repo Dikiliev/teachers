@@ -19,14 +19,14 @@ if DEBUG:
 AUTH_USER_MODEL = 'main.User'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.mail.ru'
+EMAIL_PORT = 465
+EMAIL_USE_SSL = True
 # EMAIL_HOST_USER = 'cazaevramzan@gmail.com'
 # EMAIL_HOST_PASSWORD = 'R@mz@n28'
 
-EMAIL_HOST_USER = 'estagpt@gmail.com'
-EMAIL_HOST_PASSWORD = 'gptgptgpt'
+EMAIL_HOST_USER = 'workesta@mail.ru'
+EMAIL_HOST_PASSWORD = '4TeSqRQvBaQ55SSEGfhA'
 
 DEFAULT_FROM_EMAIL = 'estagpt@gmail.com'
 

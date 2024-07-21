@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container">
+        <h2>Результаты теста</h2>
+        <p><strong>Тест:</strong> {{ test_result.test.name }}</p>
+        <p><strong>Баллы:</strong> {{ test_result.score }}</p>
+        <div>
+            {% for detail in details %}
+                <div>
+                    <h3>Вопрос {{ loop.index }}: {{ detail.question }}</h3>
+                    <p>Ваш ответ: {{ detail.userAnswer }}</p>
+                    <p>Правильный ответ: {{ detail.correctAnswer }}</p>
+                    
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

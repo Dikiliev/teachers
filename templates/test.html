@@ -13,7 +13,7 @@
         <div class="strap">
             <div id="question-numbers-list" class="question-numbers-list">
                 {% for question in questions %}
-                    <div class="question-number {% if forloop.first %}current{% endif %}">{{ forloop.counter }}</div>
+                    <div class="question-number">{{ loop.index }}</div>
                 {% endfor %}
             </div>
             
@@ -32,6 +32,7 @@
     </div>
 
     <script>
+        const testId = {{ test.id }};
         const questions = {{ questions|safe }};
     </script>
 

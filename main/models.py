@@ -237,7 +237,6 @@ class Answer(models.Model):
         return f'Ответ {self.pk}: {self.text[:50]}...'
 
     def clean(self):
-        # Example validation: Ensure at least one correct answer exists per question
         if self.is_correct:
             if Answer.objects.filter(question=self.question, is_correct=True).exclude(pk=self.pk).exists():
                 raise ValidationError("Каждый вопрос может иметь только один правильный ответ.")
@@ -252,13 +251,14 @@ class Answer(models.Model):
 
 
 class TestResult(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='test_results', verbose_name='Пользователь')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='test_results', verbose_name='Пользователь', blank=True, null=True)
     test = models.ForeignKey(Test, on_delete=models.CASCADE, related_name='test_results', verbose_name='Тест')
     score = models.IntegerField(verbose_name='Баллы')
+    user_answers = models.JSONField(verbose_name='Ответы пользователя', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
 
     def __str__(self):
-        return f'{self.user.get_full_name()} - {self.test.name} - {self.score} баллов'
+        return f'{self.test.name} - {self.score} баллов'
 
     class Meta:
         verbose_name = 'Результат теста'

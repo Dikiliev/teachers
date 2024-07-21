@@ -202,8 +202,7 @@ class AnswerAdmin(admin.ModelAdmin):
 
 @admin.register(TestResult)
 class TestResultAdmin(admin.ModelAdmin):
-    list_display = ('user', 'test', 'score', 'created_at')
-    search_fields = ('user__username', 'test__name')
+    list_display = ('test', 'created_at')
 
 
 admin.site.register(User, UserAdmin)

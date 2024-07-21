@@ -33,8 +33,10 @@ urlpatterns = [
     path('delete_group/<int:group_id>', views.delete_group, name='delete_group'),
 
 
-    path('test/<int:subject_id>', views.test, name='test'),
     path('send_results/', views.send_results, name='send_results'),
+    path('test/<int:subject_id>', views.test, name='test'),
+    path('test_result/<int:result_id>/', views.test_result_view, name='test_result_view'),
+
 
     path('register/', views.register, name='register'),
     path('login/', views.user_login, name='login'),
