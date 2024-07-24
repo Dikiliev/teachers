@@ -11,23 +11,61 @@
         
         <br>
         <div class="strap">
-            <div id="question-numbers-list" class="question-numbers-list">
-                {% for question in questions %}
-                    <div class="question-number">{{ loop.index }}</div>
-                {% endfor %}
+            <div class="test section active">
+                <div id="question-numbers-list" class="question-numbers-list">
+                    {% for question in questions %}
+                        <div class="question-number">{{ loop.index }}</div>
+                    {% endfor %}
+                </div>
+
+                <h2 id="question-title" class="question-title"></h2>
+                <p id="question-text" class="question-text"></p>
+
+                <div id="answers-list" class="answers-list">
+                </div>
+                <button id="next-button" class="button large">Далее</button>
+
+                <div id="result" class="result" style="display:none;">
+                    <h2>Результаты</h2>
+                    <p id="result-text"></p>
+                </div>
             </div>
-            
-            <h2 id="question-title" class="question-title"></h2>
-            <p id="question-text" class="question-text"></p>
-            
-            <div id="answers-list" class="answers-list">
+
+            <div id="test-finish-form" class="section">
+                <div class="confirmation-header">
+                    <div class="icon-strap">
+                        <img class="big-icon" src="{{ static('icons/check_mark_icon.svg') }}">
+                    </div>
+                    <div class="center-text">
+                        <h1 class="custom-h1">Тест завершен!</h1>
+                        <p>Введите вашу электронную почту что бы получить результаты.</p>
+                        <br>
+                        <div class="input-group">
+                            <label for="email"></label>
+                            <input type="email" id="email" name="email"
+                                   value="" placeholder="Введите ваш email" required>
+                        </div>
+                        <br>
+                        <button id="test-finish-button" href="/" class="button large">Отправить</button>
+                    </div>
+                </div>
             </div>
-            <button id="next-button" class="button large">Далее</button>
-        
-            <div id="result" class="result" style="display:none;">
-                <h2>Результаты</h2>
-                <p id="result-text"></p>
-            </div>
+
+            <div id="test-finished" class="section">
+                    <div class="confirmation-header">
+                        <div class="icon-strap">
+                            <img class="big-icon" src="{{ static('icons/check_mark_icon.svg') }}">
+                        </div>
+                        <div class="center-text">
+                            <h1 class="custom-h1">Результаты отправлены!</h1>
+                            <br>
+                            <br>
+                            <a id="test-finish-button" href="/select_teacher" class="button large">Записаться</a>
+                            <br>
+                            <a id="test-finish-button" href="/" class="button large outline">Главное</a>
+                        </div>
+                    </div>
+                </div>
         </div>
     </div>
 

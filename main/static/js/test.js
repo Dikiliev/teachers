@@ -5,11 +5,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const answersList = document.getElementById('answers-list');
     const nextButton = document.getElementById('next-button');
 
+    const testFinishForm = document.getElementById('test-finish-form');
+    const testFinished = document.getElementById('test-finished');
+
     let currentQuestionIndex = 0;
     let selectedAnswerIndex = -1;
     const userAnswers = {};
-
-    console.log(questions);
 
     function renderQuestion(index) {
         selectedAnswerIndex = -1;
@@ -60,6 +61,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
 
     function sendResults(email, results) {
+        if (document.getElementById('test-finish-button').classList.contains('inactive')){
+            return
+        }
+
+        document.getElementById('test-finish-button').classList.toggle('inactive', true);
+
         fetch('/send_results/', {
             method: 'POST',
             headers: {
@@ -75,9 +82,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                alert('Результаты успешно отправлены на вашу почту!');
+                testFinishForm.classList.toggle('active', false);
+                testFinished.classList.toggle('active', true);
+                testFinished.querySelector('.icon-strap').classList.add('visible');
             } else {
-                alert('Ошибка при отправке результатов.');
+                document.getElementById('email').classList.toggle('inactive', false);
             }
         });
     }
@@ -86,8 +95,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
         if (selectedAnswerIndex === -1) {
             return;
         }
-
-        console.log(userAnswers);
 
         currentQuestionIndex++;
         if (currentQuestionIndex < questions.length) {
@@ -103,17 +110,23 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 results[question.id] = question.answers[userAnswerIndex].id
             });
 
-            const resultDiv = document.createElement('div');
-            resultDiv.className = 'result';
-            resultDiv.innerHTML = `<h2>Результаты</h2><p></p>`;
 
-            document.querySelector('.strap').innerHTML = '';
-            document.querySelector('.strap').appendChild(resultDiv);
-            resultDiv.style.display = 'block';
 
-            const userEmail = prompt("Введите ваш email для получения результатов:");
-            if (userEmail) {
-                sendResults(userEmail, results);
+            // const resultDiv = document.createElement('div');
+            // resultDiv.className = 'result';
+            // resultDiv.innerHTML = `<h2>Результаты</h2><p></p>`;
+            //
+            // document.querySelector('.strap').innerHTML = '';
+            // document.querySelector('.strap').appendChild(resultDiv);
+            // resultDiv.style.display = 'block';
+
+            document.querySelector('.test').classList.toggle('active', false);
+            testFinishForm.classList.toggle('active', true);
+
+            testFinishForm.querySelector('.icon-strap').classList.add('visible');
+
+            document.getElementById('test-finish-button').onclick = () => {
+                sendResults(document.getElementById('email').value, results);
             }
         }
     });
