@@ -1,0 +1,13 @@
+
+
+.info-p{
+
+}
+
+.info-p span, .info-p a{
+    color: var(--color-hover-1);
+}
+
+.info-p a{
+    text-decoration: underline;
+}

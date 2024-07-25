@@ -171,11 +171,11 @@ class AppointmentAdmin(admin.ModelAdmin):
 
 
 class ApplicationAdmin(admin.ModelAdmin):
-    list_display = ('user_name', 'user_phone', 'subject', 'created_at', 'updated_at')
+    list_display = ('user_name', 'user_phone', 'subject', 'created_at', 'status')
     search_fields = ('user_name', 'user_phone', 'subject__name')
-    list_filter = ('subject', 'created_at', 'updated_at')
-    fields = ('user', 'user_name', 'user_phone', 'subject', 'created_at', 'updated_at')
-    readonly_fields = ('created_at', 'updated_at')
+    list_filter = ('subject', 'created_at', 'status')
+    fields = ('user', 'user_name', 'user_phone', 'subject', 'created_at', 'status')
+    readonly_fields = ('created_at',)
 
     def save_model(self, request, obj, form, change):
         if not obj.user and not obj.user_name:

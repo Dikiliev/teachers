@@ -51,10 +51,13 @@
             <nav class="nav-menu horizontal-container">
                 <a href="/" class="nav-item">Главная</a>
                 <a href="/select_teacher" class="nav-item">Записаться</a>
-                
+
                 {% if user.is_authenticated %}
                     {% if user.role == 2 %}
-                        <a href="/manage_groups" class="nav-item">Мои группы</a>
+                        <a href="/manage_groups" class="nav-item">Группы</a>
+                    {% elif user.role == 3 %}
+                        <a href="/manager_appointments/" class="nav-item">Записи</a>
+                        <a href="/manager_home/" class="nav-item">Группы</a>
                     {% else %}
                         <a href="/my_groups" class="nav-item">Мои группы</a>
                     {% endif %}

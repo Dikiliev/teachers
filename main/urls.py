@@ -45,5 +45,6 @@ urlpatterns = [
 
     # ----- MANAGER ----- #
     path('manager_home/', views.manager_home, name='manager_home'),
+    path('manager_appointments/', views.manager_appointments, name='manager_appointments'),
     # path('manage_group', views.manage_group, name='manage_group'),
 ]

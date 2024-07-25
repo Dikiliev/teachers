@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <link type="text/css" rel="stylesheet" href="{{ static('css/form.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ static('css/manage_groups.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ static('css/my_groups.css') }}">
+    <link type="text/css" rel="stylesheet" href="{{ static('css/manager/appointments.css') }}">
+
+    <script>
+        const user_id = {{ user.id }};
+    </script>
+{% endblock %}
+
+{% block content %}
+    <br>
+    <div class="container">
+        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+        <h1>Все записи</h1>
+        <br>
+        <div class="groups-list">
+            {% for appointment in appointments %}
+                <div class="group">
+                    <div class="group-info">
+                        <h2>id: {{ appointment.id }}</h2>
+
+                        <p class="info-p">Преподаватель: <span>{{ appointment.group.teacher }}</span></p>
+                        <p class="info-p">Группа: <a href="/manage_group/{{ appointment.group.id }}?from=manager_home">{{ appointment.group.name }}</a></p>
+                        <p class="info-p">Имя: <span>{{ appointment.user_name }}</span></p>
+                        <p class="info-p">Номер телефона: <span>{{ appointment.user_phone }}</span></p>
+                        <p class="info-p">Комментарии: <span>{{ appointment.user_comment }}</span></p>
+                        <p class="info-p">Статус: <span>{{ appointment.status }}</span></p>
+
+
+                    </div>
+                    <div class="fields-container">
+                        <button class="button">Принять</button>
+                        <button class="button">Отменить</button>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+{% endblock %}

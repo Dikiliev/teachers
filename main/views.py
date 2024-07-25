@@ -464,6 +464,18 @@ def manager_home(request: HttpRequest):
 
     return render(request, 'manager/home.html', context)
 
+
+@login_required
+def manager_appointments(request: HttpRequest):
+    context = create_base_data(request)
+    appointments = Appointment.objects.all()
+    applications = Application.objects.all()
+
+    context['appointments'] = appointments
+    context['applications'] = applications
+
+    return render(request, 'manager/appointments.html', context)
+
 @csrf_exempt
 def save_group(request: HttpRequest, group_id):
     if request.method != "POST":

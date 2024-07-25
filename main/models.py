@@ -45,7 +45,7 @@ class User(AbstractUser):
     )
 
     def __str__(self):
-        return f'{self.get_full_name()} ({self.username}) ({dict(self.ROLE_ENUM).get(self.role, "Неизвестная роль")})'
+        return f'{self.get_full_name()} [{self.username}] ({dict(self.ROLE_ENUM).get(self.role, "Неизвестная роль")})'
 
     @classmethod
     def exists(cls):
@@ -85,7 +85,7 @@ class Teacher(models.Model):
     skills = models.TextField(blank=True, verbose_name='Навыки')
 
     def __str__(self):
-        return f'{self.user.get_full_name()} ({self.user.username})'
+        return f'{self.user.get_full_name()}'
 
     class Meta:
         verbose_name = 'Преподаватель'
@@ -97,6 +97,8 @@ class StudentGroup(models.Model):
 
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='student_groups', verbose_name='Предмет')
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, related_name='groups', verbose_name='Преподаватель')
+
+    unregistered_users_count = models.IntegerField(default=0)
 
     students = models.ManyToManyField(User, related_name='student_groups', verbose_name='Студенты', blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -137,9 +139,11 @@ class AppointmentStatus(Enum):
     ACCEPTED = 'Принято'
     REJECTED = 'Отклонено'
 
-class Appointment(models.Model):
-    STATUS_CHOICES = [(status.name, status.value) for status in AppointmentStatus]
+    @staticmethod
+    def get_choices():
+        return [(status.name, status.value) for status in AppointmentStatus]
 
+class Appointment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='appointments', blank=True, null=True, verbose_name='Ученик')
     group = models.ForeignKey(StudentGroup, on_delete=models.CASCADE, related_name='appointments', verbose_name='Группа')
 
@@ -148,7 +152,7 @@ class Appointment(models.Model):
     user_comment = models.TextField(blank=True, default='', verbose_name='Комментарий')
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
-    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default=AppointmentStatus.CREATED.name, verbose_name='Статус')
+    status = models.CharField(max_length=10, choices=AppointmentStatus.get_choices(), default=AppointmentStatus.CREATED.name, verbose_name='Статус')
 
     def __str__(self):
         return f'Запись {self.user_name} в {self.group.name}'
@@ -174,7 +178,7 @@ class Application(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='applications', verbose_name='Предмет')
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
-    updated_at = models.DateTimeField(auto_now=True, verbose_name='Дата обновления')
+    status = models.CharField(max_length=10, choices=AppointmentStatus.get_choices(), default=AppointmentStatus.CREATED.name, verbose_name='Статус')
 
     def __str__(self):
         return f'Заявка {self.user_name} на {self.subject.name}'
