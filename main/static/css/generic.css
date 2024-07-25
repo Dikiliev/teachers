@@ -256,6 +256,17 @@ input:focus {
     filter: brightness(1.1);
 }
 
+.button.danger.outline{
+    background-color: transparent;
+    color: var(--error-color);
+    border: 1px solid var(--error-color);
+
+    &:hover{
+        background-color: var(--error-color);
+        color: var(--background-color-1);
+    }
+}
+
 .fields-list{
     display: flex;
     gap: 1rem;
