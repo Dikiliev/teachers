@@ -21,6 +21,8 @@ body{
     gap: 1rem
 }
 
+
+
 .test{
     width: 100%;
     display: flex;
@@ -105,7 +107,6 @@ body{
 h2{
     font-weight: 400;
     color: var(--color-1);
-    text-align: center;
 }
 
 
@@ -152,5 +153,20 @@ h2{
     100% {
         opacity: 1;
         transform: scale(1);
+    }
+}
+
+@media (max-width: 480px){
+    .strap{
+        padding: 1rem;
+    }
+
+    .answer{
+        padding: 1rem 1rem;
+
+        width: auto;
+
+        min-width: max(40%, 200px);
+
     }
 }

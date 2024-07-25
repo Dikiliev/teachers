@@ -78,9 +78,6 @@ def send_results(request):
 
     correct_count = 0
     for question in test.questions.all():
-        print(f'question: {question}')
-        print(f'result: {results.get(str(question.id))}')
-        print(f'correct: {question.answers.filter(is_correct=True).first().id}')
         if results.get(str(question.id)) == question.answers.filter(is_correct=True).first().id:
             correct_count += 1
 
