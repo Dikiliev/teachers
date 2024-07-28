@@ -137,7 +137,8 @@ class Schedule(models.Model):
 class AppointmentStatus(Enum):
     CREATED = 'Создано'
     ACCEPTED = 'Принято'
-    REJECTED = 'Отклонено'
+    REJECTED = 'Отменено'
+    PROCESSED = 'Обработан'
 
     @staticmethod
     def get_choices():
@@ -145,7 +146,8 @@ class AppointmentStatus(Enum):
 
 class Appointment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='appointments', blank=True, null=True, verbose_name='Ученик')
-    group = models.ForeignKey(StudentGroup, on_delete=models.CASCADE, related_name='appointments', verbose_name='Группа')
+    group = models.ForeignKey(StudentGroup, on_delete=models.CASCADE, related_name='appointments', blank=True, null=True, verbose_name='Группа')
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='applications', blank=True, null=True, verbose_name='Предмет')
 
     user_name = models.CharField(max_length=150, verbose_name='Имя')
     user_phone = models.CharField(max_length=25, blank=True, verbose_name='Номер телефона')
@@ -155,37 +157,41 @@ class Appointment(models.Model):
     status = models.CharField(max_length=10, choices=AppointmentStatus.get_choices(), default=AppointmentStatus.CREATED.name, verbose_name='Статус')
 
     def __str__(self):
-        return f'Запись {self.user_name} в {self.group.name}'
+        return f'Запись {self.user_name} в {self.group.name if self.group else "без группы"}'
 
     def clean(self):
-        if self.status == AppointmentStatus.ACCEPTED.name and self.user is None:
-            raise ValidationError("Невозможно принять запись без зарегистрированного пользователя.")
+        current_status = Appointment.objects.get(pk=self.pk).status if self.pk else None
+
+        if self.user is None:
+            if self.group:
+                if self.status == AppointmentStatus.ACCEPTED.name:
+                    if current_status != AppointmentStatus.ACCEPTED.name:
+                        self.group.unregistered_users_count += 1
+                elif current_status == AppointmentStatus.ACCEPTED.name:
+                    self.group.unregistered_users_count -= 1
+
+                self.group.save()
+            return
+
+        if self.group:
+            if self.status == AppointmentStatus.ACCEPTED.name:
+                if current_status != AppointmentStatus.ACCEPTED.name:
+                    self.group.students.add(self.user)
+            elif current_status == AppointmentStatus.ACCEPTED.name and self.user in self.group.students.all():
+                self.group.students.remove(self.user)
+
+            self.group.save()
 
     def save(self, *args, **kwargs):
         self.clean()
         super().save(*args, **kwargs)
 
+    def get_subject(self):
+        return self.subject.name if self.subject else self.group.subject.name if self.group else 'Не выбрано'
+
     class Meta:
         verbose_name = 'Запись'
         verbose_name_plural = 'Записи'
-
-
-class Application(models.Model):
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='applications', verbose_name='Пользователь')
-
-    user_name = models.CharField(max_length=150, verbose_name='Имя')
-    user_phone = models.CharField(max_length=25, verbose_name='Номер телефона')
-    subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='applications', verbose_name='Предмет')
-
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
-    status = models.CharField(max_length=10, choices=AppointmentStatus.get_choices(), default=AppointmentStatus.CREATED.name, verbose_name='Статус')
-
-    def __str__(self):
-        return f'Заявка {self.user_name} на {self.subject.name}'
-
-    class Meta:
-        verbose_name = 'Заявка'
-        verbose_name_plural = 'Заявки'
 
 
 class Test(models.Model):

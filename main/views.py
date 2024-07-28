@@ -9,10 +9,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
 from django.core.mail import send_mail
+from django.views.decorators.http import require_POST
 
 from config import settings
-from main.models import User, Subject, Teacher, StudentGroup, Appointment, UserRole, Schedule, Application, Test, \
-    Question, Answer, TestResult
+from main.models import User, Subject, Teacher, StudentGroup, Appointment, UserRole, Schedule, Test, \
+    Question, Answer, TestResult, AppointmentStatus
 
 DEFAULT_TITLE = 'Хехархо'
 
@@ -31,7 +32,7 @@ def home(request: HttpRequest):
         else:
             subject = Subject.objects.get(id=subject_id)
 
-            Application.objects.create(
+            Appointment.objects.create(
                 user_name=first_name,
                 user_phone=phone,
                 subject=subject
@@ -468,13 +469,31 @@ def manager_home(request: HttpRequest):
 @login_required
 def manager_appointments(request: HttpRequest):
     context = create_base_data(request)
-    appointments = Appointment.objects.all()
-    applications = Application.objects.all()
+    appointments = Appointment.objects.all().order_by('created_at')
 
     context['appointments'] = appointments
-    context['applications'] = applications
 
     return render(request, 'manager/appointments.html', context)
+
+
+@csrf_exempt
+@require_POST
+def set_appointment_status(request):
+    appointment_id = request.POST.get('appointment_id')
+    new_status = request.POST.get('status')
+
+    if not appointment_id or not new_status:
+        return JsonResponse({'error': 'appointment_id and status are required.'}, status=400)
+
+    appointment = get_object_or_404(Appointment, pk=appointment_id)
+
+    if new_status not in [status.name for status in AppointmentStatus]:
+        return JsonResponse({'error': 'Invalid status value.'}, status=400)
+
+    appointment.status = new_status
+    appointment.save()
+
+    return JsonResponse({'success': 'Status updated successfully.'})
 
 @csrf_exempt
 def save_group(request: HttpRequest, group_id):

@@ -12,7 +12,7 @@ from django.contrib import messages
 
 from .admin_filters import TeacherFilter
 from .forms import ScheduleForm
-from .models import User, Teacher, Subject, StudentGroup, Schedule, Appointment, AppointmentStatus, Application, Test, \
+from .models import User, Teacher, Subject, StudentGroup, Schedule, Appointment, AppointmentStatus, Test, \
     Question, Answer, TestResult
 
 
@@ -170,21 +170,6 @@ class AppointmentAdmin(admin.ModelAdmin):
     get_user_display.short_description = 'User'
 
 
-class ApplicationAdmin(admin.ModelAdmin):
-    list_display = ('user_name', 'user_phone', 'subject', 'created_at', 'status')
-    search_fields = ('user_name', 'user_phone', 'subject__name')
-    list_filter = ('subject', 'created_at', 'status')
-    fields = ('user', 'user_name', 'user_phone', 'subject', 'created_at', 'status')
-    readonly_fields = ('created_at',)
-
-    def save_model(self, request, obj, form, change):
-        if not obj.user and not obj.user_name:
-            messages.error(request, "Имя пользователя обязательно, если пользователь не зарегистрирован.")
-            return
-
-        super().save_model(request, obj, form, change)
-
-
 @admin.register(Test)
 class TestAdmin(admin.ModelAdmin):
     list_display = ('name', 'subject', 'created_at', 'updated_at')
@@ -211,4 +196,3 @@ admin.site.register(Subject, SubjectAdmin)
 admin.site.register(StudentGroup, StudentGroupAdmin)
 admin.site.register(Schedule, ScheduleAdmin)
 admin.site.register(Appointment, AppointmentAdmin)
-admin.site.register(Application, ApplicationAdmin)

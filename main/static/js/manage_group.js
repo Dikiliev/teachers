@@ -22,6 +22,7 @@ function refreshData(){
         const scheduleElement = generateScheduleElement(schedule, scheduleIndex, data.days_of_week);
         groupElement.querySelector('.schedules-list').appendChild(scheduleElement);
     });
+    
 
     container.innerHTML +=
         `
@@ -196,13 +197,6 @@ function saveChanges() {
         console.error('Error:', error);
         logInfo('Ошибка при сохранении данных.', true);
     });
-}
-
-function logInfo(text, isError = false){
-    const logElement = document.getElementById('log-p');
-    logElement.innerHTML = text;
-    logElement.classList.toggle('error', isError);
-    logElement.classList.toggle('hide', false);
 }
 
 function cancelChanges() {

@@ -1,13 +1,25 @@
 
 
-.info-p{
-
+.bold-info{
+    color: var(--color-1);
 }
 
-.info-p span, .info-p a{
+.info-p{
+    color: var(--color-2);
+}
+
+.info-p a{
     color: var(--color-hover-1);
+}
+
+.info-p span{
+    color: var(--color-1);
 }
 
 .info-p a{
     text-decoration: underline;
+}
+
+.info-p span.error{
+    color: var(--error-color);
 }
