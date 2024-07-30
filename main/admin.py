@@ -111,7 +111,7 @@ class TeacherAdmin(admin.ModelAdmin):
 
 
 class SubjectAdmin(admin.ModelAdmin):
-    list_display = ('name',)
+    list_display = ('id', 'name',)
     search_fields = ('name',)
 
 
@@ -172,13 +172,18 @@ class AppointmentAdmin(admin.ModelAdmin):
 
 @admin.register(Test)
 class TestAdmin(admin.ModelAdmin):
-    list_display = ('name', 'subject', 'created_at', 'updated_at')
+    list_display = ('id', 'name', 'subject', 'created_at', 'updated_at')
     search_fields = ('name', 'subject__name')
+
+class AnswerInline(admin.TabularInline):
+    model = Answer
+    extra = 1
 
 @admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):
     list_display = ('text', 'test')
     search_fields = ('text', 'test__name')
+    inlines = [AnswerInline]
 
 @admin.register(Answer)
 class AnswerAdmin(admin.ModelAdmin):

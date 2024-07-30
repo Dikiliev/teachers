@@ -1,0 +1,708 @@
+[
+    {
+        "model": "main.test",
+        "pk": 2,
+        "fields": {
+            "name": "Тест по информатике",
+            "subject": 2,
+            "created_at": "2024-07-29T00:00:00Z",
+            "updated_at": "2024-07-29T00:00:00Z"
+        }
+    },
+    {
+        "model": "main.question",
+        "pk": 19,
+        "fields": {
+            "text": "Какая команда отвечает за вывод информации на экран?",
+            "test": 2
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 73,
+        "fields": {
+            "text": "for",
+            "question": 19,
+            "is_correct": false
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 74,
+        "fields": {
+            "text": "i",
+            "question": 19,
+            "is_correct": false
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 75,
+        "fields": {
+            "text": "print",
+            "question": 19,
+            "is_correct": true
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 76,
+        "fields": {
+            "text": "input",
+            "question": 19,
+            "is_correct": false
+        }
+    },
+    {
+        "model": "main.question",
+        "pk": 20,
+        "fields": {
+            "text": "Какая команда отвечает за ввод числа с клавиатуры",
+            "test": 2
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 77,
+        "fields": {
+            "text": "int(input())",
+            "question": 20,
+            "is_correct": true
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 78,
+        "fields": {
+            "text": "print()",
+            "question": 20,
+            "is_correct": false
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 79,
+        "fields": {
+            "text": "while",
+            "question": 20,
+            "is_correct": false
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 80,
+        "fields": {
+            "text": "for",
+            "question": 20,
+            "is_correct": false
+        }
+    },
+    {
+        "model": "main.question",
+        "pk": 21,
+        "fields": {
+            "text": "Какой код написаный ниже выдаст ошибку?",
+            "test": 2
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 81,
+        "fields": {
+            "text": "print(f)",
+            "question": 21,
+            "is_correct": true
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 82,
+        "fields": {
+            "text": "n = int(input())",
+            "question": 21,
+            "is_correct": false
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 83,
+        "fields": {
+            "text": "t = input()",
+            "question": 21,
+            "is_correct": false
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 84,
+        "fields": {
+            "text": "print(2+4)",
+            "question": 21,
+            "is_correct": false
+        }
+    },
+    {
+        "model": "main.question",
+        "pk": 22,
+        "fields": {
+            "text": "Что будет выведено на экран?\na = 6 ** 2\nprint(a * 9)",
+            "test": 2
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 85,
+        "fields": {
+            "text": "456",
+            "question": 22,
+            "is_correct": false
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 86,
+        "fields": {
+            "text": "674",
+            "question": 22,
+            "is_correct": false
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 87,
+        "fields": {
+            "text": "324",
+            "question": 22,
+            "is_correct": true
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 88,
+        "fields": {
+            "text": "78",
+            "question": 22,
+            "is_correct": false
+        }
+    },
+    {
+        "model": "main.question",
+        "pk": 23,
+        "fields": {
+            "text": "Какую операцию на формальном языке алгебры высказываний принято обозначать значком «→»?",
+            "test": 2
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 89,
+        "fields": {
+            "text": "инверсию",
+            "question": 23,
+            "is_correct": false
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 90,
+        "fields": {
+            "text": "конъюнкцию",
+            "question": 23,
+            "is_correct": false
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 91,
+        "fields": {
+            "text": "эквивалентность",
+            "question": 23,
+            "is_correct": false
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 92,
+        "fields": {
+            "text": "импликацию",
+            "question": 23,
+            "is_correct": true
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 93,
+        "fields": {
+            "text": "дизъюнкцию",
+            "question": 23,
+            "is_correct": false
+        }
+    },
+    {
+        "model": "main.question",
+        "pk": 24,
+        "fields": {
+            "text": "Присоединение частицы «не» к высказыванию называется ...",
+            "test": 2
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 94,
+        "fields": {
+            "text": "инверсией",
+            "question": 24,
+            "is_correct": true
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 95,
+        "fields": {
+            "text": "эквивалентностью",
+            "question": 24,
+            "is_correct": false
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 96,
+        "fields": {
+            "text": "дизъюнкцией",
+            "question": 24,
+            "is_correct": false
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 97,
+        "fields": {
+            "text": "конъюнкцией",
+            "question": 24,
+            "is_correct": false
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 98,
+        "fields": {
+            "text": "импликацией",
+            "question": 24,
+            "is_correct": false
+        }
+    },
+    {
+        "model": "main.question",
+        "pk": 25,
+        "fields": {
+            "text": "Объединение двух (или нескольких) высказываний с помощью союза «или» называется ...",
+            "test": 2
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 99,
+        "fields": {
+            "text": "инверсией",
+            "question": 25,
+            "is_correct": false
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 100,
+        "fields": {
+            "text": "эквивалентностью",
+            "question": 25,
+            "is_correct": false
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 101,
+        "fields": {
+            "text": "конъюнкцией",
+            "question": 25,
+            "is_correct": false
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 102,
+        "fields": {
+            "text": "дизъюнкцией",
+            "question": 25,
+            "is_correct": true
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 103,
+        "fields": {
+            "text": "импликацией",
+            "question": 25,
+            "is_correct": false
+        }
+    },
+    {
+        "model": "main.question",
+        "pk": 26,
+        "fields": {
+            "text": "Какую операцию на формальном языке алгебры высказываний принято обозначать значком «&» либо «˄»?",
+            "test": 2
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 104,
+        "fields": {
+            "text": "инверсию",
+            "question": 26,
+            "is_correct": false
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 105,
+        "fields": {
+            "text": "дизъюнкцию",
+            "question": 26,
+            "is_correct": false
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 106,
+        "fields": {
+            "text": "импликацию",
+            "question": 26,
+            "is_correct": false
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 107,
+        "fields": {
+            "text": "конъюнкцию",
+            "question": 26,
+            "is_correct": true
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 108,
+        "fields": {
+            "text": "эквивалентность",
+            "question": 26,
+            "is_correct": false
+        }
+    },
+    {
+        "model": "main.question",
+        "pk": 27,
+        "fields": {
+            "text": "Переведите число 432 из десятичной в двоичную систему счисления.",
+            "test": 2
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 109,
+        "fields": {
+            "text": "110110000",
+            "question": 27,
+            "is_correct": true
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 110,
+        "fields": {
+            "text": "1010010101",
+            "question": 27,
+            "is_correct": false
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 111,
+        "fields": {
+            "text": "10000101",
+            "question": 27,
+            "is_correct": false
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 112,
+        "fields": {
+            "text": "111010101",
+            "question": 27,
+            "is_correct": false
+        }
+    },
+    {
+        "model": "main.question",
+        "pk": 28,
+        "fields": {
+            "text": "Что такое MS Word?",
+            "test": 2
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 113,
+        "fields": {
+            "text": "многофункциональный инструмент для подготовки и оформления текстовых документов",
+            "question": 28,
+            "is_correct": true
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 114,
+        "fields": {
+            "text": "выполнение расчетов, построение диаграмм, анализ данных, автоматизация трудоемких задач и прочие операции с электронными таблицами",
+            "question": 28,
+            "is_correct": false
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 115,
+        "fields": {
+            "text": "подготовка красочных и интерактивных презентаций, как для семейных праздников, так и для бизнес-выступлений",
+            "question": 28,
+            "is_correct": false
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 116,
+        "fields": {
+            "text": "разработка и управление персональными базами данных",
+            "question": 28,
+            "is_correct": false
+        }
+    },
+    {
+        "model": "main.question",
+        "pk": 29,
+        "fields": {
+            "text": "Что такое MS Excel?",
+            "test": 2
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 117,
+        "fields": {
+            "text": "многофункциональный инструмент для подготовки и оформления текстовых документов",
+            "question": 29,
+            "is_correct": false
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 118,
+        "fields": {
+            "text": "выполнение расчетов, построение диаграмм, анализ данных, автоматизация трудоемких задач и прочие операции с электронными таблицами",
+            "question": 29,
+            "is_correct": true
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 119,
+        "fields": {
+            "text": "подготовка красочных и интерактивных презентаций, как для семейных праздников, так и для бизнес-выступлений",
+            "question": 29,
+            "is_correct": false
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 120,
+        "fields": {
+            "text": "разработка и управление персональными базами данных",
+            "question": 29,
+            "is_correct": false
+        }
+    },
+    {
+        "model": "main.question",
+        "pk": 30,
+        "fields": {
+            "text": "На рисунке в ЭТ выделен некоторый диапазон. Укажите верную запись этого диапазона в ЭТ.",
+            "test": 2
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 121,
+        "fields": {
+            "text": "А6:С3",
+            "question": 30,
+            "is_correct": false
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 122,
+        "fields": {
+            "text": "А3 - С6",
+            "question": 30,
+            "is_correct": false
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 123,
+        "fields": {
+            "text": "А3:С6",
+            "question": 30,
+            "is_correct": true
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 124,
+        "fields": {
+            "text": "А6 - А3",
+            "question": 30,
+            "is_correct": false
+        }
+    },
+    {
+        "model": "main.question",
+        "pk": 31,
+        "fields": {
+            "text": "Выберите знак, с которого должна начинаться любая формула в ЭТ.",
+            "test": 2
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 125,
+        "fields": {
+            "text": "^",
+            "question": 31,
+            "is_correct": false
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 126,
+        "fields": {
+            "text": "=",
+            "question": 31,
+            "is_correct": true
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 127,
+        "fields": {
+            "text": "%",
+            "question": 31,
+            "is_correct": false
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 128,
+        "fields": {
+            "text": "!",
+            "question": 31,
+            "is_correct": false
+        }
+    },
+    {
+        "model": "main.question",
+        "pk": 32,
+        "fields": {
+            "text": "Оцените информационный объем слова “каникулы”, считая, что каждый символ закодирован двумя байтами. Ответ представьте в битах.",
+            "test": 2
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 129,
+        "fields": {
+            "text": "128",
+            "question": 32,
+            "is_correct": true
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 130,
+        "fields": {
+            "text": "256",
+            "question": 32,
+            "is_correct": false
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 131,
+        "fields": {
+            "text": "512",
+            "question": 32,
+            "is_correct": false
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 132,
+        "fields": {
+            "text": "1024",
+            "question": 32,
+            "is_correct": false
+        }
+    },
+    {
+        "model": "main.question",
+        "pk": 33,
+        "fields": {
+            "text": "Определите, какое значение будет в ячейке С3:",
+            "test": 2
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 133,
+        "fields": {
+            "text": "12",
+            "question": 33,
+            "is_correct": false
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 134,
+        "fields": {
+            "text": "13",
+            "question": 33,
+            "is_correct": false
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 135,
+        "fields": {
+            "text": "25",
+            "question": 33,
+            "is_correct": true
+        }
+    },
+    {
+        "model": "main.answer",
+        "pk": 136,
+        "fields": {
+            "text": "1",
+            "question": 33,
+            "is_correct": false
+        }
+    }
+]

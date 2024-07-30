@@ -33,8 +33,7 @@
                         {% else %}
                             <h4 class="bold-info">Неполная запись #{{ appointment.id }}</h4>
                         {% endif %}
-
-
+                    
                         <p class="info-p">Предмет: <span>{{ appointment.get_subject() }}</span></p>
                         <p class="info-p">Имя: <span>{{ appointment.user_name }}</span></p>
                         <p class="info-p">Номер телефона: <span>{{ appointment.user_phone }}</span></p>
@@ -66,13 +65,11 @@
                         {% endif %}
 
                     </div>
-                
                 </div>
             {% endfor %}
         </div>
         <br><br>
         <p id="log-p" class="log success hide"></p>
     </div>
-
-
+    
 {% endblock %}
