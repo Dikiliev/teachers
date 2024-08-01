@@ -234,6 +234,12 @@ class Question(models.Model):
         self.clean()
         super().save(*args, **kwargs)
 
+    def get_image_url(self):
+        if self.image:
+            return self.image.url
+
+        return ''
+
     class Meta:
         verbose_name = 'Вопрос'
         verbose_name_plural = 'Вопросы'

@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', (event) => {
     const questionsList = document.getElementById('question-numbers-list');
     const questionTitle = document.getElementById('question-title');
+    const questionImg = document.getElementById('question-img');
     const questionText = document.getElementById('question-text');
     const answersList = document.getElementById('answers-list');
     const nextButton = document.getElementById('next-button');
@@ -19,7 +20,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         questionTitle.textContent = `Задание ${index + 1}`;
         questionText.textContent = question.text;
 
-
+        questionImg.setAttribute('src', question.image);
 
         answersList.innerHTML = '';
         question.answers.forEach((answer, i) => {

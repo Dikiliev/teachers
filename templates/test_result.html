@@ -1,16 +1,32 @@
 {% extends "base.html" %}
 
+{% block head %}
+
+<link type="text/css" rel="stylesheet" href="{{ static('css/test_result.css') }}">
+
+{% endblock %}
+
 {% block content %}
     <div class="container">
-        <h2>Результаты теста</h2>
-        <p><strong>Тест:</strong> {{ test_result.test.name }}</p>
-        <p><strong>Баллы:</strong> {{ test_result.score }}</p>
-        <div>
+        <h1 class="custom-h1">Результаты теста</h1>
+        <p class="title">{{ test_result.test.name }}</p>
+        <p class="details"><span class="secondary">Баллы:</span> {{ test_result.score }}</p>
+        <br>
+        <div class="questions-list">
             {% for detail in details %}
-                <div>
-                    <h3>Вопрос {{ loop.index }}: {{ detail.question }}</h3>
-                    <p>Ваш ответ: {{ detail.userAnswer }}</p>
-                    <p>Правильный ответ: {{ detail.correctAnswer }}</p>
+                <div class="question">
+                    <h3 class="question-text">Вопрос {{ loop.index }}: {{ detail.question }}</h3>
+                    <div class="answer-div">
+                    
+                    
+                    {% if detail.userAnswer == detail.correctAnswer %}
+                        <p class="answer success">Ответ: {{ detail.userAnswer }}</p>
+                    {% else %}
+                        <p class="answer error">Ваш ответ: {{ detail.userAnswer }}</p>
+                        <p class="answer">Правильный ответ: {{ detail.correctAnswer }}</p>
+                    {% endif %}
+
+                    </div>
                     
                 </div>
             {% endfor %}

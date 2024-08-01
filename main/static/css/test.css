@@ -38,6 +38,12 @@ body{
     font-size: 1.25rem;
 }
 
+.question-img{
+    max-height: 300px;
+    object-fit: contain;
+    margin-right: auto;
+}
+
 .question-numbers-list{
     display: flex;
     justify-content: space-between;

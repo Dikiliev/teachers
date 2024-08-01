@@ -15,6 +15,10 @@ from config import settings
 from main.models import User, Subject, Teacher, StudentGroup, Appointment, UserRole, Schedule, Test, \
     Question, Answer, TestResult, AppointmentStatus
 
+
+import sys
+sys.stdout.reconfigure(encoding='utf-8')
+
 DEFAULT_TITLE = 'Хехархо'
 
 
@@ -56,8 +60,11 @@ def test(request: HttpRequest, subject_id):
         questions_list.append({
             'id': question.id,
             'text': question.text,
+            'image': question.get_image_url(),
             'answers': [{'id': answer.id, 'text': answer.text} for answer in answers]
         })
+
+    print(questions_list)
 
     context['subject'] = subject
     context['test'] = test

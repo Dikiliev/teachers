@@ -20,6 +20,7 @@
 
                 <h2 id="question-title" class="question-title"></h2>
                 <p id="question-text" class="question-text"></p>
+                <img id="question-img" class="question-img" src="">
 
                 <div id="answers-list" class="answers-list">
                 </div>
@@ -72,6 +73,7 @@
     <script>
         const testId = {{ test.id }};
         const questions = {{ questions|safe }};
+        console.log(questions);
     </script>
 
     <script type="text/javascript" src="{{ static('js/test.js') }}" defer></script>
