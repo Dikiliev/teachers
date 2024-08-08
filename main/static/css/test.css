@@ -2,6 +2,11 @@ body{
     background-color: var(--background-color-2);
 }
 
+sub{
+    color: inherit;
+    transition: 0s;
+}
+
 .section{
     visibility: hidden;
     height: 0;
@@ -46,7 +51,7 @@ body{
 
 .question-numbers-list{
     display: flex;
-    justify-content: space-between;
+    justify-content: start;
     flex-wrap: wrap;
     gap: 1rem;
 

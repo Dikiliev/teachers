@@ -107,7 +107,7 @@
                 </div>
                 <br>
                 <div id="subjectList" class="subject-list">
-                    {% for subject in subjects %}
+                    {% for subject in subjects_with_tests %}
                         <a href="/test/{{ subject.id }}" class="button" data-test-url="/test/{{ subject.test_id }}">{{ subject.name }}</a>
                     {% endfor %}
                 </div>

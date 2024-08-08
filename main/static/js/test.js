@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         question.answers.forEach((answer, i) => {
             const button = document.createElement('button');
             button.className = 'button answer';
-            button.textContent = `${i + 1}. ${answer.text}`;
+            button.innerHTML = `${i + 1}. ${answer.text}`;
             button.addEventListener('click', () => selectAnswer(index, i, question.id));
             answersList.appendChild(button);
         });

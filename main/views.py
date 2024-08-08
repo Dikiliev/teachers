@@ -25,6 +25,7 @@ DEFAULT_TITLE = 'Хехархо'
 def home(request: HttpRequest):
     context = create_base_data(request)
     context['subjects'] = Subject.objects.all()
+    context['subjects_with_tests'] = Subject.objects.filter(tests__isnull=False).distinct()
 
     if request.method == 'POST':
         first_name = request.POST.get('first_name')
