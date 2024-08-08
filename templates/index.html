@@ -92,11 +92,27 @@
                 <div class="diagnostic-text">
                     <h1><b>Пройдите диагностику,</b> чтобы узнать сколько баллов вы получите</h1>
                     <p>С помощью данного теста вы проверите свою готовность к ЕГЭ по выбранному предмету и поймете, на какие разделы вам стоит сделать упор в обучении.</p>
-                    <a class="button" href="/test/1">Пройти диагностику</a>
+                    <button class="button" id="openModalBtn">Пройти диагностику</button>
                 </div>
                 <img src="{{ static('images/diagnostic-icon.jpg') }}" alt="" class="diagnostic-icon">
             </div>
         </section>
+
+        <div id="subjectModal" class="modal">
+            <div class="modal-content">
+                <div class="container row justify-content">
+                    
+                    <h2 class="custom-h1">Выберите предмет</h2>
+                    <span class="close">&times;</span>
+                </div>
+                <br>
+                <div id="subjectList" class="subject-list">
+                    {% for subject in subjects %}
+                        <a href="/test/{{ subject.id }}" class="button" data-test-url="/test/{{ subject.test_id }}">{{ subject.name }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
 
         <section class="form-section">
             
