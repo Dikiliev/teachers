@@ -46,7 +46,8 @@ function generateTeacherCard(worker){
                 <div class="worker-info">
                     <span class="work-title">${worker.name}</span>
                     
-                    ${worker.skills.map(skill => `<span class="title-skill">${skill}</span>`).join('')}
+                    ${worker.description.map(row => `<span class="title-skill">${row}</span>`).join('')}
+
                 </div>
             </div>
 

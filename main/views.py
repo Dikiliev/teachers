@@ -142,7 +142,7 @@ def test_result_view(request, result_id):
 
 def select_teacher(request: HttpRequest):
     context = create_base_data(request)
-    context['subjects'] = Subject.objects.all()
+    context['subjects'] = Subject.objects.annotate(num_teachers=Count('teachers')).filter(num_teachers__gt=0)
 
     return render(request, 'teachers.html', context)
 
@@ -224,8 +224,10 @@ def get_teachers(request: HttpRequest, subject_id):
                 'name': teacher.user.get_full_name(),
                 'avatar': teacher.user.get_avatar_url(),
                 'groups': [group.name for group in teacher.groups.all()],
+                'description': teacher.bio.split('\n') if teacher.bio else [],
                 'skills': teacher.skills.split('\n') if teacher.skills else [],
             }
+            print(teacher_info)
             teacher_list.append(teacher_info)
 
         data['message'] = 'success'
