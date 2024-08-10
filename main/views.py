@@ -53,7 +53,7 @@ def test(request: HttpRequest, subject_id):
 
     context = create_base_data(request)
     test = get_object_or_404(Test, subject=subject)
-    questions = Question.objects.filter(test=test)
+    questions = Question.objects.filter(test=test).order_by('id')
 
     questions_list = []
     for question in questions:
@@ -64,8 +64,6 @@ def test(request: HttpRequest, subject_id):
             'image': question.get_image_url(),
             'answers': [{'id': answer.id, 'text': answer.text} for answer in answers]
         })
-
-    print(questions_list)
 
     context['subject'] = subject
     context['test'] = test
