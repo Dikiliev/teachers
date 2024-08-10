@@ -181,13 +181,15 @@ class AnswerInline(admin.TabularInline):
 
 @admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):
-    list_display = ('text', 'test')
+    list_filter = ('test',)
+    list_display = ('id', 'text', 'test')
     search_fields = ('text', 'test__name')
     inlines = [AnswerInline]
 
 @admin.register(Answer)
 class AnswerAdmin(admin.ModelAdmin):
-    list_display = ('text', 'question', 'is_correct')
+    list_filter = ('question', )
+    list_display = ('id', 'text', 'question', 'is_correct')
     search_fields = ('text', 'question__text')
 
 @admin.register(TestResult)
