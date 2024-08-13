@@ -223,7 +223,6 @@ def get_teachers(request: HttpRequest, subject_id):
                 'avatar': teacher.user.get_avatar_url(),
                 'groups': [group.name for group in teacher.groups.all()],
                 'description': teacher.bio.split('\n') if teacher.bio else [],
-                'skills': teacher.skills.split('\n') if teacher.skills else [],
             }
             print(teacher_info)
             teacher_list.append(teacher_info)
@@ -345,7 +344,7 @@ def profile(request: HttpRequest):
 
         user.first_name = request.POST.get('first_name', '')
         user.last_name = request.POST.get('last_name', '')
-        user.skills = request.POST.get('about', '')
+        user.bio = request.POST.get('about', '')
 
         user.phone_number = post_data.get('phone', '')
 
