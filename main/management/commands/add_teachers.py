@@ -72,6 +72,8 @@ class Command(BaseCommand):
                     'role': UserRole.TEACHER.value[0],
                 }
             )
+            user.set_password('xexarxo.teacher')
+            user.save()
 
             subject, _ = Subject.objects.get_or_create(name=teacher_data['subject'])
 
@@ -82,7 +84,7 @@ class Command(BaseCommand):
                 }
             )
             teacher.bio = teacher_data['description']
-            print(teacher.bio)
+
             teacher.subjects.add(subject)
 
             teacher.save()
