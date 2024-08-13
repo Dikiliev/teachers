@@ -44,7 +44,8 @@ sub{
 }
 
 .question-img{
-    max-height: 300px;
+    max-height: 200px;
+    max-width: 90%;
     object-fit: contain;
     margin-right: auto;
 }
