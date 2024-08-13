@@ -164,7 +164,7 @@ def create_context_for_appointment(context: dict, group: StudentGroup):
         'id': teacher.user.id,
         'name': teacher.user.get_full_name(),
         'avatar_url': teacher.user.get_avatar_url(),
-        'skills': teacher.skills.split('\n')
+        'bio': teacher.bio.split('\n')
     }
     context['group'] = group_info
     return context
