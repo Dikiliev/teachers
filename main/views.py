@@ -342,9 +342,9 @@ def profile(request: HttpRequest):
         subjects = Subject.objects.filter(id__in=post_data.getlist('subjects', []))
         user.profile.subjects.set(subjects)
 
-        user.first_name = request.POST.get('first_name', '')
-        user.last_name = request.POST.get('last_name', '')
-        user.bio = request.POST.get('about', '')
+        user.first_name = post_data.get('first_name', '')
+        user.last_name = post_data.get('last_name', '')
+        user.profile.bio = post_data.get('about', '')
 
         user.phone_number = post_data.get('phone', '')
 

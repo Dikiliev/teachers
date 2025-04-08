@@ -25,7 +25,7 @@ class DayOfWeek(Enum):
 class User(AbstractUser):
     ROLE_ENUM = [(role.value[0], role.value[1]) for role in UserRole]
 
-    DEFAULT_AVATAR_URL = 'https://abrakadabra.fun/uploads/posts/2021-12/1640528661_1-abrakadabra-fun-p-serii-chelovek-na-avu-1.png'
+    DEFAULT_AVATAR_URL = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuRdrr_hHfdXhWfFlIj6aUmrqpc7iZ3XB_Uw&s'
 
     role = models.IntegerField(
         choices=ROLE_ENUM,

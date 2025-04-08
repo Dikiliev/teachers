@@ -1,4 +1,4 @@
-const DEBUG = false;
+const DEBUG = true;
 
 
 const BASE_URL = DEBUG ? 'http://localhost:8000/' : 'https://xexarxo.ru/';

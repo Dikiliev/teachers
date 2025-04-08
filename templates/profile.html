@@ -39,14 +39,14 @@
 
         <div class="input-group">
             <label for="phone">Номер телефона:</label>
-            <input type="tel" id="phone" name="phone" value="{{ user.phone_number }}" required>
+            <input type="tel" id="phone" name="phone" value="{{ user.phone_number }}">
         </div>
     
         {% if user.role == 2 %}
             
             <div class="input-group">
                 <label for="about">Кратское портфолио:</label>
-                <textarea type="text" id="about" name="about" placeholder="Пример: Кандидат наук, Автор видеокурсов подготовки к ОГЭ и ЕГЭ." required>{{ user.profile.skills }}</textarea>
+                <textarea type="text" id="about" name="about" placeholder="Пример: Кандидат наук, Автор видеокурсов подготовки к ОГЭ и ЕГЭ." required>{{ user.profile.bio }}</textarea>
             </div>
 
             <div class="input-group">
