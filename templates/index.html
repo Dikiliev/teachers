@@ -56,7 +56,7 @@
             <h1>Наши преподаватели</h1>
 
             <div class="teacher-card">
-                <img class="teacher-img" src="{{ static('images/teacher_1.png') }}" />
+                <img class="teacher-img" src="{{ static('images/profile-picture.png') }}" />
                 <div class="teacher-info">
                     <div class="teacher-subjects">
                         <div class="teacher-subject">
@@ -74,12 +74,12 @@
 
                 <div class="teacher-sub-cards">
                     <div class="teacher-sub-card">
-                        <h1>9 лет</h1>
+                        <h1>7 лет</h1>
                         <p>Опыт преподавания</p>
                     </div>
 
                     <div class="teacher-sub-card">
-                        <h1 class="primary">87 баллов</h1>
+                        <h1 class="primary">70-80 баллов</h1>
                         <p>Средний результат учеников</p>
                     </div>
                 </div>
@@ -166,11 +166,11 @@
                 <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
                 <div class="input-group">
                     <label for="first_name">Имя:</label>
-                    <input type="text" id="first_name" name="first_name" value="" required>
+                    <input type="text" id="first_name" placeholder="Введедите ваше имя" name="first_name" value="" required>
                 </div>
                 <div class="input-group">
                     <label for="phone">Номер телефона:</label>
-                    <input type="tel" id="phone" name="phone" value="" required>
+                    <input type="tel" id="phone" placeholder="Введедите номер телефона" name="phone" value="" required>
                 </div>
             
                 <div class="input-group">
